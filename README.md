@@ -65,9 +65,8 @@ Note: You should use a proper application server like uWSGI in production, but t
 ---
 
 #### Unit tests
-They're in the `/tests` folder. Similair to running the application, set an env variable with the config file location. You should set up a seperate DB just for tests.
+They're in the `/tests` folder. Similar to running the application, set an env variable with the config file location. You should set up a seperate DB just for tests.
 ```
-export CONFIG_FILEPATH=$(pwd)/tests/config.py
 python -m unittest discover
 ```
 
