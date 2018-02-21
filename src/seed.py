@@ -20,9 +20,9 @@ def seed_db(database):
         database.session.add(Perk('Employee Discount Program', listed=True))
 
         # Add employment type
-        database.session.add(EmploymentType('Full-Time', listed=True))
-        database.session.add(EmploymentType('Part-Time', listed=True))
-        database.session.add(EmploymentType('Independent Contractor', listed=True))
+        database.session.add(EmploymentType('Full-Time'))
+        database.session.add(EmploymentType('Part-Time'))
+        database.session.add(EmploymentType('Independent Contractor'))
 
         # Add roles
         database.session.add(Role('Software Developer', listed=True))
@@ -59,11 +59,11 @@ def seed_db(database):
         database.session.add(Tech('CSS', listed=True))
         database.session.add(Tech('Bash / Shell', listed=True))
         database.session.add(Tech('Linux', listed=True))
-        database.session.add(Tech('GoLang', listed=True))
+        database.session.add(Tech('Golang', listed=True))
         database.session.add(Tech('Git', listed=True))
         database.session.add(Tech('Perforce', listed=True))
 
-        database.sesssion.commit()
+        database.session.commit()
 
     except exc.SQLAlchemyError:
         database.session.rollback()
