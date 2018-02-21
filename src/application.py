@@ -1,10 +1,14 @@
-from flask import jsonify
+from flask import render_template, jsonify
 from flask_migrate import Migrate
 from src import app, db
 from src.models import *
 from src.model_mappings import *
 
 migrate = Migrate(app, db)
+
+@app.route('/')
+def index():
+    return render_template('app.html')
 
 @app.route('/fetch_pay_ranges')
 def fetch_pay_ranges():

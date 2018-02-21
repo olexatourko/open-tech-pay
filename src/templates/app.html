@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+        <title>OpenPay - Sharing local tech salary information</title>
+        <script src="{{ url_for('static', filename='packages/knockout/build/output/knockout-latest.js') }}"></script>
+        <script src="{{ url_for('static', filename='packages/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='packages/parsleyjs/dist/parsley.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='packages/requirejs/require.js') }}"></script>
+        <script>
+        require.config({
+            paths: {
+                'text': '{{ url_for('static', filename='packages/requirejs-text/text') }}'
+            },
+            urlArgs: "bust=" + (new Date()).getTime() // Disable caching
+        });
+        </script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='packages/skeleton-css/css/normalize.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='packages/skeleton-css/css/skeleton.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}"/>
+    </head>
+    <body class="container">
+        <hr>
+        <h3>OpenPay</h3>
+        <p>This is a tool for sharing local tech industry compensation.</p>
+        
+        <footer>
+            <script src="{{ url_for('static', filename='app.js') }}"></script>
+        </footer>
+    </body>
+</html>

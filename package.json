@@ -1,0 +1,16 @@
+{
+  "name": "open-pay",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/olestourko/open-pay.git",
+  "author": "Oles <olestourko@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "knockout": "^3.4.2",
+    "parsleyjs": "^2.8.0",
+    "requirejs": "^2.3.5",
+    "requirejs-text": "^2.0.15",
+    "skeleton-css": "^2.0.4"
+  }
+}
