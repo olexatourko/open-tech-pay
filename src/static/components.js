@@ -1,98 +1,24 @@
-/* Single Selectors */
-ko.components.register('pay-range-selector', {
+ko.components.register('create-submission', {
     viewModel: function(params) {
         var self = this;
         self.message_bus = params.message_bus;
-        self.options = params.options;
-        self.onclick = function() {
-            self.messageBus.notifySubscribers(this, 'pay_range_selected');
-        }
+        self.pay_ranges = params.pay_ranges;
+        self.employment_types = params.employment_types;
+        self.years_with_employer = params.years_with_employer;
+        self.roles = params.roles;
+        self.techs = params.techs;
+        self.educations = params.educations,
+        self.years_experience = params.years_experience,
+        self.number_of_employers = params.number_of_employers
 
-        self.get_options_text = function(item) {
+        /* Functions used by template */
+        self.get_pay_range_text = function(item) {
             return 'C$' + number_with_commas(item.lower) + ' - C$' + number_with_commas(item.upper);
         }
     },
-    template: { require: 'text!static/knockout-templates/selector.html' }
+    template: { require: 'text!static/knockout-templates/create-submission.html' }
 });
 
-ko.components.register('employment-type-selector', {
-    viewModel: function(params) {
-        var self = this;
-        self.messageBus = params.message_bus;
-        self.options = params.options;
-        self.onclick = function() {
-            self.messageBus.notifySubscribers(this, 'employment_type_selected');
-        }
-
-        self.get_options_text = function(item) {
-            return item.name
-        }
-    },
-    template: { require: 'text!static/knockout-templates/selector.html' }
-});
-
-ko.components.register('education-selector', {
-    viewModel: function(params) {
-        var self = this;
-        self.messageBus = params.message_bus;
-        self.options = params.options;
-        self.onclick = function() {
-            self.messageBus.notifySubscribers(this, 'education_selected');
-        }
-
-        self.get_options_text = function(item) {
-            return item.name
-        }
-    },
-    template: { require: 'text!static/knockout-templates/selector.html' }
-});
-
-/*Multiselectors*/
-ko.components.register('perks-selector', {
-    viewModel: function(params) {
-        var self = this;
-        self.messageBus = params.message_bus;
-        self.options = params.options;
-        self.onclick = function() {
-            self.messageBus.notifySubscribers(this, 'perks_selected');
-        }
-
-        self.get_options_text = function(item) {
-            return item.name
-        }
-    },
-    template: { require: 'text!static/knockout-templates/multi-selector.html' }
-});
-ko.components.register('roles-selector', {
-    viewModel: function(params) {
-        var self = this;
-        self.messageBus = params.message_bus;
-        self.options = params.options;
-        self.onclick = function() {
-            self.messageBus.notifySubscribers(this, 'roles_selected');
-        }
-
-        self.get_options_text = function(item) {
-            return item.name
-        }
-    },
-    template: { require: 'text!static/knockout-templates/multi-selector.html' }
-});
-ko.components.register('techs-selector', {
-    viewModel: function(params) {
-        var self = this;
-        self.messageBus = params.message_bus;
-        self.options = params.options;
-        self.onclick = function() {
-            self.messageBus.notifySubscribers(this, 'techs_selected');
-        }
-
-        self.get_options_text = function(item) {
-            return item.name
-        }
-    },
-    template: { require: 'text!static/knockout-templates/multi-selector.html' }
-});
 
 /* Utilities */
 const number_with_commas = (x) => {

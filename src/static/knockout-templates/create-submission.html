@@ -1,0 +1,35 @@
+  <form>
+    <div class="row">
+        <div class="six columns">
+            <h5>Current Compensation</h5>
+            <select data-bind="
+            options: pay_ranges,
+            optionsText: get_pay_range_text
+            "></select>
+            <select multiple data-bind="foreach: perks" style="height: 10em;" >
+                <option data-bind="value: id, text: name"></option>
+            </select>
+        </div>
+        <div class="six columns">
+            <h5>Current Employment Details</h5>
+            <select data-bind="foreach: employment_types">
+                <option data-bind="value: id, text: name"></option>
+            </select>
+            <input type="number" placeholder="# Years With Employer" data-bind="value: years_with_employer" data-parsley-type="digits">
+            <select multiple data-bind="foreach: roles" style="height: 10em;">
+                <option data-bind="value: id, text: name"></option>
+            </select>
+            <select multiple data-bind="foreach: techs" style="height: 10em;">
+                <option data-bind="value: id, text: name"></option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <h5>Experience &amp; Education</h5>
+        <select data-bind="foreach: educations">
+            <option data-bind="value: id, text: name"></option>
+        </select>
+        <input type="number" placeholder="# Years Experience" data-bind="value: years_experience" data-parsley-type="digits">
+        <input type="number" placeholder="# Lifetime Employers" data-bind="value: number_of_employers" data-parsley-type="digits">
+  </div>
+</form>

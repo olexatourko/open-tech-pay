@@ -54,55 +54,17 @@
                 </tbody>
             </thead>
         </table>
-
-        <h4>Submit</h4>
-        <form>
-            <div class="row">
-                <div class="six columns">
-                    <h5>Current Compensation</h5>
-                    <pay-range-selector params="
-                    message_bus: message_bus,
-                    options: pay_ranges
-                    "></pay-range-selector>
-                    <perks-selector params="
-                    message_bus: message_bus,
-                    options: perks
-                    "></perks-selector>
-                </div>
-                <div class="six columns">
-                    <h5>Employment Details</h5>
-                    <employment-type-selector params="
-                    message_bus: message_bus,
-                    options: employment_types
-                    "></employment-type-selector>
-                    <input type="number" placeholder="Years with current employer" data-bind="value: years_with_current_employer" data-parsley-type="digits">
-                    <roles-selector params="
-                    message_bus: message_bus,
-                    options: roles
-                    "></roles-selector>
-                    <techs-selector params="
-                    message_bus: message_bus,
-                    options: techs
-                    "></techs-selector>
-                </div>
-            </div>
-            <div class="row">
-                <h5>Experience &amp; Education</h5>
-                <education-selector params="
-                message_bus: message_bus,
-                options: educations
-                "></education-selector>
-                <input type="number" placeholder="Years experience" data-bind="value: years_experience" data-parsley-type="digits">
-                <input type="number" placeholder="# Lifetime Employers" data-bind="value: number_of_employers" data-parsley-type="digits">
-            </div>
-            <hr>
-            <div class="row">
-                <input type="email" placeholder="Email" data-bind="value: email" data-parsley-type="email">
-                <p>Your email is only used for verification purposes. It will <strong>never</strong> be shared publically or with third parties.</p>
-                <button class="button-primary">Submit</button>
-            </div>
-        </form>
-
+        <create-submission params="
+        message_bus: message_bus,
+        pay_ranges: pay_ranges,
+        employment_types: employment_types,
+        years_with_employer: years_with_current_employer,
+        roles: roles,
+        techs: techs,
+        educations: educations,
+        years_experience: years_experience,
+        number_of_employers: number_of_employers
+        "></create-submission>
         <footer>
             <script src="{{ url_for('static', filename='application.js') }}"></script>
         </footer>
