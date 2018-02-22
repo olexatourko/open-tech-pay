@@ -13,14 +13,17 @@ ko.components.register('create-submission', {
 
         self.selected_pay_range = params.selected_pay_range;
         self.selected_perks = params.selected_perks;
+        self.selected_employment_type = params.selected_employment_type;
+        self.selected_roles = params.selected_roles;
+        self.selected_techs = params.selected_techs;
+        self.selected_education = params.selected_education;
 
         /* Functions used by template */
         self.get_pay_range_text = function(item) {
             return 'C$' + number_with_commas(item.lower) + ' - C$' + number_with_commas(item.upper);
         }
         self.on_submit = function() {
-            console.log(self.selected_pay_range());
-            console.log(self.selected_perks());
+
         };
 
     },
