@@ -19,7 +19,7 @@ def fetch_pay_ranges():
 
 @app.route('/fetch_perks')
 def fetch_perk():
-    perks = Perk.query.all()
+    perks = Perk.query.filter(Perk.listed).all()
     schema = PerkSchema()
     result = [schema.dump(perk).data for perk in perks]
     return jsonify(result)
@@ -33,7 +33,7 @@ def fetch_employment_type():
 
 @app.route('/fetch_roles')
 def fetch_roles():
-    roles = Role.query.all()
+    roles = Role.query.filter(Role.listed).all()
     schema = RoleSchema()
     result = [schema.dump(role).data for role in roles]
     return jsonify(result)
@@ -47,7 +47,7 @@ def fetch_educations():
 
 @app.route('/fetch_techs')
 def fetch_techs():
-    techs = Tech.query.all()
+    techs = Tech.query.filter(Tech.listed).all()
     schema = TechSchema()
     result = [schema.dump(tech).data for tech in techs]
     return jsonify(result)

@@ -1,4 +1,5 @@
-  <form>
+<form>
+    <h4>Submit</h4>
     <div class="row">
         <div class="six columns">
             <h5>Current Compensation</h5>
@@ -31,5 +32,11 @@
         </select>
         <input type="number" placeholder="# Years Experience" data-bind="value: years_experience" data-parsley-type="digits">
         <input type="number" placeholder="# Lifetime Employers" data-bind="value: number_of_employers" data-parsley-type="digits">
-  </div>
+    </div>
+    <hr>
+    <div class="row">
+        <input type="email" placeholder="Email" data-bind="value: email" data-parsley-type="email">
+        <p>Your email is only used for verification purposes. It will <strong>never</strong> be shared publicly or with third parties.</p>
+        <button class="button-primary">Submit</button>
+    </div>
 </form>
