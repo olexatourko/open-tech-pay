@@ -1,7 +1,9 @@
 ## Open Pay
-A web application for sharing local tech industry compensation. The key project goal is to close the pay information gap by providing detailed data for a specific region.
+A web application for sharing local tech industry compensation. The key project goal is to close the pay information gap
+by providing detailed data for a specific region.
 
-Overall, I hope this gives employees and employers objective data with witch to make informed career and compensation decisions.
+ This project aims to freely provide compensation data to students, employees, and employers in the local tech industry
+ so they can make informed career and hiring decisions.
 
 ### Key Project Features
 
@@ -10,6 +12,8 @@ Overall, I hope this gives employees and employers objective data with witch to 
 - Anonymous and verified submissions: using any email, or using a "verified" email based on whitelisted domains. Specific emails addresses will never be shared.
 - Segmented data by year - allow multiple submissions from the same sources every year in order to keep the data up to date.
 - A side tool for valuing non-salary benefits using [NPV](https://www.investopedia.com/terms/n/npv.asp) calculations.
+
+![Preview](https://github.com/olestourko/open-pay/raw/master/preview.png)
 
 ---
 
