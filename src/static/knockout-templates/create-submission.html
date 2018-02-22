@@ -5,9 +5,10 @@
             <h5>Current Compensation</h5>
             <select data-bind="
             options: pay_ranges,
-            optionsText: get_pay_range_text
+            optionsText: get_pay_range_text,
+            value: selected_pay_range
             "></select>
-            <select multiple data-bind="foreach: perks" style="height: 10em;" >
+            <select multiple data-bind="foreach: perks, selectedOptions: selected_perks" style="height: 10em;" >
                 <option data-bind="value: id, text: name"></option>
             </select>
         </div>
@@ -37,6 +38,6 @@
     <div class="row">
         <input type="email" placeholder="Email" data-bind="value: email" data-parsley-type="email">
         <p>Your email is only used for verification purposes. It will <strong>never</strong> be shared publicly or with third parties.</p>
-        <button class="button-primary">Submit</button>
+        <button class="button-primary" data-bind="click: on_submit">Submit</button>
     </div>
 </form>

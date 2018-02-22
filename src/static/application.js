@@ -31,10 +31,12 @@ var educations = ko.observableArray();
 var years_with_current_employer = ko.observable();
 var years_experience = ko.observable();
 var number_of_employers = ko.observable();
-
 var perks = ko.observableArray();
 var roles = ko.observableArray();
 var techs = ko.observableArray();
+
+var selected_pay_range = ko.observable();
+var selected_perks = ko.observableArray();
 
 require(['static/components'], function() {
     function page_view_model() {
