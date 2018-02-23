@@ -1,30 +1,7 @@
 /* Placeholder submissions */
-var submissions = ko.observableArray([
-    {
-        'pay_range': 'C$55,000.00 - C$59,999.99',
-        'employment_type': 'Full-Time',
-        'perks': 'Yearly Bonus, Food / Drinks',
-        'roles': 'Web: Backend Developer',
-        'tech': 'PHP, MySQL, Linux',
-        'years_experience': 2,
-        'education': 'Completed Bachelor\'s Degree',
-        'years_with_current_employer': 1,
-        'number_of_employers': 2
-    },
-    {
-        'pay_range': 'C$60,000.00 - C$64,999.99',
-        'perks': 'Quarterly Bonus',
-        'employment_type': 'Full-Time',
-        'roles': 'Web: Full-Stack',
-        'tech': 'Python, MySQL, Javascript, HTML, CSS',
-        'years_experience': 5,
-        'education': 'Completed Bachelor\'s Degree',
-        'years_with_current_employer': 2,
-        'number_of_employers': 2
-    }
-]);
+var submissions = ko.observableArray([]);
 
-var email = ko.observableArray();
+var email = ko.observable();
 var pay_ranges = ko.observableArray();
 var perks = ko.observableArray();
 var employment_types = ko.observableArray();
@@ -54,6 +31,7 @@ require(['static/components'], function() {
         var view_model = page_view_model()
         ko.applyBindings(view_model);
 
+        fetch_submissions();
         fetch_pay_ranges();
         fetch_employment_types();
         fetch_educations();
@@ -62,6 +40,13 @@ require(['static/components'], function() {
         fetch_techs();
     });
 });
+
+function fetch_submissions() {
+    submissions.removeAll();
+    jQuery.getJSON('fetch_submissions', function(data) {
+        ko.utils.arrayPushAll(submissions, data);
+    });
+}
 
 function fetch_pay_ranges() {
     pay_ranges.removeAll();

@@ -101,7 +101,6 @@ class EmailDomain(db.Model):
 
 class SubmissionToPayRange(db.Model):
     __tablename__ = 'submission_to_pay_range'
-    id = db.Column(db.Integer, primary_key=True)
 
     """
     Relations:
@@ -110,8 +109,8 @@ class SubmissionToPayRange(db.Model):
     1 PayRange
     """
 
-    submission_id = db.Column(db.Integer, db.ForeignKey('submission.id', ondelete='CASCADE'))
-    pay_range_id = db.Column(db.Integer, db.ForeignKey('pay_range.id', ondelete='CASCADE'))
+    submission_id = db.Column(db.Integer, db.ForeignKey('submission.id', ondelete='CASCADE'), primary_key=True)
+    pay_range_id = db.Column(db.Integer, db.ForeignKey('pay_range.id', ondelete='CASCADE'), primary_key=True)
     submission = relationship(Submission)
     pay_range = relationship(PayRange)
 
@@ -120,7 +119,6 @@ class SubmissionToPayRange(db.Model):
 
 class SubmissionToPerk(db.Model):
     __tablename__ = 'submission_to_perk'
-    id = db.Column(db.Integer, primary_key=True)
     value = db.Column(db.Numeric)
 
     """
@@ -130,8 +128,8 @@ class SubmissionToPerk(db.Model):
     1 Perk
     """
 
-    submission_id = db.Column(db.Integer, db.ForeignKey('submission.id', ondelete='CASCADE'))
-    perk_id = db.Column(db.Integer, db.ForeignKey('perk.id', ondelete='CASCADE'))
+    submission_id = db.Column(db.Integer, db.ForeignKey('submission.id', ondelete='CASCADE'), primary_key=True)
+    perk_id = db.Column(db.Integer, db.ForeignKey('perk.id', ondelete='CASCADE'), primary_key=True)
     submission = relationship(Submission)
     perk = relationship(Perk)
 
@@ -141,7 +139,6 @@ class SubmissionToPerk(db.Model):
 
 class SubmissionToEmploymentType(db.Model):
     __tablename__ = 'submission_to_employment_type'
-    id = db.Column(db.Integer, primary_key=True)
 
     """
     Relations:
@@ -150,8 +147,8 @@ class SubmissionToEmploymentType(db.Model):
     1 EmploymentType
     """
 
-    submission_id = db.Column(db.Integer, db.ForeignKey('submission.id', ondelete='CASCADE'))
-    employment_type_id = db.Column(db.Integer, db.ForeignKey('employment_type.id', ondelete='CASCADE'))
+    submission_id = db.Column(db.Integer, db.ForeignKey('submission.id', ondelete='CASCADE'), primary_key=True)
+    employment_type_id = db.Column(db.Integer, db.ForeignKey('employment_type.id', ondelete='CASCADE'), primary_key=True)
     submission = relationship(Submission)
     employment_type = relationship(EmploymentType)
 
@@ -160,7 +157,6 @@ class SubmissionToEmploymentType(db.Model):
 
 class SubmissionToRole(db.Model):
     __tablename__ = 'submission_to_role'
-    id = db.Column(db.Integer, primary_key=True)
 
     """
     Relations:
@@ -169,8 +165,8 @@ class SubmissionToRole(db.Model):
     1 Role
     """
 
-    submission_id = db.Column(db.Integer, db.ForeignKey('submission.id', ondelete='CASCADE'))
-    role_id = db.Column(db.Integer, db.ForeignKey('role.id', ondelete='CASCADE'))
+    submission_id = db.Column(db.Integer, db.ForeignKey('submission.id', ondelete='CASCADE'), primary_key=True)
+    role_id = db.Column(db.Integer, db.ForeignKey('role.id', ondelete='CASCADE'), primary_key=True)
     submission = relationship(Submission)
     role = relationship(Role)
 
@@ -179,7 +175,6 @@ class SubmissionToRole(db.Model):
 
 class SubmissionToEducation(db.Model):
     __tablename__ = 'submission_to_education'
-    id = db.Column(db.Integer, primary_key=True)
 
     """
     Relations:
@@ -188,8 +183,8 @@ class SubmissionToEducation(db.Model):
     1 Education
     """
 
-    submission_id = db.Column(db.Integer, db.ForeignKey('submission.id', ondelete='CASCADE'))
-    education_id = db.Column(db.Integer, db.ForeignKey('education.id', ondelete='CASCADE'))
+    submission_id = db.Column(db.Integer, db.ForeignKey('submission.id', ondelete='CASCADE'), primary_key=True)
+    education_id = db.Column(db.Integer, db.ForeignKey('education.id', ondelete='CASCADE'), primary_key=True)
     submission = relationship(Submission)
     education = relationship(Education)
 
@@ -198,7 +193,6 @@ class SubmissionToEducation(db.Model):
 
 class SubmissionToTech(db.Model):
     __tablename__ = 'submission_to_tech'
-    id = db.Column(db.Integer, primary_key=True)
 
     """
     Relations:
@@ -207,8 +201,8 @@ class SubmissionToTech(db.Model):
     1 Tech
     """
 
-    submission_id = db.Column(db.Integer, db.ForeignKey('submission.id', ondelete='CASCADE'))
-    tech_id = db.Column(db.Integer, db.ForeignKey('tech.id', ondelete='CASCADE'))
+    submission_id = db.Column(db.Integer, db.ForeignKey('submission.id', ondelete='CASCADE'), primary_key=True)
+    tech_id = db.Column(db.Integer, db.ForeignKey('tech.id', ondelete='CASCADE'), primary_key=True)
     submission = relationship(Submission)
     tech = relationship(Tech)
 

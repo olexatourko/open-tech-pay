@@ -1,8 +1,9 @@
-from flask import render_template, jsonify
+from flask import render_template, jsonify, request
 from flask_migrate import Migrate
 from src import app, db
 from src.models import *
 from src.model_mappings import *
+import json
 
 migrate = Migrate(app, db)
 
@@ -51,3 +52,19 @@ def fetch_techs():
     schema = TechSchema()
     result = [schema.dump(tech).data for tech in techs]
     return jsonify(result)
+
+@app.route('/fetch_submissions')
+def fetch_submissions():
+    submisions = Submission.query.all()
+    schema = SubmissionSchema()
+    result = [schema.dump(submission).data for submission in submisions]
+    return jsonify(result)
+
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    print(request.form.keys())
+
+    return jsonify({
+        'status': 'ok'
+    })

@@ -32,3 +32,16 @@ class TechSchema(Schema):
 class EmailDomainSchema(Schema):
     id = fields.Integer()
     domain = fields.String()
+
+class SubmissionSchema(Schema):
+    id = fields.Integer()
+    years_experience = fields.Integer()
+    number_of_employers = fields.Integer()
+    years_with_current_employer = fields.Integer()
+
+    pay_range = fields.Nested('PayRangeSchema')
+    perks = fields.Nested('PerkSchema', many=True)
+    employment_type = fields.Nested('EmploymentTypeSchema')
+    roles = fields.Nested('RoleSchema', many=True)
+    education = fields.Nested('EducationSchema')
+    tech = fields.Nested('TechSchema', many=True)

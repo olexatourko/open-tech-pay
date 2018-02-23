@@ -1,3 +1,18 @@
+ko.components.register('market-data', {
+    viewModel: function(params) {
+        var self = this;
+        self.message_bus = params.message_bus;
+        self.submissions = params.submissions;
+        self.simple_view = ko.observable(true);
+
+        /* Functions used by template */
+        self.get_pay_range_text = function(item) {
+            return 'C$' + number_with_commas(item.lower) + ' - C$' + number_with_commas(item.upper);
+        }
+    },
+    template: { require: 'text!static/knockout-templates/market-data.html' }
+});
+
 ko.components.register('create-submission', {
     viewModel: function(params) {
         var self = this;
@@ -22,10 +37,26 @@ ko.components.register('create-submission', {
         self.get_pay_range_text = function(item) {
             return 'C$' + number_with_commas(item.lower) + ' - C$' + number_with_commas(item.upper);
         }
-        self.on_submit = function() {
+        self.on_submit = function(item, event) {
+            var button = event.target;
+            var form = jQuery(button).parents('form').get(0);
+            jQuery.ajax({
+                url: '/submit',
+                type: 'POST',
+                data: new FormData(form),
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function(data) {
+                    if(data.status == 'ok') {
+                        alert('Submission successful')
+                    }
+                }
+            });
 
+
+            self.message_bus.notifySubscribers({}, 'submission_created');
         };
-
     },
     template: { require: 'text!static/knockout-templates/create-submission.html' }
 });

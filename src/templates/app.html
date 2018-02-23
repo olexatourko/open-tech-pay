@@ -26,37 +26,13 @@
         <p>Tech industry salary sharing - closing the pay information gap. This project aims to freely provide compensation
             data to students, employees, and employers in the local tech industry so they can make informed career and hiring decisions.</p>
         <hr>
-
-        <h4>Market Data</h4>
-        <table>
-            <thead>
-                <tr>
-                    <th>Pay Range</th>
-                    <th>Employment Type</th>
-                    <th>Perks</th>
-                    <th>Roles</th>
-                    <th>Tech</th>
-                    <th>Years Experience</th>
-                    <th>Education</th>
-                    <th>Years w/ Current Employer</th>
-                    <th>Lifetime Employers</th>
-                </tr>
-                <tbody data-bind="foreach: submissions">
-                    <td data-bind="text: pay_range"></td>
-                    <td data-bind="text: employment_type"></td>
-                    <td data-bind="text: perks"></td>
-                    <td data-bind="text: roles"></td>
-                    <td data-bind="text: tech"></td>
-                    <td data-bind="text: years_experience"></td>
-                    <td data-bind="text: education"></td>
-                    <td data-bind="text: years_with_current_employer"></td>
-                    <td data-bind="text: number_of_employers"></td>
-                </tbody>
-            </thead>
-        </table>
-
+        <market-data params="
+        message_bus: message_bus,
+        submissions: submissions
+        "></market-data>
         <create-submission params="
         message_bus: message_bus,
+        email: email,
         pay_ranges: pay_ranges,
         employment_types: employment_types,
         years_with_employer: years_with_current_employer,
@@ -72,7 +48,6 @@
         selected_techs: selected_techs,
         selected_education: selected_education
         "></create-submission>
-
         <footer>
             <script src="{{ url_for('static', filename='application.js') }}"></script>
         </footer>

@@ -5,3 +5,11 @@ th {
 th, td {
     padding: 5px;
 }
+
+.container {
+    max-width: 1200px;
+}
+
+.market-data {
+    font-size: 10pt;
+}
