@@ -12,13 +12,6 @@ var years_with_current_employer = ko.observable();
 var years_experience = ko.observable();
 var number_of_employers = ko.observable();
 
-var selected_pay_range = ko.observable();
-var selected_perks = ko.observableArray();
-var selected_employment_type = ko.observable();
-var selected_roles = ko.observableArray();
-var selected_techs = ko.observableArray();
-var selected_education = ko.observable();
-
 require(['static/components'], function() {
     function page_view_model() {
         var self = this;

@@ -1,13 +1,12 @@
 <div class="market-data">
-    <h4>Market Data</h4>
+    <h5>Market Data</h5>
     <div class="row">
         <label>
-            Simple View
-            <input type="checkbox" data-bind="checked: simple_view" />
+            Detailed View
+            <input type="checkbox" data-bind="checked: show_detailed_view" />
         </label>
         <button class="button-secondary" data-bind="text: view_button_text, click: toggle_shown"></button>
     </div>
-    <hr>
     <table>
         <thead>
         <tr>
@@ -18,7 +17,7 @@
             <th>Perks</th>
             <th>Years Experience</th>
             <th>Education</th>
-            <!-- ko if: !$component.simple_view() -->
+            <!-- ko if: $component.show_detailed_view() -->
             <th>Years with Current Employer</th>
             <th>Lifetime Employers</th>
             <!-- /ko -->
@@ -37,7 +36,7 @@
         </td>
         <td data-bind="text: item.years_experience"></td>
         <td data-bind="text: item.education.name"></td>
-        <!-- ko if: !$component.simple_view() -->
+        <!-- ko if: $component.show_detailed_view() -->
         <td data-bind="text: item.years_with_current_employer"></td>
         <td data-bind="text: item.number_of_employers"></td>
         <!-- /ko -->

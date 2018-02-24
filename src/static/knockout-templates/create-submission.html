@@ -1,36 +1,116 @@
 <form>
-    <h4>Submit</h4>
-    <p>Submit your information here. Once submitted, you will be sent an email to confirm your submission.</p>
+    <h5>Submit</h5>
+    <p>Once you've submitted, you will be sent an email with a confirmation link to complete your submission.</p>
     <div class="row">
-        <div class="six columns">
-            <h5>Current Compensation</h5>
-            <select name="pay_range" data-bind="
-            options: pay_ranges,
-            optionsText: get_pay_range_text,
-            value: selected_pay_range
-            "></select>
-            <select class="u-full-width" name="perks" multiple data-bind="foreach: perks, selectedOptions: selected_perks" style="height: 10em;" >
-                <option data-bind="value: id, text: name"></option>
-            </select>
+        <h6>Current Employment</h6>
+        <select name="pay_range" data-bind="
+        options: pay_ranges,
+        optionsText: get_pay_range_text,
+        value: selected_pay_range
+        "></select>
+        <select name="employment_type" data-bind="foreach: employment_types, value: selected_employment_type">
+            <option data-bind="value: id, text: name"></option>
+        </select>
+        <input name="years_with_current_employer" type="number" placeholder="# Years With Employer" data-bind="value: years_with_employer" data-parsley-type="digits">
+        <div class="row">
+            <div class="role-select six columns">
+                <h6>Roles</h6>
+                <!-- ko if: selected_roles().length > 0 -->
+                <hr>
+                <div class="u-cf selected-roles" data-bind="foreach: { data: selected_roles, as: 'role' }">
+                    <tag params="
+                    message_bus: $component.inner_message_bus,
+                    item: role,
+                    button_text: 'x',
+                    event_name: 'role_unselected'
+                    "></tag>
+                </div>
+                <!-- /ko  -->
+                <hr>
+                <div class="u-cf">
+                    <!-- ko foreach: { data: unselected_roles, as: 'role' } -->
+                    <tag params="
+                    message_bus: $component.inner_message_bus,
+                    item: role,
+                    button_text: '+',
+                    event_name: 'role_selected'
+                    "></tag>
+                    <!-- /ko -->
+                    <custom-tag params="
+                    message_bus: $component.inner_message_bus,
+                    button_text: '+',
+                    event_name: 'custom_role_selected'
+                    "></custom-tag>
+                </div>
+            </div>
+            <div class="tech-select six columns">
+                <h6>Technologies</h6>
+                <!-- ko if: selected_techs().length > 0 -->
+                <hr>
+                <div class="u-cf selected-techs" data-bind="foreach: { data: selected_techs, as: 'tech' }">
+                    <tag params="
+                    message_bus: $component.inner_message_bus,
+                    item: tech,
+                    button_text: 'x',
+                    event_name: 'tech_unselected'
+                    "></tag>
+                </div>
+                <!-- /ko  -->
+                <hr>
+                <div class="u-cf">
+                    <!-- ko foreach: { data: unselected_techs, as: 'tech' } -->
+                    <tag params="
+                    message_bus: $component.inner_message_bus,
+                    item: tech,
+                    button_text: '+',
+                    event_name: 'tech_selected'
+                    "></tag>
+                    <!-- /ko -->
+                    <custom-tag params="
+                    message_bus: $component.inner_message_bus,
+                    button_text: '+',
+                    event_name: 'custom_tech_selected'
+                    "></custom-tag>
+                </div>
+            </div>
         </div>
-        <div class="six columns">
-            <h5>Current Employment Details</h5>
-            <select name="employment_type" data-bind="foreach: employment_types, value: selected_employment_type">
-                <option data-bind="value: id, text: name"></option>
-            </select>
-            <input name="years_with_current_employer" type="number" placeholder="# Years With Employer" data-bind="value: years_with_employer" data-parsley-type="digits">
-            <div class="row">
-                <select class="six columns" name="roles" multiple data-bind="foreach: roles, selectedOptions: selected_roles" style="height: 10em;">
-                    <option data-bind="value: id, text: name"></option>
-                </select>
-                <select class="six columns" name="tech" multiple data-bind="foreach: techs, selectedOptions: selected_techs" style="height: 10em;">
-                    <option data-bind="value: id, text: name"></option>
-                </select>
+        <br>
+        <div class="row">
+            <div class="perks-select six columns">
+                <h6>Other Compensation &amp; Perks</h6>
+                <!-- ko if: selected_perks().length > 0 -->
+                <hr>
+                <div class="u-cf selected-perks" data-bind="foreach: { data: selected_perks, as: 'perk' }">
+                    <tag params="
+                    message_bus: $component.inner_message_bus,
+                    item: perk,
+                    button_text: 'x',
+                    event_name: 'perk_unselected'
+                    "></tag>
+                </div>
+                <!-- /ko  -->
+                <hr>
+                <div class="u-cf">
+                    <!-- ko foreach: { data: unselected_perks, as: 'perk' } -->
+                    <tag params="
+                    message_bus: $component.inner_message_bus,
+                    item: perk,
+                    button_text: '+',
+                    event_name: 'perk_selected'
+                    "></tag>
+                    <!-- /ko -->
+                    <custom-tag params="
+                    message_bus: $component.inner_message_bus,
+                    button_text: '+',
+                    event_name: 'custom_perk_selected'
+                    "></custom-tag>
+                </div>
             </div>
         </div>
     </div>
+    <hr>
     <div class="row">
-        <h5>Experience &amp; Education</h5>
+        <h6>Experience &amp; Education</h6>
         <select name="education" data-bind="foreach: educations, value: selected_education">
             <option data-bind="value: id, text: name"></option>
         </select>

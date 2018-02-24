@@ -16,39 +16,55 @@
             urlArgs: "bust=" + (new Date()).getTime() // Disable caching
         });
         </script>
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.ico') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='packages/skeleton-css/css/normalize.css') }}"/>
         <link rel="stylesheet" href="{{ url_for('static', filename='packages/skeleton-css/css/skeleton.css') }}"/>
         <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}"/>
     </head>
-    <body class="container">
-        <br>
-        <h3>OpenPay London</h3>
-        <p>Tech industry salary sharing - closing the pay information gap. This project aims to freely provide compensation
-            data to students, employees, and employers in the local tech industry so they can make informed career and hiring decisions.</p>
-        <hr>
-        <market-data params="
-        message_bus: message_bus,
-        submissions: submissions
-        "></market-data>
-        <create-submission params="
-        message_bus: message_bus,
-        email: email,
-        pay_ranges: pay_ranges,
-        employment_types: employment_types,
-        years_with_employer: years_with_current_employer,
-        roles: roles,
-        techs: techs,
-        educations: educations,
-        years_experience: years_experience,
-        number_of_employers: number_of_employers,
-        selected_pay_range: selected_pay_range,
-        selected_perks: selected_perks,
-        selected_employment_type: selected_employment_type,
-        selected_roles: selected_roles,
-        selected_techs: selected_techs,
-        selected_education: selected_education
-        "></create-submission>
+    <body>
+        <header>
+            <div class="container">
+                <h1>$_ OpenPay London </h1>
+            </div>
+        </header>
+        <div class="container">
+            <h5>Closing the Tech Pay Information Gap</h5>
+            <p>This project aims to provide detailed compensation data to students, employees, and employers in the local
+                tech industry.</p>
+            <hr>
+        </div>
+
+        <section id="market-data">
+            <div class="container">
+                <market-data params="
+                message_bus: message_bus,
+                submissions: submissions
+                "></market-data>
+            </div>
+        </section>
+
+        <section id="submission">
+            <div class="container">
+                <create-submission params="
+                message_bus: message_bus,
+                email: email,
+                pay_ranges: pay_ranges,
+                employment_types: employment_types,
+                years_with_employer: years_with_current_employer,
+                perks: perks,
+                roles: roles,
+                techs: techs,
+                educations: educations,
+                years_experience: years_experience,
+                number_of_employers: number_of_employers,
+                "></create-submission>
+            </div>
+        </section>
+
         <footer>
+            <div class="container">
+                <a href="https://github.com/olestourko/open-pay">View it on Github</a>
+            </div>
             <script src="{{ url_for('static', filename='application.js') }}"></script>
         </footer>
     </body>

@@ -26,10 +26,10 @@ def seed_db(database):
         ]
         roles = [
             Role('Software Developer', listed=True),
-            Role('Web: Backend', listed=True),
-            Role('Web: Frontend', listed=True),
-            Role('Web: Full-Stack', listed=True),
-            Role('Web: Design', listed=True),
+            Role('Backend Web Developer', listed=True),
+            Role('Frontend Web Developer', listed=True),
+            Role('Full-Stack Developer', listed=True),
+            Role('Web Design', listed=True),
             Role('Graphic Designer', listed=True),
             Role('System Administrator', listed=True),
             Role('DevOps', listed=True),
@@ -87,9 +87,8 @@ def seed_db(database):
 
             for j in range(0, 3):
                 submission.associate_perk(perks[randint(0, len(perks) - 1)])
-                # submission.append(perks[randint(0, len(perks) - 1)])
 
-            submission.employment_type = employment_types[randint(0, len(employment_types) - 1)]
+            submission.employment_type = employment_types[randint(0, len(employment_types) - 2 - 1)]
             for j in range(0, 2):
                 submission.associate_role(roles[randint(0, len(roles) - 1)])
 

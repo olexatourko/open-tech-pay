@@ -1,3 +1,40 @@
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea, select {
+    border-radius: 0;
+}
+
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+    border-radius: 0;
+}
+h1, h2, h3, h4, h5 {
+    font-family: 'Courier', monospace;
+}
+
+
+header {
+    background: url('header.jpg') no-repeat;
+    background-position: 0 -100px;
+    margin-bottom: 2em;
+}
+header .container {
+    padding: 1em 0;
+}
+header .container h1 {
+    margin: 0;
+    font-family: 'Courier', monospace;
+    color: rgba(255, 255, 255, 0.9);
+}
+
 th {
     vertical-align: bottom;
 }
@@ -14,9 +51,52 @@ th, td {
     max-width: 1200px;
 }
 
+/* Market Data */
+section#market-data {
+
+}
+
 .market-data { font-size: 10pt; }
 .market-data label { float: right; }
 .market-data thead th:nth-of-type(1) { min-width: 150px; }
 .market-data thead th:nth-of-type(2) { min-width: 150px; }
 .market-data thead th:nth-of-type(3) { min-width: 100px; }
 .market-data thead th:nth-of-type(4) { min-width: 120px; }
+
+/* Submissions */
+section#submission {
+    padding: 1em 0;
+}
+
+.tag {
+    background: #efefef;
+    float: left;
+    padding: 0 10px;
+    margin: 0 3px 3px 0;
+}
+.tag:hover { cursor: pointer; }
+.tag button {
+    height: auto;
+    padding: 0 3px;
+    border: 0;
+    margin: 0;
+    line-height: 1em;
+}
+.tag.custom input {
+    margin: 0;
+    border: none;
+    background: none;
+}
+.tag.custom input:focus { outline: none; }
+
+.perks-select h6, .role-select h6, .tech-select h6 { margin-bottom: 0; }
+.perks-select hr, .role-select hr, .tech-select hr { margin: 1em 0; }
+
+.selected-roles .tag, .selected-techs .tag, .selected-perks .tag {
+    background: #cbff9f;
+}
+
+footer {
+    padding: 1em 0;
+    background: #f0f0f0;
+}
