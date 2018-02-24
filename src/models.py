@@ -126,12 +126,18 @@ class Submission(db.Model):
     education = association_proxy('submission_to_education', 'education')
     tech = association_proxy('submission_to_tech', 'tech')
 
-class EmailDomain(db.Model):
-    __tablename__ = 'email_domain'
+class Employer(db.Model):
+    __tablename__ = 'employer,'
     id = db.Column(db.Integer, primary_key=True)
-    domain = db.Column(db.Text)
+    name = db.Column(db.Text)
+    email_domain = db.Column(db.Text)
+    url = db.Column(db.Text)
 
-""" Relation classes """
+    def __init__(self, name, email_domain, url):
+        self.name = name,
+        self.email_domain = email_domain,
+        self.url = url
+
 
 class SubmissionToPayRange(db.Model):
     __tablename__ = 'submission_to_pay_range'

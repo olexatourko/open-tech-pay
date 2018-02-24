@@ -1,3 +1,16 @@
+ko.bindingHandlers.on_enter = {
+    init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+        console.log('A');
+        // This will be called when the binding is first applied to an element
+        // Set up any initial state, event handlers, etc. here
+    },
+    update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+        // This will be called once when the binding is first applied to an element,
+        // and again whenever any observables/computeds that are accessed change
+        // Update the DOM element based on the supplied values here.
+    }
+};
+
 ko.components.register('market-data', {
     viewModel: function(params) {
         var self = this;
@@ -39,15 +52,17 @@ ko.components.register('create-submission', {
         self.message_bus = params.message_bus;
         self.inner_message_bus = new ko.subscribable();
 
+        self.email = ko.observable();
+        self.years_experience = ko.observable();
+        self.number_of_employers = ko.observable();
+        self.years_with_employer = ko.observable();
+
         self.pay_ranges = params.pay_ranges;
         self.employment_types = params.employment_types;
-        self.years_with_employer = params.years_with_employer;
         self.perks = params.perks;
         self.roles = params.roles;
         self.techs = params.techs;
         self.educations = params.educations,
-        self.years_experience = params.years_experience,
-        self.number_of_employers = params.number_of_employers
 
         self.selected_pay_range = ko.observable();
         self.selected_perks = ko.observableArray();
@@ -88,13 +103,40 @@ ko.components.register('create-submission', {
         self.get_pay_range_text = function(item) {
             return '$' + number_with_commas(item.lower) + ' - $' + number_with_commas(item.upper);
         }
+
         self.on_submit = function(item, event) {
             var button = event.target;
             var form = jQuery(button).parents('form').get(0);
+
+            /* Perform frontend validation on the form */
+            if (!jQuery(form).parsley().validate()) {
+                return;
+            }
+
+            var mapper_function = function(item) {
+               return 'id' in item ?  {'id': item.id} : {'name': item.name}
+             };
+
+            /* Build the request data */
+            var data = {
+                'email': self.email(),
+                'years_experience': self.years_experience(),
+                'number_of_employers': self.number_of_employers(),
+                'years_with_employer': self.years_with_employer(),
+                'pay_range': self.selected_pay_range().id,
+                'employment_type': self.selected_employment_type().id,
+                'education': self.selected_education().id,
+                'perks': self.selected_perks().map(mapper_function),
+                'roles': self.selected_roles().map(mapper_function),
+                'techs': self.selected_techs().map(mapper_function)
+            }
+            var form_data = new FormData();
+            form_data.append('payload', JSON.stringify(data));
+
             jQuery.ajax({
                 url: '/submit',
                 type: 'POST',
-                data: new FormData(form),
+                data: form_data,
                 processData: false,
                 contentType: false,
                 cache: false,
@@ -108,42 +150,75 @@ ko.components.register('create-submission', {
             self.message_bus.notifySubscribers({}, 'submission_created');
         };
 
+        /* Check if the array has an object by case-insensitive name */
+        var _in_array = function(arr, name) {
+            for (i = 0; i < arr.length; i++) {
+                if(arr[i].name.toLowerCase() == name.toLowerCase()) {
+                    return true;
+                }
+            };
+            return false;
+        };
+
         / *Listen to internal events */
-        /* Perks */
-        self.inner_message_bus.subscribe(function(role) {
-            self.selected_perks.push(role);
+        /* Perks --------------------*/
+        self.inner_message_bus.subscribe(function(perk) {
+            var in_selected = _in_array(self.selected_perks(), perk.name);
+            if(in_selected) { return; }
+            self.selected_perks.push(perk);
         }, {}, 'perk_selected')
+
         self.inner_message_bus.subscribe(function(text) {
+            var in_listed = _in_array(self.perks(), text);
+            var in_selected = _in_array(self.selected_perks(), text);
+            if(in_listed || in_selected) { return; }
             self.selected_perks.push({
                 name: text
             });
         }, {}, 'custom_perk_selected')
+
         self.inner_message_bus.subscribe(function(role) {
             self.selected_perks.remove(role);
         }, {}, 'perk_unselected')
 
-        /* Roles */
+
+        /* Roles --------------------*/
         self.inner_message_bus.subscribe(function(role) {
+            var in_selected = _in_array(self.selected_roles(), role.name);
+            if(in_selected) { return; }
             self.selected_roles.push(role);
         }, {}, 'role_selected')
+
         self.inner_message_bus.subscribe(function(text) {
+            var in_listed = _in_array(self.roles(), text);
+            var in_selected = _in_array(self.selected_roles(), text);
+            if(in_listed || in_selected) { return; }
             self.selected_roles.push({
                 name: text
             });
+
         }, {}, 'custom_role_selected')
         self.inner_message_bus.subscribe(function(role) {
             self.selected_roles.remove(role);
         }, {}, 'role_unselected')
 
-        /* Techs */
+
+        /* Techs --------------------*/
         self.inner_message_bus.subscribe(function(tech) {
+            var in_selected = _in_array(self.selected_techs(), tech.name);
+            if(in_selected) { return; }
             self.selected_techs.push(tech);
         }, {}, 'tech_selected')
+
         self.inner_message_bus.subscribe(function(text) {
+            var in_listed = _in_array(self.techs(), text);
+            var in_selected = _in_array(self.selected_techs(), text);
+            if(in_listed || in_selected) { return; }
             self.selected_techs.push({
                 name: text
             });
         }, {}, 'custom_tech_selected')
+
         self.inner_message_bus.subscribe(function(tech) {
             self.selected_techs.remove(tech);
         }, {}, 'tech_unselected')
@@ -173,7 +248,7 @@ ko.components.register('custom-tag', {
         self.message_bus = params.message_bus;
         self.button_text = params.button_text;
         self.event_name = params.event_name;
-        self.text = ko.observable();
+        self.text = ko.observable('');
 
         self.on_click = function(item, event) {
             if(self.text().length > 0) {
@@ -181,6 +256,15 @@ ko.components.register('custom-tag', {
                 self.text('');
             }
         };
+        self.on_keydown = function(item, event) {
+            if (event.keyCode == 13 && self.text().length > 0) {
+                self.message_bus.notifySubscribers(self.text(), self.event_name);
+                self.text('');
+                event.stopPropagation();
+            }
+
+            return true;
+        }
     },
     template: { require: 'text!static/knockout-templates/custom-tag.html' }
 });

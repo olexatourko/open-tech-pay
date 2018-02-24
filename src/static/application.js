@@ -1,15 +1,12 @@
 /* Placeholder submissions */
 var submissions = ko.observableArray([]);
 
-var email = ko.observable();
 var pay_ranges = ko.observableArray();
 var perks = ko.observableArray();
 var employment_types = ko.observableArray();
 var roles = ko.observableArray();
 var techs = ko.observableArray();
 var educations = ko.observableArray();
-var years_with_current_employer = ko.observable();
-var years_experience = ko.observable();
 var number_of_employers = ko.observable();
 
 require(['static/components'], function() {
@@ -19,6 +16,15 @@ require(['static/components'], function() {
         // http://knockoutjs.com/documentation/fn.html
         self.message_bus = new ko.subscribable();
     }
+
+    /* Hack to prevent Return key from submitting the form */
+    jQuery(document).on("keypress", 'form', function (e) {
+        var code = e.keyCode || e.which;
+        if (code == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
 
     jQuery(function() {
         var view_model = page_view_model()

@@ -55,7 +55,7 @@ def fetch_techs():
 
 @app.route('/fetch_submissions')
 def fetch_submissions():
-    submisions = Submission.query.all()
+    submisions = Submission.query.filter(Submission.verified).all()
     schema = SubmissionSchema()
     result = [schema.dump(submission).data for submission in submisions]
     return jsonify(result)
@@ -63,7 +63,7 @@ def fetch_submissions():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    print(request.form.keys())
+    print(json.loads(request.form['payload']))
 
     return jsonify({
         'status': 'ok'

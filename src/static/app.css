@@ -16,6 +16,11 @@ input[type="reset"],
 input[type="button"] {
     border-radius: 0;
 }
+label {
+    display: inline-block;
+    font-weight: normal;
+}
+
 h1, h2, h3, h4, h5 {
     font-family: 'Courier', monospace;
 }
@@ -71,17 +76,19 @@ section#submission {
 .tag {
     background: #efefef;
     float: left;
-    padding: 0 10px;
     margin: 0 3px 3px 0;
+    padding-right: 5px;
 }
 .tag:hover { cursor: pointer; }
-.tag button {
-    height: auto;
-    padding: 0 3px;
+.tag .action {
+    display: inline-block;
+    height: 100%;
+    padding: 0 0 0 5px;
     border: 0;
     margin: 0;
-    line-height: 1em;
 }
+
+.tag:custom:hover { cursor: default; }
 .tag.custom input {
     margin: 0;
     border: none;
@@ -96,7 +103,17 @@ section#submission {
     background: #cbff9f;
 }
 
+.input-container > * {
+    vertical-align: top;
+}
+
 footer {
     padding: 1em 0;
     background: #f0f0f0;
+}
+
+/* Parsley */
+.parsley-errors-list { color: #ff1c00; }
+.parsley-errors-list li {
+    list-style: none;
 }

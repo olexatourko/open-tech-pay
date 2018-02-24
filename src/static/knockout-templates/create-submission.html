@@ -9,9 +9,9 @@
         value: selected_pay_range
         "></select>
         <select name="employment_type" data-bind="foreach: employment_types, value: selected_employment_type">
-            <option data-bind="value: id, text: name"></option>
+            <option data-bind="value: $data, text: name"></option>
         </select>
-        <input name="years_with_current_employer" type="number" placeholder="# Years With Employer" data-bind="value: years_with_employer" data-parsley-type="digits">
+        <input name="years_with_current_employer" type="number" placeholder="# Years With Employer" data-bind="value: years_with_employer" data-parsley-type="digits" min="0">
         <div class="row">
             <div class="role-select six columns">
                 <h6>Roles</h6>
@@ -109,17 +109,21 @@
         </div>
     </div>
     <hr>
-    <div class="row">
+    <div class="row input-container">
         <h6>Experience &amp; Education</h6>
         <select name="education" data-bind="foreach: educations, value: selected_education">
-            <option data-bind="value: id, text: name"></option>
+            <option data-bind="value: $data, text: name"></option>
         </select>
-        <input name="years_experience" type="number" placeholder="# Years Experience" data-bind="value: years_experience" data-parsley-type="digits">
-        <input name="number_of_employers" type="number" placeholder="# Lifetime Employers" data-bind="value: number_of_employers" data-parsley-type="digits">
+        <label>
+            <input name="years_experience" type="number" placeholder="# Years Experience" data-bind="value: years_experience" data-parsley-type="digits" min="0" required>
+        </label>
+        <label>
+            <input name="number_of_employers" type="number" placeholder="# Lifetime Employers" data-bind="value: number_of_employers" data-parsley-type="digits" min="1">
+        </label>
     </div>
     <hr>
-    <div class="row">
-        <input name="email" type="email" placeholder="Email" data-bind="value: email" data-parsley-type="email">
+    <div class="row input-container">
+        <input name="email" type="email" placeholder="Email" data-bind="value: email" data-parsley-type="email" required>
         <p>Your email is only used for verification purposes. It will <strong>never</strong> be shared publicly or with third parties.</p>
         <button class="button-primary" data-bind="click: on_submit">Submit</button>
     </div>

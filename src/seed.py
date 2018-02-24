@@ -39,12 +39,13 @@ def seed_db(database):
             Role('Mobile Developer', listed=False),
         ]
         educations = [
-            Education('Some Secondary School'),
-            Education('Completed Secondary School'),
+            Education('Some High School'),
+            Education('Completed High School'),
             Education('Some College / University'),
             Education('Completed Associate\'s Degree'),
+            Education('Completed College Degree'),
             Education('Completed Bachelor\'s Degree'),
-            Education('Completed Master\'s / Graduate Degree'),
+            Education('Completed Master\'s'),
             Education('Completed Doctorate Degree')
         ]
         techs = [
@@ -79,6 +80,7 @@ def seed_db(database):
         from random import randint
         for i in range(0, 10):
             submission = Submission()
+            submission.verified = True
             submission.years_experience = randint(0, 15)
             submission.years_with_current_employer = randint(0, 5)
             submission.number_of_employers = randint(1, 3)
@@ -98,6 +100,12 @@ def seed_db(database):
             submission.education = educations[randint(0, len(educations) - 1)]
 
         database.session.commit()
+
+        employers = [
+            Employer(name='Company 1', email_domain='company1.com', url='company1.com'),
+            Employer(name='Company 2', email_domain='company2.com', url='company2.com'),
+            Employer(name='Company 3', email_domain='company3.com', url='company3.com')
+        ]
 
     except exc.SQLAlchemyError:
         import traceback
