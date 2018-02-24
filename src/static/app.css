@@ -2,15 +2,21 @@ th {
     vertical-align: bottom;
 }
 
+td {
+    vertical-align: top;
+}
+
 th, td {
     padding: 5px;
-    vertical-align: top;
 }
 
 .container {
     max-width: 1200px;
 }
 
-.market-data {
-    font-size: 10pt;
-}
+.market-data { font-size: 10pt; }
+.market-data label { float: right; }
+.market-data thead th:nth-of-type(1) { min-width: 150px; }
+.market-data thead th:nth-of-type(2) { min-width: 150px; }
+.market-data thead th:nth-of-type(3) { min-width: 100px; }
+.market-data thead th:nth-of-type(4) { min-width: 120px; }

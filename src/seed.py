@@ -87,16 +87,14 @@ def seed_db(database):
 
             for j in range(0, 3):
                 submission.associate_perk(perks[randint(0, len(perks) - 1)])
-                database.session.commit()
+                # submission.append(perks[randint(0, len(perks) - 1)])
 
             submission.employment_type = employment_types[randint(0, len(employment_types) - 1)]
             for j in range(0, 2):
                 submission.associate_role(roles[randint(0, len(roles) - 1)])
-                database.session.commit()
 
             for j in range(0, 5):
                 submission.associate_tech(techs[randint(0, len(techs) - 1)])
-                database.session.commit()
 
             submission.education = educations[randint(0, len(educations) - 1)]
 

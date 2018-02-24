@@ -3,7 +3,27 @@ ko.components.register('market-data', {
         var self = this;
         self.message_bus = params.message_bus;
         self.submissions = params.submissions;
+        self.show_all = ko.observable(false);
+        self.table_submissions = ko.pureComputed(function() {
+            if (self.show_all()) {
+                return self.submissions();
+            } else {
+                return self.submissions().slice(0, 3);
+            }
+
+        }, this);
+
+        self.toggle_shown = function() {
+            self.show_all(!self.show_all());
+        }
         self.simple_view = ko.observable(true);
+        self.view_button_text = ko.computed(function() {
+            if (!self.show_all()) {
+                return 'Show All (' + submissions().length + ')';
+            } else {
+                return 'Show Less';
+            }
+        }, this);
 
         /* Functions used by template */
         self.get_pay_range_text = function(item) {

@@ -79,7 +79,6 @@ class Submission(db.Model):
     created_at = db.Column(db.DateTime,  default=datetime.utcnow)
     updated_at = db.Column(db.DateTime,  onupdate=datetime.utcnow)
 
-
     def associate_perk(self, perk):
         assoc_model = SubmissionToPerk.query.filter(
             SubmissionToPerk.submission_id == self.id
@@ -103,7 +102,7 @@ class Submission(db.Model):
         return self
 
     def associate_tech(self, tech):
-        assoc_model = SubmissionToPerk.query.filter(
+        assoc_model = SubmissionToTech.query.filter(
             SubmissionToTech.submission_id == self.id
         ).filter(
             SubmissionToTech.tech_id == tech.id

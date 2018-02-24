@@ -1,9 +1,13 @@
 <div class="market-data">
     <h4>Market Data</h4>
-    <label>
-        Simple View
-        <input type="checkbox" data-bind="checked: simple_view" />
-    </label>
+    <div class="row">
+        <label>
+            Simple View
+            <input type="checkbox" data-bind="checked: simple_view" />
+        </label>
+        <button class="button-secondary" data-bind="text: view_button_text, click: toggle_shown"></button>
+    </div>
+    <hr>
     <table>
         <thead>
         <tr>
@@ -19,7 +23,7 @@
             <th>Lifetime Employers</th>
             <!-- /ko -->
         </tr>
-        <tbody data-bind="foreach: { data: submissions, as: 'item' }">
+        <tbody data-bind="foreach: { data: table_submissions, as: 'item' }">
         <td data-bind="text: $component.get_pay_range_text(item.pay_range)"></td>
         <td data-bind="foreach: { data: roles, as: 'role' }">
             <span data-bind="text: role.name"></span><!-- ko if: $index() < item.roles.length - 1 -->,<br><!-- /ko -->
@@ -40,4 +44,8 @@
         </tbody>
         </thead>
     </table>
+    <!-- ko if: show_all() -->
+    <button class="button-secondary" data-bind="text: view_button_text, click: toggle_shown"></button>
+    <hr>
+    <!-- /ko -->
 </div>
