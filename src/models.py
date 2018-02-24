@@ -3,11 +3,12 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 from sqlalchemy.ext.associationproxy import association_proxy
 
+
 class PayRange(db.Model):
     __tablename__ = 'pay_range'
     id = db.Column(db.Integer, primary_key=True)
-    lower = db.Column(db.Numeric)
-    upper = db.Column(db.Numeric)
+    lower = db.Column(db.Numeric(10, 2))
+    upper = db.Column(db.Numeric(10, 2))
 
     def __init__(self, lower, upper):
         assert lower < upper
@@ -77,6 +78,40 @@ class Submission(db.Model):
 
     created_at = db.Column(db.DateTime,  default=datetime.utcnow)
     updated_at = db.Column(db.DateTime,  onupdate=datetime.utcnow)
+
+
+    def associate_perk(self, perk):
+        assoc_model = SubmissionToPerk.query.filter(
+            SubmissionToPerk.submission_id == self.id
+        ).filter(
+            SubmissionToPerk.perk_id == perk.id
+        ).first()
+        if not assoc_model:
+            self.perks.append(perk)
+
+        return self
+
+    def associate_role(self, role):
+        assoc_model = SubmissionToRole.query.filter(
+            SubmissionToRole.submission_id == self.id
+        ).filter(
+            SubmissionToRole.role_id == role.id
+        ).first()
+        if not assoc_model:
+            self.roles.append(role)
+
+        return self
+
+    def associate_tech(self, tech):
+        assoc_model = SubmissionToPerk.query.filter(
+            SubmissionToTech.submission_id == self.id
+        ).filter(
+            SubmissionToTech.tech_id == tech.id
+        ).first()
+        if not assoc_model:
+            self.tech.append(tech)
+
+        return self
 
     """ Relations """
     submission_to_pay_range = relationship("SubmissionToPayRange", uselist=False, cascade="all, delete-orphan")

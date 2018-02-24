@@ -8,10 +8,10 @@
         <thead>
         <tr>
             <th>Salary Range</th>
-            <th>Employment Type</th>
-            <th>Perks</th>
             <th>Roles</th>
             <th>Tech</th>
+            <th>Type</th>
+            <th>Perks</th>
             <th>Years Experience</th>
             <th>Education</th>
             <!-- ko if: !$component.simple_view() -->
@@ -21,15 +21,15 @@
         </tr>
         <tbody data-bind="foreach: { data: submissions, as: 'item' }">
         <td data-bind="text: $component.get_pay_range_text(item.pay_range)"></td>
-        <td data-bind="text: item.employment_type.name"></td>
-        <td data-bind="foreach: { data: perks, as: 'perk' }">
-            <span data-bind="text: perk.name"></span><!-- ko if: $index() < item.perks.length - 1 -->,<!-- /ko -->
-        </td>
         <td data-bind="foreach: { data: roles, as: 'role' }">
-            <span data-bind="text: role.name"></span><!-- ko if: $index() < item.roles.length - 1 -->,<!-- /ko -->
+            <span data-bind="text: role.name"></span><!-- ko if: $index() < item.roles.length - 1 -->,<br><!-- /ko -->
         </td>
         <td data-bind="foreach: { data: tech, as: 'tech' }">
             <span data-bind="text: tech.name"></span><!-- ko if: $index() < item.tech.length - 1 -->,<!-- /ko -->
+        </td>
+        <td data-bind="text: item.employment_type.name"></td>
+        <td data-bind="foreach: { data: perks, as: 'perk' }">
+            <span data-bind="text: perk.name"></span><!-- ko if: $index() < item.perks.length - 1 -->,<br><!-- /ko -->
         </td>
         <td data-bind="text: item.years_experience"></td>
         <td data-bind="text: item.education.name"></td>

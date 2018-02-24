@@ -74,7 +74,6 @@ def seed_db(database):
         for v in roles: db.session.add(v)
         for v in educations: db.session.add(v)
         for v in techs: db.session.add(v)
-
         database.session.commit()
 
         from random import randint
@@ -84,16 +83,28 @@ def seed_db(database):
             submission.years_with_current_employer = randint(0, 5)
             submission.number_of_employers = randint(1, 3)
             submission.pay_range = pay_ranges[randint(6, 16)]
-            for j in range(0, 3): submission.perks.append(perks[randint(0, len(perks) - 1)])
-            submission.employment_type = employment_types[randint(0, len(employment_types) - 1)]
-            for j in range(0, 2): submission.roles.append(roles[randint(0, len(roles) - 1)])
-            for j in range(0, 5): submission.tech.append(techs[randint(0, len(techs) - 1)])
-            submission.education = educations[randint(0, len(educations) - 1)]
             db.session.add(submission)
+
+            for j in range(0, 3):
+                submission.associate_perk(perks[randint(0, len(perks) - 1)])
+                database.session.commit()
+
+            submission.employment_type = employment_types[randint(0, len(employment_types) - 1)]
+            for j in range(0, 2):
+                submission.associate_role(roles[randint(0, len(roles) - 1)])
+                database.session.commit()
+
+            for j in range(0, 5):
+                submission.associate_tech(techs[randint(0, len(techs) - 1)])
+                database.session.commit()
+
+            submission.education = educations[randint(0, len(educations) - 1)]
 
         database.session.commit()
 
     except exc.SQLAlchemyError:
+        import traceback
+        print(traceback.format_exc())
         database.session.rollback()
 
 if __name__ == '__main__':

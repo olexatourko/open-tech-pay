@@ -7,7 +7,7 @@ ko.components.register('market-data', {
 
         /* Functions used by template */
         self.get_pay_range_text = function(item) {
-            return 'C$' + number_with_commas(item.lower) + ' - C$' + number_with_commas(item.upper);
+            return '$' + number_with_commas(item.lower) + ' - $' + number_with_commas(item.upper);
         }
     },
     template: { require: 'text!static/knockout-templates/market-data.html' }
@@ -35,7 +35,7 @@ ko.components.register('create-submission', {
 
         /* Functions used by template */
         self.get_pay_range_text = function(item) {
-            return 'C$' + number_with_commas(item.lower) + ' - C$' + number_with_commas(item.upper);
+            return '$' + number_with_commas(item.lower) + ' - $' + number_with_commas(item.upper);
         }
         self.on_submit = function(item, event) {
             var button = event.target;

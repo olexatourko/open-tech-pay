@@ -1,5 +1,6 @@
 <form>
     <h4>Submit</h4>
+    <p>Submit your information here. Once submitted, you will be sent an email to confirm your submission.</p>
     <div class="row">
         <div class="six columns">
             <h5>Current Compensation</h5>
@@ -8,7 +9,7 @@
             optionsText: get_pay_range_text,
             value: selected_pay_range
             "></select>
-            <select name="perks" multiple data-bind="foreach: perks, selectedOptions: selected_perks" style="height: 10em;" >
+            <select class="u-full-width" name="perks" multiple data-bind="foreach: perks, selectedOptions: selected_perks" style="height: 10em;" >
                 <option data-bind="value: id, text: name"></option>
             </select>
         </div>
@@ -18,12 +19,14 @@
                 <option data-bind="value: id, text: name"></option>
             </select>
             <input name="years_with_current_employer" type="number" placeholder="# Years With Employer" data-bind="value: years_with_employer" data-parsley-type="digits">
-            <select name="roles" multiple data-bind="foreach: roles, selectedOptions: selected_roles" style="height: 10em;">
-                <option data-bind="value: id, text: name"></option>
-            </select>
-            <select name="tech" multiple data-bind="foreach: techs, selectedOptions: selected_techs" style="height: 10em;">
-                <option data-bind="value: id, text: name"></option>
-            </select>
+            <div class="row">
+                <select class="six columns" name="roles" multiple data-bind="foreach: roles, selectedOptions: selected_roles" style="height: 10em;">
+                    <option data-bind="value: id, text: name"></option>
+                </select>
+                <select class="six columns" name="tech" multiple data-bind="foreach: techs, selectedOptions: selected_techs" style="height: 10em;">
+                    <option data-bind="value: id, text: name"></option>
+                </select>
+            </div>
         </div>
     </div>
     <div class="row">
