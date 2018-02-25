@@ -1,16 +1,3 @@
-ko.bindingHandlers.on_enter = {
-    init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-        console.log('A');
-        // This will be called when the binding is first applied to an element
-        // Set up any initial state, event handlers, etc. here
-    },
-    update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-        // This will be called once when the binding is first applied to an element,
-        // and again whenever any observables/computeds that are accessed change
-        // Update the DOM element based on the supplied values here.
-    }
-};
-
 ko.components.register('market-data', {
     viewModel: function(params) {
         var self = this;
@@ -71,6 +58,8 @@ ko.components.register('create-submission', {
         self.selected_techs = ko.observableArray();
         self.selected_education = ko.observable();
 
+        self.server_errors = ko.observableArray();
+
         self.unselected_perks = ko.computed(function() {
             arr = ko.observableArray();
             self.perks().forEach(function(value) {
@@ -122,7 +111,7 @@ ko.components.register('create-submission', {
                 'email': self.email(),
                 'years_experience': self.years_experience(),
                 'number_of_employers': self.number_of_employers(),
-                'years_with_employer': self.years_with_employer(),
+                'years_with_current_employer': self.years_with_employer(),
                 'pay_range': self.selected_pay_range().id,
                 'employment_type': self.selected_employment_type().id,
                 'education': self.selected_education().id,
@@ -142,7 +131,11 @@ ko.components.register('create-submission', {
                 cache: false,
                 success: function(data) {
                     if(data.status == 'ok') {
+                        self.server_errors.removeAll();
                         alert('Submission successful')
+                    } else if(data.status == 'error') {
+                        self.server_errors.removeAll();
+                        ko.utils.arrayPushAll(self.server_errors, data.errors);
                     }
                 }
             });

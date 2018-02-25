@@ -16,4 +16,3 @@ def fetch_or_create_role(role):
         return role
 
     return None # Should throw an exception instead
-

@@ -125,4 +125,12 @@
         <p>Your email is only used for verification purposes. It will <strong>never</strong> be shared publicly or with third parties.</p>
         <button class="button-primary" data-bind="click: on_submit">Submit</button>
     </div>
+    <!-- ko if: server_errors().length > 0 -->
+    <div class="row server-errors">
+        <h6>Encountered Errors:</h6>
+        <ul data-bind="foreach: { data: server_errors, as: 'error' }">
+            <li class="error" data-bind="text: error"></li>
+        </ul>
+    </div>
+    <!-- /ko -->
 </form>

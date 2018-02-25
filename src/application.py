@@ -63,8 +63,22 @@ def fetch_submissions():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    print(json.loads(request.form['payload']))
+    payload = json.loads(request.form['payload'])
 
-    return jsonify({
-        'status': 'ok'
-    })
+
+    submission = SubmissionSchema(only=[
+        'email',
+        'years_experience',
+        'years_with_current_employer',
+        'number_of_employers'
+    ]).load(payload)
+
+    if len(submission.errors) == 0:
+        return jsonify({
+            'status': 'ok'
+        })
+    else:
+        return jsonify({
+            'status': 'error',
+            'errors': [value for key, value in submission.errors.items()]
+        })

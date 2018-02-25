@@ -117,3 +117,12 @@ footer {
 .parsley-errors-list li {
     list-style: none;
 }
+
+/* Server errors */
+.server-errors {
+    padding: 1em;
+    background: #ffbbb3;
+}
+.server-errors ul { margin-bottom: 0; }
+.server-errors ul li { padding-left: 1em; }
+.server-errors ul li:last-of-type { margin-bottom: 0; }

@@ -1,5 +1,5 @@
 from models import *
-from marshmallow import Schema, fields, post_load
+from marshmallow import Schema, fields, post_load, validates, validates_schema, ValidationError
 
 
 def dump_dict_values(class_instance, raw_dict):
@@ -9,13 +9,19 @@ def dump_dict_values(class_instance, raw_dict):
 
 class PayRangeSchema(Schema):
     id = fields.Integer()
-    lower = fields.Number()
-    upper = fields.Number()
+    lower = fields.Number(required=True)
+    upper = fields.Number(required=True)
+
+    @validates_schema(skip_on_field_errors=True)
+    def validate_object(self, data):
+        if not data['lower'] < data['upper']:
+            raise ValidationError('lower should be less than upper', ['lower', 'upper'])
+
 
 
 class PerkSchema(Schema):
     id = fields.Integer()
-    name = fields.String()
+    name = fields.String(required=True)
     description = fields.String()
     listed = fields.Boolean()
 
@@ -28,12 +34,12 @@ class PerkSchema(Schema):
 
 class EmploymentTypeSchema(Schema):
     id = fields.Integer()
-    name = fields.String()
+    name = fields.String(required=True)
 
 
 class RoleSchema(Schema):
     id = fields.Integer()
-    name = fields.String()
+    name = fields.String(required=True)
     listed = fields.Boolean()
 
     @post_load
@@ -45,12 +51,12 @@ class RoleSchema(Schema):
 
 class EducationSchema(Schema):
     id = fields.Integer()
-    name = fields.String()
+    name = fields.String(required=True)
 
 
 class TechSchema(Schema):
     id = fields.Integer()
-    name = fields.String()
+    name = fields.String(required=True)
 
     @post_load
     def make_mode(self, data):
@@ -59,14 +65,17 @@ class TechSchema(Schema):
         return model
 
 
-class EmailDomainSchema(Schema):
+class EmployerSchema(Schema):
     id = fields.Integer()
-    domain = fields.String()
+    name = fields.String(required=True)
+    email_domain = fields.String(required=True)
+    url = fields.String(required=True)
 
 
 class SubmissionSchema(Schema):
     id = fields.Integer()
-    years_experience = fields.Integer()
+    email = fields.Email(required=True)
+    years_experience = fields.Integer(required=True)
     number_of_employers = fields.Integer()
     years_with_current_employer = fields.Integer()
 
@@ -76,3 +85,12 @@ class SubmissionSchema(Schema):
     roles = fields.Nested('RoleSchema', many=True)
     education = fields.Nested('EducationSchema')
     tech = fields.Nested('TechSchema', many=True)
+
+    @validates_schema(skip_on_field_errors=True)
+    def validate_object(self, data):
+        if not ('years_with_current_employer' in data and 'years_experience') in data:
+            return
+
+        if not data['years_with_current_employer'] <= data['years_experience']:
+            raise ValidationError('Years with current employer must be <= total years of experience',
+                  ['years_with_current_employer', 'years_experience'])

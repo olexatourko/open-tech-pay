@@ -24,14 +24,6 @@ class TestModelMappings(unittest.TestCase):
         assert role.name == role_dict['name']
 
         role_dict = {
-            'id': 4,
-        }
-        schema = RoleSchema()
-        role = schema.load(role_dict).data
-        assert role.id == role_dict['id']
-        assert not role.name
-
-        role_dict = {
             'name': 'Role 3',
         }
         schema = RoleSchema()
