@@ -126,3 +126,12 @@ footer {
 .server-errors ul { margin-bottom: 0; }
 .server-errors ul li { padding-left: 1em; }
 .server-errors ul li:last-of-type { margin-bottom: 0; }
+
+/* Submission success notification */
+.submission-success {
+    padding: 1em;
+    background: #cbff9f;
+}
+.submission-success p:last-of-type {
+    margin-bottom: 0;
+}

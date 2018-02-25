@@ -12,9 +12,17 @@ var number_of_employers = ko.observable();
 require(['static/components'], function() {
     function page_view_model() {
         var self = this;
+        self.submitted = ko.observable(false);
+
         // http://www.knockmeout.net/2012/05/using-ko-native-pubsub.html
         // http://knockoutjs.com/documentation/fn.html
         self.message_bus = new ko.subscribable();
+
+
+        / *Listen to internal events */
+        self.message_bus.subscribe(function(perk) {
+            self.submitted(true);
+        }, {}, 'submission_success')
     }
 
     /* Hack to prevent Return key from submitting the form */

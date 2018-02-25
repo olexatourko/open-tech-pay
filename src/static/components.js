@@ -132,15 +132,13 @@ ko.components.register('create-submission', {
                 success: function(data) {
                     if(data.status == 'ok') {
                         self.server_errors.removeAll();
-                        alert('Submission successful')
+                        self.message_bus.notifySubscribers({}, 'submission_success');
                     } else if(data.status == 'error') {
                         self.server_errors.removeAll();
                         ko.utils.arrayPushAll(self.server_errors, data.errors);
                     }
                 }
             });
-
-            self.message_bus.notifySubscribers({}, 'submission_created');
         };
 
         /* Check if the array has an object by case-insensitive name */

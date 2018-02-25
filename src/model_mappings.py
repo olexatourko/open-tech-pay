@@ -26,7 +26,7 @@ class PerkSchema(Schema):
     listed = fields.Boolean()
 
     @post_load
-    def make_mode(self, data):
+    def make_model(self, data):
         model = Perk()
         dump_dict_values(model, data)
         return model
@@ -43,7 +43,7 @@ class RoleSchema(Schema):
     listed = fields.Boolean()
 
     @post_load
-    def make_mode(self, data):
+    def make_model(self, data):
         model = Role()
         dump_dict_values(model, data)
         return model
@@ -59,7 +59,7 @@ class TechSchema(Schema):
     name = fields.String(required=True)
 
     @post_load
-    def make_mode(self, data):
+    def make_model(self, data):
         model = Tech()
         dump_dict_values(model, data)
         return model
@@ -86,6 +86,12 @@ class SubmissionSchema(Schema):
     education = fields.Nested('EducationSchema')
     tech = fields.Nested('TechSchema', many=True)
 
+    @post_load
+    def make_model(self, data):
+        model = Submission()
+        dump_dict_values(model, data)
+        return model
+
     @validates_schema(skip_on_field_errors=True)
     def validate_object(self, data):
         if not ('years_with_current_employer' in data and 'years_experience') in data:
@@ -94,3 +100,5 @@ class SubmissionSchema(Schema):
         if not data['years_with_current_employer'] <= data['years_experience']:
             raise ValidationError('Years with current employer must be <= total years of experience',
                   ['years_with_current_employer', 'years_experience'])
+
+
