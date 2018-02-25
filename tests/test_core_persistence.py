@@ -5,8 +5,8 @@ import unittest
 from src import app, db
 from src.models import *
 
-class TestCorePersistence(unittest.TestCase):
 
+class TestCorePersistence(unittest.TestCase):
 
     def setUp(self):
         app.config.from_object('tests.config')
@@ -30,9 +30,9 @@ class TestCorePersistence(unittest.TestCase):
             db.session.add(perk)
 
         self.employment_types = [
-            EmploymentType('Full-Time', listed=True),
-            EmploymentType('Part-Time', listed=True),
-            EmploymentType('Independent Contractor', listed=True)
+            EmploymentType('Full-Time'),
+            EmploymentType('Part-Time'),
+            EmploymentType('Independent Contractor')
         ]
         for employment_type in self.employment_types:
             db.session.add(employment_type)

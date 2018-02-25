@@ -15,6 +15,7 @@ class PayRange(db.Model):
         self.lower = lower
         self.upper = upper
 
+
 class Perk(db.Model):
     __tablename__ = 'perk'
     id = db.Column(db.Integer, primary_key=True)
@@ -22,10 +23,11 @@ class Perk(db.Model):
     description = db.Column(db.Text)
     listed = db.Column('listed', db.Boolean)
 
-    def __init__(self, name, description=None, listed=False):
+    def __init__(self, name=None, description=None, listed=False):
         self.name = name
         self.description = description
         self.listed = listed
+
 
 class EmploymentType(db.Model):
     __tablename__ = 'employment_type'
@@ -35,15 +37,17 @@ class EmploymentType(db.Model):
     def __init__(self, name):
         self.name = name
 
+
 class Role(db.Model):
     __tablename__ = 'role'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
     listed = db.Column('listed', db.Boolean)
 
-    def __init__(self, name, listed=False):
+    def __init__(self, name=None, listed=False):
         self.name = name
         self.listed = listed
+
 
 class Education(db.Model):
     __tablename__ = 'education'
@@ -53,15 +57,17 @@ class Education(db.Model):
     def __init__(self, name):
         self.name = name
 
+
 class Tech(db.Model):
     __tablename__ = 'tech'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
     listed = db.Column('listed', db.Boolean)
 
-    def __init__(self, name, listed=False):
+    def __init__(self, name=None, listed=False):
         self.name = name
         self.listed = listed
+
 
 class Submission(db.Model):
     __tablename__ = 'submission'
