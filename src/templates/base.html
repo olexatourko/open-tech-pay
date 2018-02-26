@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+        {% if title is defined %}
+            <title>OpenPay London - {{ title }}</title>
+        {% else %}
+            <title>OpenPay London - Tech Pay Sharing</title>
+        {% endif %}
+        <script src="{{ url_for('static', filename='packages/knockout/build/output/knockout-latest.js') }}"></script>
+        <script src="{{ url_for('static', filename='packages/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='packages/parsleyjs/dist/parsley.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='packages/requirejs/require.js') }}"></script>
+        <script>
+        require.config({
+            paths: {
+                'text': '{{ url_for('static', filename='packages/requirejs-text/text') }}'
+            },
+            urlArgs: "bust=" + (new Date()).getTime() // Disable caching
+        });
+        </script>
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.ico') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='packages/skeleton-css/css/normalize.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='packages/skeleton-css/css/skeleton.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}"/>
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <header>
+            <div class="container">
+                <h1>$_OpenPay London </h1>
+            </div>
+        </header>
+        {% block content %}{% endblock %}
+    </body>
+        <footer>
+            <div class="container">
+                <a href="https://github.com/olestourko/open-pay">View it on Github</a>
+            </div>
+            <script src="{{ url_for('static', filename='application.js') }}"></script>
+        </footer>
+    </body>
+</html>

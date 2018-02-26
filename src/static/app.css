@@ -28,6 +28,7 @@ h1, h2, h3, h4, h5 {
 
 header {
     background: url('header.jpg') no-repeat;
+    background-size: cover;
     background-position: 0 -100px;
     margin-bottom: 2em;
 }

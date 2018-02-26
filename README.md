@@ -33,6 +33,7 @@ pip install psycopg2-binary # using postgreSQL instead of MySQL
 pip install sqlalchemy
 pip install flask-sqlalchemy
 pip install flask-migrate
+pip install flask-mail
 ```
 
 - [Flask Integration](http://flask.pocoo.org/docs/0.12/quickstart/)

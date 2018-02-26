@@ -163,6 +163,15 @@ def submit():
     db.session.add(submission)
     db.session.commit()
 
+    """ Send confirmation email """
+    # https://pythonhosted.org/flask-mail/
+    from flask_mail import Mail, Message
+    mail = Mail(app)
+    msg = Message("OpenPay London Submission Confirmation",
+                  sender="noreply@openpay-placeholder.com",
+                  recipients=[submission.email])
+    mail.send(msg)
+
     return jsonify({
         'status': 'ok'
     })
