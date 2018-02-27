@@ -74,6 +74,8 @@ section#submission {
     padding: 1em 0;
 }
 
+#submission label .text, #submission h6 { font-size: 10pt; }
+
 .tag {
     background: #efefef;
     float: left;
