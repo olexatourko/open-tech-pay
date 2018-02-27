@@ -6,7 +6,7 @@ from src import app, db
 from src.models import *
 from src.model_mappings import *
 from src.high_level_methods import *
-
+from src.seed import seed_db
 
 class TestHighLevelMethods(unittest.TestCase):
 
@@ -15,14 +15,29 @@ class TestHighLevelMethods(unittest.TestCase):
         db.session.close()
         db.drop_all()  # http://docs.sqlalchemy.org/en/latest/orm/extensions/declarative/basic_use.html
         db.create_all()
+        seed_db(db)
+        self.submissions = Submission.query.all()
 
-        self.roles = [
-            Role('Web: Backend', listed=True),
-            Role('Web: Frontend', listed=True),
-            Role('Web: Full-Stack', listed=True)
-        ]
-        for role in self.roles: db.session.add(role)
+    def test_check_email(self):
+        self.submissions[0].email = 'test1@company1.com'
+        self.submissions[0].confirmed = True
+        self.submissions[1].email = 'test2@company1.com'
+        self.submissions[1].confirmed = False
+        self.submissions[2].email = 'test@unlisted_company.com'
+        self.submissions[2].confirmed = False
         db.session.commit()
+
+        check_1 = check_email('test1@company1.com')
+        assert check_1['in_use'] is True
+        assert check_1['whitelisted'] is True
+
+        check_2 = check_email('test2@company1.com')
+        assert check_2['in_use'] is False
+        assert check_2['whitelisted'] is True
+
+        check_3 = check_email('test@unlisted_company.com')
+        assert check_3['in_use'] is False
+        assert check_3['whitelisted'] is False
 
 if __name__ == '__main__':
     unittest.main()

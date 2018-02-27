@@ -3,7 +3,8 @@ from flask_migrate import Migrate
 from src import app, db
 from src.models import *
 from src.model_mappings import *
-from src.high_level_methods import get_confirmation_code, confirm_submission
+from src.request_schemas import *
+import high_level_methods as hlm
 import json
 
 migrate = Migrate(app, db)
@@ -12,47 +13,24 @@ migrate = Migrate(app, db)
 def index():
     return render_template('app.html')
 
-@app.route('/fetch_pay_ranges')
-def fetch_pay_ranges():
-    pay_ranges = PayRange.query.all()
-    schema = PayRangeSchema()
-    result = [schema.dump(pay_range).data for pay_range in pay_ranges]
-    return jsonify(result)
-
-@app.route('/fetch_perks')
-def fetch_perk():
+@app.route('/fetch_fields')
+def fetch_fields():
     perks = Perk.query.filter(Perk.listed).all()
-    schema = PerkSchema()
-    result = [schema.dump(perk).data for perk in perks]
-    return jsonify(result)
-
-@app.route('/fetch_employment_types')
-def fetch_employment_type():
+    pay_ranges = PayRange.query.all()
     employment_types = EmploymentType.query.all()
-    schema = EmploymentTypeSchema()
-    result = [schema.dump(employment_type).data for employment_type in employment_types]
-    return jsonify(result)
-
-@app.route('/fetch_roles')
-def fetch_roles():
     roles = Role.query.filter(Role.listed).all()
-    schema = RoleSchema()
-    result = [schema.dump(role).data for role in roles]
-    return jsonify(result)
-
-@app.route('/fetch_educations')
-def fetch_educations():
     educations = Education.query.all()
-    schema = EducationSchema()
-    result = [schema.dump(education).data for education in educations]
-    return jsonify(result)
-
-@app.route('/fetch_techs')
-def fetch_techs():
     techs = Tech.query.filter(Tech.listed).all()
-    schema = TechSchema()
-    result = [schema.dump(tech).data for tech in techs]
-    return jsonify(result)
+
+    return jsonify({
+        'pay_ranges': [PayRangeSchema().dump(model).data for model in pay_ranges],
+        'perks': [PerkSchema().dump(model).data for model in perks],
+        'employment_types': [EmploymentTypeSchema().dump(model).data for model in employment_types],
+        'roles': [RoleSchema().dump(model).data for model in roles],
+        'educations': [EducationSchema().dump(model).data for model in educations],
+        'techs': [TechSchema().dump(model).data for model in techs],
+    })
+
 
 @app.route('/fetch_submissions')
 def fetch_submissions():
@@ -60,6 +38,21 @@ def fetch_submissions():
     schema = SubmissionSchema()
     result = [schema.dump(submission).data for submission in submissions]
     return jsonify(result)
+
+
+@app.route('/check_email')
+def check_email():
+    request_schema = CheckEmailSchema().load(request.args)
+    if len(request_schema.errors) > 0:
+        return jsonify({
+            'status': 'error'
+        })
+
+    result = hlm.check_email(request_schema.data['email'])
+    result.pop('in_use', None) # Otherwise, it would be very easy to check if an employee/coworker has submitted.
+    result['status'] = 'ok'
+    return jsonify(result)
+
 
 
 @app.route('/submit', methods=['POST'])
@@ -183,7 +176,7 @@ def submit():
     submission.roles = roles
     submission.tech = techs
     submission.confirmed = False
-    submission.confirmation_code = get_confirmation_code()
+    submission.confirmation_code = hlm.get_confirmation_code()
 
     db.session.add(submission)
     db.session.commit()
@@ -207,6 +200,6 @@ def submit():
 @app.route('/confirm')
 def confirm():
     if 'confirmation_code' in request.args:
-        submission = confirm_submission(request.args['confirmation_code'])
+        submission = hlm.confirm_submission(request.args['confirmation_code'])
 
     return render_template('confirm.html', succeeded=(submission is not None))

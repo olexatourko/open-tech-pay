@@ -75,6 +75,10 @@ section#submission {
 }
 
 #submission label .text, #submission h6 { font-size: 10pt; }
+#submission label .text.email-status {
+    margin: -10px 0 10px 0;
+    font-weight: bold;
+}
 
 .tag {
     background: #efefef;

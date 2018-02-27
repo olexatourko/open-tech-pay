@@ -101,11 +101,14 @@ def seed_db(database):
 
         database.session.commit()
 
+
         employers = [
             Employer(name='Company 1', email_domain='company1.com', url='company1.com'),
             Employer(name='Company 2', email_domain='company2.com', url='company2.com'),
             Employer(name='Company 3', email_domain='company3.com', url='company3.com')
         ]
+        for v in employers: database.session.add(v)
+        database.session.commit()
 
     except exc.SQLAlchemyError:
         import traceback

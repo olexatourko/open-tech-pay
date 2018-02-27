@@ -60,6 +60,23 @@ ko.components.register('create-submission', {
 
         self.server_errors = ko.observableArray();
 
+        self.email_focused = ko.observable();
+        self.last_email_status = ko.observable('');
+
+        self.email_focused.subscribe(function(newValue) {
+           if (!newValue && self.email()) {
+                jQuery.getJSON('check_email', { 'email': self.email() }, function(data) {
+                    if (data.status == 'error') {
+                        self.last_email_status('error');
+                    } else if (data.whitelisted) {
+                        self.last_email_status('whitelisted');
+                    } else {
+                        self.last_email_status('');
+                    }
+                });
+           }
+        });
+
         self.unselected_perks = ko.computed(function() {
             arr = ko.observableArray();
             self.perks().forEach(function(value) {

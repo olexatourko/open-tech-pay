@@ -39,12 +39,7 @@ require(['static/components'], function() {
         ko.applyBindings(view_model);
 
         fetch_submissions();
-        fetch_pay_ranges();
-        fetch_employment_types();
-        fetch_educations();
-        fetch_perks();
-        fetch_roles();
-        fetch_techs();
+        fetch_fields();
     });
 });
 
@@ -55,44 +50,20 @@ function fetch_submissions() {
     });
 }
 
-function fetch_pay_ranges() {
+function fetch_fields() {
     pay_ranges.removeAll();
-    jQuery.getJSON('fetch_pay_ranges', function(data) {
-        ko.utils.arrayPushAll(pay_ranges, data);
-    });
-}
-
-function fetch_employment_types() {
     employment_types.removeAll();
-    jQuery.getJSON('fetch_employment_types', function(data) {
-        ko.utils.arrayPushAll(employment_types, data);
-    });
-}
-
-function fetch_educations() {
     educations.removeAll();
-    jQuery.getJSON('fetch_educations', function(data) {
-        ko.utils.arrayPushAll(educations, data);
-    });
-}
-
-function fetch_perks() {
     perks.removeAll();
-    jQuery.getJSON('fetch_perks', function(data) {
-        ko.utils.arrayPushAll(perks, data);
-    });
-}
-
-function fetch_roles() {
     roles.removeAll();
-    jQuery.getJSON('fetch_roles', function(data) {
-        ko.utils.arrayPushAll(roles, data);
-    });
-}
-
-function fetch_techs() {
     techs.removeAll();
-    jQuery.getJSON('fetch_techs', function(data) {
-        ko.utils.arrayPushAll(techs, data);
+
+    jQuery.getJSON('fetch_fields', function(data) {
+        ko.utils.arrayPushAll(pay_ranges, data['pay_ranges']);
+        ko.utils.arrayPushAll(employment_types, data['employment_types']);
+        ko.utils.arrayPushAll(educations, data['educations']);
+        ko.utils.arrayPushAll(perks, data['perks']);
+        ko.utils.arrayPushAll(roles, data['roles']);
+        ko.utils.arrayPushAll(techs, data['techs']);
     });
 }

@@ -133,7 +133,7 @@ class Submission(db.Model):
     tech = association_proxy('submission_to_tech', 'tech')
 
 class Employer(db.Model):
-    __tablename__ = 'employer,'
+    __tablename__ = 'employer'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
     email_domain = db.Column(db.Text)
