@@ -1,0 +1,12 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    {% if succeeded %}
+        <p><strong>Confirmation successful!</strong></p>
+        <p>Thank you for helping create a market that is better informed, more competitive, and fairer.</p>
+    {% else %}
+        <p>Invalid confirmation code</p>
+    {% endif %}
+</div>
+{% endblock %}

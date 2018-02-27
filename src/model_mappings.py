@@ -78,7 +78,6 @@ class SubmissionSchema(Schema):
     years_experience = fields.Integer(required=True)
     number_of_employers = fields.Integer()
     years_with_current_employer = fields.Integer()
-
     pay_range = fields.Nested('PayRangeSchema')
     perks = fields.Nested('PerkSchema', many=True)
     employment_type = fields.Nested('EmploymentTypeSchema')
@@ -88,7 +87,11 @@ class SubmissionSchema(Schema):
 
     @post_load
     def make_model(self, data):
-        model = Submission()
+        if 'instance' in data:
+            model = data['instance']
+        else:
+            model = Submission()
+
         dump_dict_values(model, data)
         return model
 

@@ -1,8 +1,9 @@
-from flask import render_template, jsonify, request
+from flask import render_template, jsonify, request, url_for
 from flask_migrate import Migrate
 from src import app, db
 from src.models import *
 from src.model_mappings import *
+from src.high_level_methods import get_confirmation_code, confirm_submission
 import json
 
 migrate = Migrate(app, db)
@@ -55,9 +56,9 @@ def fetch_techs():
 
 @app.route('/fetch_submissions')
 def fetch_submissions():
-    submisions = Submission.query.filter(Submission.verified).all()
+    submissions = Submission.query.filter(Submission.confirmed).all()
     schema = SubmissionSchema()
-    result = [schema.dump(submission).data for submission in submisions]
+    result = [schema.dump(submission).data for submission in submissions]
     return jsonify(result)
 
 
@@ -80,18 +81,41 @@ def submit():
             return malformed_request_error
 
     """ Try creating the submission """
-    submission = SubmissionSchema(only=[
+    """ First, try validating"""
+    submission_schema = SubmissionSchema(only=[
         'email',
         'years_experience',
         'years_with_current_employer',
         'number_of_employers'
-    ]).load(payload)
-    if len(submission.errors) > 0:
-        print submission.errors
+    ])
+    errors = submission_schema.validate(payload)
+    if len(errors) > 0:
         return jsonify({
             'status': 'error',
-            'errors': [value for key, value in submission.errors.items()]
+            'errors': [value for key, value in errors.items()]
         })
+    """ Overwriting existing unconfirmed submission, otherwise create a new one """
+    submission = Submission.query.filter(
+        Submission.email == payload['email']
+    ).first()
+    if submission and submission.confirmed:
+        return jsonify({
+            'status': 'error',
+            'errors': ['Submission for this email already exists']
+        })
+    elif submission:
+        # This is quite hacky. Notice the "instance" key in the passed param.
+        submission_schema = SubmissionSchema(only=[
+            'instance',
+            'email',
+            'years_experience',
+            'years_with_current_employer',
+            'number_of_employers'
+        ])
+        payload['instance'] = submission
+        submission = submission_schema.load(payload).data
+    else:
+        submission = submission_schema.load(payload).data
 
     """ Load PayRange, Eduction, EmploymentType """
     pay_range = PayRange.query.filter(PayRange.id == payload['pay_range']).first()
@@ -152,26 +176,37 @@ def submit():
             'errors': ['No roles, perks, or technologies selected']
         })
 
-    submission = submission.data
     submission.pay_range = pay_range
     submission.employment_type = employment_type
     submission.education = education
     submission.perks = perks
     submission.roles = roles
     submission.tech = techs
+    submission.confirmed = False
+    submission.confirmation_code = get_confirmation_code()
 
     db.session.add(submission)
     db.session.commit()
 
+    print 'Created submission {} with confirmation code {}'.format(submission.id, submission.confirmation_code)
+    print url_for('confirm', _external=True, confirmation_code=submission.confirmation_code)
+
     """ Send confirmation email """
     # https://pythonhosted.org/flask-mail/
-    from flask_mail import Mail, Message
-    mail = Mail(app)
-    msg = Message("OpenPay London Submission Confirmation",
-                  sender="noreply@openpay-placeholder.com",
-                  recipients=[submission.email])
-    mail.send(msg)
+    # from flask_mail import Mail, Message
+    # mail = Mail(app)
+    # msg = Message("OpenPay London Submission Confirmation",
+    #               sender="noreply@openpay-placeholder.com",
+    #               recipients=[submission.email])
+    # mail.send(msg)
 
     return jsonify({
         'status': 'ok'
     })
+
+@app.route('/confirm')
+def confirm():
+    if 'confirmation_code' in request.args:
+        submission = confirm_submission(request.args['confirmation_code'])
+
+    return render_template('confirm.html', succeeded=(submission is not None))
