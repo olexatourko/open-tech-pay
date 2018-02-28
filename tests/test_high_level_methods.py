@@ -39,5 +39,13 @@ class TestHighLevelMethods(unittest.TestCase):
         assert check_3['in_use'] is False
         assert check_3['whitelisted'] is False
 
+    def test_confirm_submission(self):
+        self.submissions[0].confirmed = False
+        self.submissions[0].confirmation_code = '123abc'
+
+        assert confirm_submission('456def') is None
+        assert confirm_submission('123abc') is not None
+        assert confirm_submission('123abc') is None
+
 if __name__ == '__main__':
     unittest.main()

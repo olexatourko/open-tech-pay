@@ -197,9 +197,12 @@ def submit():
         'status': 'ok'
     })
 
+
 @app.route('/confirm')
 def confirm():
-    if 'confirmation_code' in request.args:
-        submission = hlm.confirm_submission(request.args['confirmation_code'])
+    request_schema = ConfirmSchema().load(request.args)
+    succeeded = False
+    if not request_schema.errors:
+        succeeded = hlm.confirm_submission(request.args['confirmation_code']) is not None
 
-    return render_template('confirm.html', succeeded=(submission is not None))
+    return render_template('confirm.html', succeeded=succeeded)

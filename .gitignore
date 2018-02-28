@@ -6,4 +6,5 @@ tests/config.py
 migrations
 node_modules
 src/static/packages
+node_modules
 yarn.lock
