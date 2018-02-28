@@ -1,0 +1,147 @@
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea, select {
+    border-radius: 0;
+}
+
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+    border-radius: 0;
+}
+
+label {
+    display: inline-block;
+    font-weight: normal;
+}
+
+h1, h2, h3, h4, h5 { font-family: 'Courier', monospace; }
+
+/* ----------------------------- */
+
+.container { max-width: 1200px; }
+
+header {
+    background: url('../header.jpg') no-repeat;
+    background-size: cover;
+    background-position: 0 -100px;
+    margin-bottom: 2em;
+
+    .container {
+        padding: 1em 0;
+
+        h1 {
+            margin: 0;
+            font-family: 'Courier', monospace;
+            color: rgba(255, 255, 255, 0.9);
+        }
+    }
+}
+
+th { vertical-align: bottom; }
+td { vertical-align: top; }
+th, td {
+    padding: 5px;
+}
+
+/* Market Data */
+.market-data {
+    font-size: 10pt;
+
+    label { float: right; }
+    thead th:nth-of-type(1) { min-width: 150px; }
+    thead th:nth-of-type(2) { min-width: 150px; }
+    thead th:nth-of-type(3) { min-width: 100px; }
+    thead th:nth-of-type(4) { min-width: 120px; }
+ }
+
+/* Submissions */
+#submission {
+    padding: 1em 0;
+}
+
+#submission label .text, #submission h6 { font-size: 10pt; }
+#submission label .text.email-status {
+    margin: -10px 0 10px 0;
+    font-weight: bold;
+}
+
+.tag {
+    background: #efefef;
+    float: left;
+    margin: 0 3px 3px 0;
+    padding-right: 5px;
+
+    &:hover { cursor: pointer; }
+    .action {
+        display: inline-block;
+        height: 100%;
+        padding: 0 0 0 5px;
+        border: 0;
+        margin: 0;
+    }
+    &.custom:hover { cursor: default; }
+    &.custom input {
+        margin: 0;
+        border: none;
+        background: none;
+    }
+    &.custom input:focus { outline: none; }
+}
+
+.perks-select, .role-select, .tech-select {
+    h6 { margin-bottom: 0; }
+    hr { margin: 1em 0; }
+}
+
+.selected-roles, .selected-techs, .selected-perks {
+    .tag { background: #cbff9f; }
+}
+
+.input-container > * {
+    vertical-align: top;
+}
+
+footer {
+    padding: 1em 0;
+    background: #f0f0f0;
+}
+
+/* Parsley */
+.parsley-errors-list {
+    color: #ff1c00;
+
+    li {
+        list-style: none;
+    }
+}
+
+/* Server errors */
+.server-errors {
+    padding: 1em;
+    background: #ffbbb3;
+
+    ul {
+        margin-bottom: 0;
+
+        li { padding-left: 1em; }
+        li:last-of-type { margin-bottom: 0; }
+    }
+}
+
+/* Submission success notification */
+.submission-success {
+    padding: 1em;
+    background: #cbff9f;
+
+    p:last-of-type {
+        margin-bottom: 0;
+    }
+}

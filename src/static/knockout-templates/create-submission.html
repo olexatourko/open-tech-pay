@@ -16,7 +16,7 @@
         </label>
         <label>
             <div class="text">Years with current employer</div>
-            <input name="years_with_current_employer" type="number" data-bind="value: years_with_employer" data-parsley-type="digits" min="0">
+            <input name="years_with_current_employer" type="number" data-bind="value: years_with_employer" data-parsley-type="digits" min="0" required placeholder="Required">
         </label>
         <div class="row">
             <div class="role-select six columns">
@@ -125,19 +125,19 @@
         </label>
         <label>
             <div class="text">Years of work experience</div>
-            <input name="years_experience" type="number" data-bind="value: years_experience" data-parsley-type="digits" min="0" required>
+            <input name="years_experience" type="number" data-bind="value: years_experience" data-parsley-type="digits" min="0" required required placeholder="Required">
         </label>
         </label>
         <label>
             <div class="text">Number of employers thus far</div>
-            <input name="number_of_employers" type="number" data-bind="value: number_of_employers" data-parsley-type="digits" min="1">
+            <input name="number_of_employers" type="number" data-bind="value: number_of_employers" data-parsley-type="digits" min="1" required placeholder="Optional">
         </label>
     </div>
     <hr>
     <div class="row input-container">
         <label>
             <div class="text">Email</div>
-            <input name="email" type="email" data-bind="value: email, hasFocus: email_focused" data-parsley-type="email" required>
+            <input name="email" type="email" data-bind="value: email, hasFocus: email_focused" data-parsley-type="email" required placeholder="Required">
             <!-- ko if: last_email_status() == 'whitelisted' -->
                 <div class="text email-status">This email is whitelisted and will be marked as verified!</div>
             <!-- /ko -->

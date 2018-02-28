@@ -67,6 +67,11 @@ Seed the db with clients and product ares:
 python src/seed.py
 ```
 
+**Compile Sass**
+```
+sass --watch sass:src/static/stylesheets
+```
+
 **Start the Flask server**
 
 From the `bc-sample` directory:

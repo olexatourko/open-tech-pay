@@ -62,7 +62,6 @@ ko.components.register('create-submission', {
 
         self.email_focused = ko.observable();
         self.last_email_status = ko.observable('');
-
         self.email_focused.subscribe(function(newValue) {
            if (!newValue && self.email()) {
                 jQuery.getJSON('check_email', { 'email': self.email() }, function(data) {

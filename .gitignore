@@ -7,3 +7,4 @@ migrations
 node_modules
 src/static/packages
 yarn.lock
+.sass-cache
