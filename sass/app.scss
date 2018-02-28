@@ -1,3 +1,15 @@
+* { box-sizing: border-box; }
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+body {
+    position: relative;
+    margin: 0;
+    padding-bottom: 6rem;
+    min-height: 100%;
+}
+
 input[type="email"],
 input[type="number"],
 input[type="search"],
@@ -25,6 +37,10 @@ label {
 h1, h2, h3, h4, h5 { font-family: 'Courier', monospace; }
 
 /* ----------------------------- */
+
+$success_green: #cbff9f;
+$error_red: #ffbbb3;
+$grey_1: #efefef;
 
 .container { max-width: 1200px; }
 
@@ -73,8 +89,11 @@ th, td {
     font-weight: bold;
 }
 
+.tags-section {
+    margin-bottom: 2em;
+}
 .tag {
-    background: #efefef;
+    background: $grey_1;
     float: left;
     margin: 0 3px 3px 0;
     padding-right: 5px;
@@ -102,16 +121,11 @@ th, td {
 }
 
 .selected-roles, .selected-techs, .selected-perks {
-    .tag { background: #cbff9f; }
+    .tag { background: $success-green; }
 }
 
 .input-container > * {
     vertical-align: top;
-}
-
-footer {
-    padding: 1em 0;
-    background: #f0f0f0;
 }
 
 /* Parsley */
@@ -126,7 +140,7 @@ footer {
 /* Server errors */
 .server-errors {
     padding: 1em;
-    background: #ffbbb3;
+    background: $error_red;
 
     ul {
         margin-bottom: 0;
@@ -139,9 +153,20 @@ footer {
 /* Submission success notification */
 .submission-success {
     padding: 1em;
-    background: #cbff9f;
+    background: $success_green;
 
     p:last-of-type {
         margin-bottom: 0;
     }
+}
+
+footer {
+    padding: 1em 0;
+    background: #f0f0f0;
+    height: 55px;
+
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
