@@ -27,8 +27,8 @@
         <td data-bind="foreach: { data: roles, as: 'role' }">
             <span data-bind="text: role.name"></span><!-- ko if: $index() < item.roles.length - 1 -->,<br><!-- /ko -->
         </td>
-        <td data-bind="foreach: { data: tech, as: 'tech' }">
-            <span data-bind="text: tech.name"></span><!-- ko if: $index() < item.tech.length - 1 -->,<!-- /ko -->
+        <td data-bind="foreach: { data: techs, as: 'tech' }">
+            <span data-bind="text: tech.name"></span><!-- ko if: $index() < item.techs.length - 1 -->,<!-- /ko -->
         </td>
         <td data-bind="text: item.employment_type.name"></td>
         <td data-bind="foreach: { data: perks, as: 'perk' }">

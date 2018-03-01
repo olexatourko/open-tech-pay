@@ -130,7 +130,7 @@ class Submission(db.Model):
     employment_type = association_proxy('submission_to_employment_type', 'employment_type')
     roles = association_proxy('submission_to_role', 'role')
     education = association_proxy('submission_to_education', 'education')
-    tech = association_proxy('submission_to_tech', 'tech')
+    techs = association_proxy('submission_to_tech', 'tech')
 
 class Employer(db.Model):
     __tablename__ = 'employer'
