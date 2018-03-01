@@ -83,7 +83,7 @@ class SubmissionSchema(Schema):
     employment_type = fields.Nested('EmploymentTypeSchema')
     roles = fields.Nested('RoleSchema', many=True)
     education = fields.Nested('EducationSchema')
-    tech = fields.Nested('TechSchema', many=True)
+    techs = fields.Nested('TechSchema', many=True)
 
     @post_load
     def make_model(self, data):

@@ -42,7 +42,7 @@ def fetch_submissions():
 
 @app.route('/check_email')
 def check_email():
-    request_schema = CheckEmailSchema().load(request.args)
+    request_schema = CheckEmailRequestSchema().load(request.args)
     if len(request_schema.errors) > 0:
         return jsonify({
             'status': 'error'
@@ -57,65 +57,43 @@ def check_email():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    malformed_request_error = jsonify({
-        'status': 'error',
-        'errors': ['Malformed request']
-    })
-
     payload = json.loads(request.form['payload'])
 
-    """ Check if the request contains all expected relationship fields """
-    expected_relationship_fields = [
-        'perks', 'roles', 'techs',
-        'pay_range', 'education', 'employment_type'
-    ]
-    for field in expected_relationship_fields:
-        if not field in payload:
-            return malformed_request_error
-
-    """ Try creating the submission """
-    """ First, try validating"""
-    submission_schema = SubmissionSchema(only=[
-        'email',
-        'years_experience',
-        'years_with_current_employer',
-        'number_of_employers'
-    ])
-    errors = submission_schema.validate(payload)
-    if len(errors) > 0:
+    """ Perform basic validation on the request params """
+    request_schema = SubmissionRequestSchema().load(payload)
+    if len(request_schema.errors) > 0:
         return jsonify({
             'status': 'error',
-            'errors': [value for key, value in errors.items()]
+            'errors': request_schema.errors.items()
         })
+
     """ Overwriting existing unconfirmed submission, otherwise create a new one """
     submission = Submission.query.filter(
         Submission.email == payload['email']
     ).first()
-    if submission and submission.confirmed:
-        return jsonify({
-            'status': 'error',
-            'errors': ['Submission for this email already exists']
-        })
-    elif submission:
+
+    if submission:
         # This is quite hacky. Notice the "instance" key in the passed param.
-        submission_schema = SubmissionSchema(only=[
+        payload['instance'] = submission
+        submission = SubmissionSchema(only=[
             'instance',
             'email',
             'years_experience',
             'years_with_current_employer',
             'number_of_employers'
-        ])
-        payload['instance'] = submission
-        submission = submission_schema.load(payload).data
+        ]).load(request_schema.data).data
     else:
-        submission = submission_schema.load(payload).data
+        submission = SubmissionSchema(only=[
+            'email',
+            'years_experience',
+            'years_with_current_employer',
+            'number_of_employers'
+        ]).load(request_schema.data).data
 
     """ Load PayRange, Eduction, EmploymentType """
     pay_range = PayRange.query.filter(PayRange.id == payload['pay_range']).first()
     employment_type = EmploymentType.query.filter(EmploymentType.id == payload['employment_type']).first()
     education = Education.query.filter(Education.id == payload['education']).first()
-    if not pay_range or not employment_type or not education:
-        return malformed_request_error
 
     """ Get Perk models """
     perks = []
@@ -181,7 +159,6 @@ def submit():
     db.session.add(submission)
     db.session.commit()
 
-    print 'Created submission {} with confirmation code {}'.format(submission.id, submission.confirmation_code)
     print url_for('confirm', _external=True, confirmation_code=submission.confirmation_code)
 
     """ Send confirmation email """
@@ -200,7 +177,7 @@ def submit():
 
 @app.route('/confirm')
 def confirm():
-    request_schema = ConfirmSchema().load(request.args)
+    request_schema = ConfirmRequestSchema().load(request.args)
     succeeded = False
     if not request_schema.errors:
         succeeded = hlm.confirm_submission(request.args['confirmation_code']) is not None

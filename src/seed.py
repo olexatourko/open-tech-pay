@@ -80,6 +80,7 @@ def seed_db(database):
         from random import randint
         for i in range(0, 10):
             submission = Submission()
+            submission.email = 'submission_{}@company1.com'.format(i)
             submission.confirmed = True
             submission.years_experience = randint(0, 15)
             submission.years_with_current_employer = randint(0, 5)
