@@ -1,8 +1,5 @@
 ## Open Pay
-A web application for sharing local tech industry compensation. The key project goal is to close the pay information gap
-by providing detailed data for a specific region.
-
- This project aims to freely provide compensation data to students, employees, and employers in the local tech industry
+A web application for sharing local tech industry compensation. It aims to freely provide compensation data to students, employees, and employers in the local tech industry
  so they can make informed career and hiring decisions.
 
 ### Key Project Features

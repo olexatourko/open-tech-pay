@@ -87,29 +87,29 @@
                 <!-- ko if: selected_perks().length > 0 -->
                 <hr>
                 <div class="u-cf selected-perks" data-bind="foreach: { data: selected_perks, as: 'perk' }">
-                    <tag params="
+                    <value-tag params="
                     message_bus: $component.inner_message_bus,
                     item: perk,
                     button_text: 'x',
                     event_name: 'perk_unselected'
-                    "></tag>
+                    "></value-tag>
                 </div>
                 <!-- /ko  -->
                 <hr>
                 <div class="u-cf">
                     <!-- ko foreach: { data: unselected_perks, as: 'perk' } -->
-                    <tag params="
+                    <value-tag params="
                     message_bus: $component.inner_message_bus,
                     item: perk,
                     button_text: '+',
                     event_name: 'perk_selected'
-                    "></tag>
+                    "></value-tag>
                     <!-- /ko -->
-                    <custom-tag params="
+                    <value-custom-tag params="
                     message_bus: $component.inner_message_bus,
                     button_text: '+',
                     event_name: 'custom_perk_selected'
-                    "></custom-tag>
+                    "></value-custom-tag>
                 </div>
             </div>
         </div>
@@ -129,7 +129,7 @@
         </label>
         <label>
             <div class="text">Number of employers thus far</div>
-            <input name="number_of_employers" type="number" data-bind="value: number_of_employers" data-parsley-type="digits" min="1" required placeholder="Optional">
+            <input name="number_of_employers" type="number" data-bind="value: number_of_employers" data-parsley-type="digits" min="1" placeholder="Optional">
         </label>
     </div>
     <div class="row input-container">

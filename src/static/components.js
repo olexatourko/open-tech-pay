@@ -119,7 +119,11 @@ ko.components.register('create-submission', {
             }
 
             var mapper_function = function(item) {
-               return 'id' in item ?  {'id': item.id} : {'name': item.name}
+                if ('id' in item) {
+                    return {'id': item.id}
+                } else {
+                    return item;
+                }
              };
 
             /* Build the request data */
@@ -175,17 +179,19 @@ ko.components.register('create-submission', {
             self.selected_perks.push(perk);
         }, {}, 'perk_selected')
 
-        self.inner_message_bus.subscribe(function(text) {
-            var in_listed = _in_array(self.perks(), text);
-            var in_selected = _in_array(self.selected_perks(), text);
+        self.inner_message_bus.subscribe(function(item) {
+            var in_listed = _in_array(self.perks(), item.text);
+            var in_selected = _in_array(self.selected_perks(), item.text);
             if(in_listed || in_selected) { return; }
             self.selected_perks.push({
-                name: text
+                name: item.text,
+                value: item.value
             });
         }, {}, 'custom_perk_selected')
 
-        self.inner_message_bus.subscribe(function(role) {
-            self.selected_perks.remove(role);
+        self.inner_message_bus.subscribe(function(perk) {
+            perk.value = null;
+            self.selected_perks.remove(perk);
         }, {}, 'perk_unselected')
 
 
@@ -235,45 +241,104 @@ ko.components.register('create-submission', {
 
 
 /* Elements */
-ko.components.register('tag', {
-    viewModel: function(params) {
-        var self = this;
-        self.message_bus = params.message_bus;
-        self.item = params.item;
-        self.button_text = params.button_text;
-        self.event_name = params.event_name;
+tag_view_model = function(params) {
+    var self = this;
+    self.message_bus = params.message_bus;
+    self.item = params.item;
+    self.button_text = params.button_text;
+    self.event_name = params.event_name;
 
-        self.on_click = function(item, event) {
-            self.message_bus.notifySubscribers(self.item, self.event_name);
-        };
-    },
-    template: { require: 'text!static/knockout-templates/tag.html' }
+    self.on_click = function(item, event) {
+        self = this;
+        self.message_bus.notifySubscribers(self.item, self.event_name);
+    };
+};
+custom_tag_view_model = function(params) {
+    var self = this;
+    self.message_bus = params.message_bus;
+    self.button_text = params.button_text;
+    self.event_name = params.event_name;
+    self.text = ko.observable('');
+
+    self.on_click = function(item, event) {
+        self = this;
+        if(self.text().length > 0) {
+            self.message_bus.notifySubscribers(self.text(), self.event_name);
+            self.text('');
+        }
+    };
+    self.on_keydown = function(item, event) {
+        self = this;
+        if (event.keyCode == 13 && self.text().length > 0) {
+            self.message_bus.notifySubscribers(self.text(), self.event_name);
+            self.text('');
+            event.stopPropagation();
+        }
+
+        return true;
+    };
+};
+
+/* Tag subclasses */
+value_tag_view_model = function(params) {
+    tag_view_model.call(this, params);
+    self = this;
+    self.on_click = function(item, event) {
+        self = this;
+        self.message_bus.notifySubscribers(self.item, self.event_name);
+    };
+};
+value_tag_view_model.prototype = Object.create(tag_view_model.prototype);
+value_tag_view_model.prototype.constructor = value_tag_view_model;
+
+value_custom_tag_view_model = function(params) {
+    custom_tag_view_model.call(this, params);
+    self = this;
+    self.value = ko.observable('');
+    self.on_click = function(item, event) {
+        self = this;
+        if(self.text().length > 0) {
+            self.message_bus.notifySubscribers({
+                text: self.text(),
+                value: self.value()
+            }, self.event_name);
+            self.text('');
+            self.value('');
+        }
+    };
+    self.on_keydown = function(item, event) {
+        self = this;
+        if (event.keyCode == 13 && self.text().length > 0) {
+            self.message_bus.notifySubscribers({
+                text: self.text(),
+                value: self.value()
+            }, self.event_name);
+            self.name('');
+            self.value('');
+            event.stopPropagation();
+        }
+
+        return true;
+    };
+};
+value_custom_tag_view_model.prototype = Object.create(custom_tag_view_model.prototype);
+value_custom_tag_view_model.prototype.constructor = value_custom_tag_view_model;
+
+ko.components.register('tag', {
+    viewModel: tag_view_model,
+    template: { require: 'text!static/knockout-templates/tags/tag.html' }
 });
 ko.components.register('custom-tag', {
-    viewModel: function(params) {
-        var self = this;
-        self.message_bus = params.message_bus;
-        self.button_text = params.button_text;
-        self.event_name = params.event_name;
-        self.text = ko.observable('');
-
-        self.on_click = function(item, event) {
-            if(self.text().length > 0) {
-                self.message_bus.notifySubscribers(self.text(), self.event_name);
-                self.text('');
-            }
-        };
-        self.on_keydown = function(item, event) {
-            if (event.keyCode == 13 && self.text().length > 0) {
-                self.message_bus.notifySubscribers(self.text(), self.event_name);
-                self.text('');
-                event.stopPropagation();
-            }
-
-            return true;
-        }
-    },
-    template: { require: 'text!static/knockout-templates/custom-tag.html' }
+    viewModel: custom_tag_view_model,
+    template: { require: 'text!static/knockout-templates/tags/custom-tag.html' }
+});
+ko.components.register('value-tag', {
+    viewModel: value_tag_view_model,
+    template: { require: 'text!static/knockout-templates/tags/value-tag.html' }
+});
+ko.components.register('value-custom-tag', {
+    viewModel: value_custom_tag_view_model,
+    template: { require: 'text!static/knockout-templates/tags/value-custom-tag.html' }
 });
 
 /* Utilities */
