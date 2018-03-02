@@ -32,7 +32,7 @@ def main():
         item['domain'] = getDomainFromUrl(item['url'])
         item['company'] = company
         resultList.append(dict(item))
-    writeIntoFile(resultList, 'data.json')
+    print(json.dumps(resultList, indent=4))
 
 if __name__ == '__main__':
     main()
