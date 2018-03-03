@@ -35,7 +35,18 @@ def fetch_fields():
 @app.route('/fetch_submissions')
 def fetch_submissions():
     submissions = Submission.query.filter(Submission.confirmed).all()
-    schema = SubmissionSchema()
+    schema = SubmissionSchema(only={
+        'pay_range',
+        'employment_type',
+        'perks',
+        'roles',
+        'education',
+        'techs',
+        'years_experience',
+        'years_with_current_employer',
+        'number_of_employers',
+        'verified'
+    })
     result = [schema.dump(submission).data for submission in submissions]
     return jsonify(result)
 
