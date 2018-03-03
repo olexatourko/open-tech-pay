@@ -6,6 +6,7 @@
   "author": "Oles <olestourko@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "autonumeric": "^4.2.7",
     "jquery": "^3.2.1",
     "knockout": "^3.4.2",
     "parsleyjs": "^2.8.0",

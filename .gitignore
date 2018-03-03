@@ -7,5 +7,6 @@ migrations
 node_modules
 src/static/packages
 yarn.lock
+yarn-error.log
 .sass-cache
 stylesheets

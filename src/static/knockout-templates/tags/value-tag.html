@@ -1,5 +1,5 @@
 <div class="tag value-tag">
     <span class="action" data-bind="text: button_text, click: on_click"></span>
     <span class="label" data-bind="text: item.name, click: on_click"></span>
-    <input class="value" data-bind="textInput: item.value" placeholder="$" size="8"/>
+    <input class="value" data-bind="textInput: item.value, autoNumeric: raw_value" placeholder="$" size="8"/>
 </div>
