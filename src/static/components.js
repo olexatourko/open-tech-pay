@@ -1,15 +1,37 @@
 ko.bindingHandlers.autoNumeric = {
-    init: function(element, valueAccessor) {
+    init: function(element, value_accessor) {
+        var value = ko.unwrap(value_accessor());
+        if (value != null) { element.value = value; }
         var auto_numeric = new AutoNumeric(element, {
             currencySymbol : '$',
             decimalCharacter : '.',
-            digitGroupSeparator : ','
+            digitGroupSeparator : ',',
+            decimalPlaces: 0
         });
-
-        jQuery(element).on('change keyup', function() {
-            valueAccessor()(auto_numeric.getNumber());
+        value_accessor()(auto_numeric.getNumber()); // Set raw_value
+        jQuery(element).on('autoNumeric:formatted', function() {
+            value_accessor()(auto_numeric.getNumber());
         });
     },
+    update: function(element, value_accessor) {
+        var old_value = element.value;
+        var value = ko.unwrap(value_accessor());
+        if(value != null && old_value != value) {
+            AutoNumeric.set(element, value);
+        }
+    }
+};
+ko.bindingHandlers.resizeOnChange = {
+    update: function(element, value_accessor) {
+        var value = ko.unwrap(value_accessor());
+        var length = 1; // The default length
+        if(value != null) {
+            var length = value.toString().length;
+            length = Math.round(length * 1.1);
+        }
+        length = Math.max(1, length);
+        element.setAttribute('size', length);
+    }
 };
 
 ko.components.register('market-data', {
@@ -297,10 +319,10 @@ custom_tag_view_model = function(params) {
 value_tag_view_model = function(params) {
     tag_view_model.call(this, params);
     self = this;
-    self.raw_value = ko.observable('');
+    self.value = ko.observable(self.item.value);
     self.on_click = function(item, event) {
         self = this;
-        self.item.value = self.raw_value();
+        self.item.value = self.value();
         self.message_bus.notifySubscribers(self.item, self.event_name);
     };
 };
@@ -310,18 +332,16 @@ value_tag_view_model.prototype.constructor = value_tag_view_model;
 value_custom_tag_view_model = function(params) {
     custom_tag_view_model.call(this, params);
     self = this;
-    self.value = ko.observable('');
-    self.raw_value = ko.observable('');
+    self.value = ko.observable();
     self.on_click = function(item, event) {
         self = this;
         if(self.text().length > 0) {
             self.message_bus.notifySubscribers({
                 text: self.text(),
-                value: self.raw_value()
+                value: self.value()
             }, self.event_name);
             self.text('');
             self.value('');
-            self.raw_value('');
         }
     };
     self.on_keydown = function(item, event) {
@@ -333,7 +353,6 @@ value_custom_tag_view_model = function(params) {
             }, self.event_name);
             self.name('');
             self.value('');
-            self.raw_value('');
             event.stopPropagation();
         }
 
