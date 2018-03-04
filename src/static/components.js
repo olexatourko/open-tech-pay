@@ -160,7 +160,17 @@ ko.components.register('create-submission', {
                 } else {
                     return item;
                 }
-             };
+            };
+            var perk_mapper_function = function(item) {
+                to_return = item
+                if ('id' in item) {
+                    to_return = {'id': item.id};
+                    if ('value' in item && item.value != null) {
+                        to_return.value = item.value
+                    }
+                }
+                return to_return;
+            }
 
             /* Build the request data */
             var data = {
@@ -171,7 +181,7 @@ ko.components.register('create-submission', {
                 'pay_range': self.selected_pay_range().id,
                 'employment_type': self.selected_employment_type().id,
                 'education': self.selected_education().id,
-                'perks': self.selected_perks().map(mapper_function),
+                'perks': self.selected_perks().map(perk_mapper_function),
                 'roles': self.selected_roles().map(mapper_function),
                 'techs': self.selected_techs().map(mapper_function)
             }
@@ -322,7 +332,7 @@ value_tag_view_model = function(params) {
     self.value = ko.observable(self.item.value);
     self.on_click = function(item, event) {
         self = this;
-        self.item.value = self.value();
+        self.item.value = self.value() ? self.value() : null;
         self.message_bus.notifySubscribers(self.item, self.event_name);
     };
 };
@@ -338,7 +348,7 @@ value_custom_tag_view_model = function(params) {
         if(self.text().length > 0) {
             self.message_bus.notifySubscribers({
                 text: self.text(),
-                value: self.value()
+                value: self.value() ? self.value() : null
             }, self.event_name);
             self.text('');
             self.value('');
@@ -349,7 +359,7 @@ value_custom_tag_view_model = function(params) {
         if (event.keyCode == 13 && self.text().length > 0) {
             self.message_bus.notifySubscribers({
                 text: self.text(),
-                value: self.value()
+                value: self.value() ? self.value() : null
             }, self.event_name);
             self.name('');
             self.value('');

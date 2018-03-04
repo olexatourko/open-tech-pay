@@ -120,6 +120,9 @@ def submit():
         if perk:
             db.session.add(perk)
             perks.append(perk)
+            if 'value' in perk_dict:
+                # Set the value for the SubmissionToPerk here
+                pass
 
     """ Get Role models """
     roles = []
