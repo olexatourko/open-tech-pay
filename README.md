@@ -14,7 +14,17 @@ A web application for sharing local tech industry compensation. It aims to freel
 
 ---
 
-#### Dependencies
+### Option 1: Running With Docker 
+
+You can use [Docker](https://www.docker.com) to create a container which will grab all of the dependencies for you.
+  
+```
+docker build -t open-tech-pay .
+docker run -v full/path/to/app:/app -p 5000:5000 open-tech-pay
+```
+
+
+### Option 2: Installing Dependencies
 
 
 **[Flask](http://flask.pocoo.org/docs/0.12/quickstart/)**: The web application framework.
@@ -23,18 +33,20 @@ A web application for sharing local tech industry compensation. It aims to freel
 pip install flask
 ```
 
-**[SQLAlchemy](https://www.sqlalchemy.org/)**:  The ORM (+ some extensions).
+**[SQLAlchemy](https://www.sqlalchemy.org/)**: The ORM.
 
 ```
 pip install psycopg2-binary # using postgreSQL instead of MySQL
 pip install sqlalchemy
+```
+
+**Flask Extensions**
+
+```
 pip install flask-sqlalchemy
 pip install flask-migrate
 pip install flask-mail
 ```
-
-- [Flask Integration](http://flask.pocoo.org/docs/0.12/quickstart/)
-- [Migrations Extension](https://flask-migrate.readthedocs.io/en/latest/)
 
 **[Marshmallow](https://marshmallow.readthedocs.io/en/latest/)**:  Model mapper for SQLAlchemy model -> JSON.
 
@@ -64,7 +76,7 @@ Seed the db with clients and product ares:
 python src/seed.py
 ```
 
-**Compile Sass**
+Compile SASS:
 ```
 sass --watch sass:src/static/stylesheets
 ```
