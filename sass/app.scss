@@ -67,6 +67,12 @@ th, td {
     padding: 5px;
 }
 
+.debug {
+    background: $error_red;
+    padding: 1em;
+    margin-bottom: 2em;
+}
+
 /* Market Data */
 .market-data {
     font-size: 10pt;

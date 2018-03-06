@@ -20,7 +20,7 @@ You can use [Docker](https://www.docker.com) to create a container which will gr
   
 ```
 docker build -t open-tech-pay .
-docker run -v full/path/to/app:/app -p 5000:5000 open-tech-pay
+docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay
 ```
 
 

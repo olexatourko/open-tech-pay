@@ -11,7 +11,7 @@ migrate = Migrate(app, db)
 
 @app.route('/')
 def index():
-    return render_template('app.html')
+    return render_template('app.html', is_debug=app.config['DEBUG'])
 
 @app.route('/fetch_fields')
 def fetch_fields():
