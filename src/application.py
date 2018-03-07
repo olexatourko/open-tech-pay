@@ -106,8 +106,11 @@ def submit():
     employment_type = EmploymentType.query.filter(EmploymentType.id == payload['employment_type']).first()
     education = Education.query.filter(Education.id == payload['education']).first()
 
+    submission.perks = []
+    submission.roles = []
+    submission.techs = []
+
     """ Get Perk models """
-    perks = []
     for perk_dict in payload['perks']:
         if 'id' in perk_dict:
             perk = Perk.query.filter(Perk.id == perk_dict['id']).first()
@@ -118,14 +121,15 @@ def submit():
                 perk = Perk(name=perk_dict['name'], listed=False)
 
         if perk:
-            db.session.add(perk)
-            perks.append(perk)
             if 'value' in perk_dict:
-                # Set the value for the SubmissionToPerk here
-                pass
+                # Add perk with value
+                submission.submission_to_perks.append(SubmissionToPerk(perk, value=perk_dict['value']))
+
+            else:
+                # Add perk without value
+                submission.perks.append(perk)
 
     """ Get Role models """
-    roles = []
     for role_dict in payload['roles']:
         if 'id' in role_dict:
             role = Role.query.filter(Role.id == role_dict['id']).first()
@@ -136,11 +140,9 @@ def submit():
                 role = Role(name=role_dict['name'], listed=False)
 
         if role:
-            db.session.add(role)
-            roles.append(role)
+            submission.roles.append(role)
 
     """ Get Tech models """
-    techs = []
     for tech_dict in payload['techs']:
         if 'id' in tech_dict:
             tech = Tech.query.filter(Tech.id == tech_dict['id']).first()
@@ -151,10 +153,9 @@ def submit():
                 tech = Tech(name=tech_dict['name'], listed=False)
 
         if tech:
-            db.session.add(tech)
-            techs.append(tech)
+            submission.techs.append(tech)
 
-    if len(perks) == 0 or len(roles) == 0 or len(techs) == 0:
+    if len(submission.perks) == 0 or len(submission.roles) == 0 or len(submission.techs) == 0:
         db.session.rollback()
         return jsonify({
             'status': 'error',
@@ -164,9 +165,6 @@ def submit():
     submission.pay_range = pay_range
     submission.employment_type = employment_type
     submission.education = education
-    submission.perks = perks
-    submission.roles = roles
-    submission.tech = techs
     submission.confirmed = False
     submission.confirmation_code = hlm.get_confirmation_code()
 

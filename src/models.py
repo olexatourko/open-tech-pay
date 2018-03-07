@@ -114,23 +114,23 @@ class Submission(db.Model):
             SubmissionToTech.tech_id == tech.id
         ).first()
         if not assoc_model:
-            self.tech.append(tech)
+            self.techs.append(tech)
 
         return self
 
     """ Relations """
     submission_to_pay_range = relationship("SubmissionToPayRange", uselist=False, cascade="all, delete-orphan")
-    submission_to_perk = relationship("SubmissionToPerk", cascade="all, delete-orphan")
+    submission_to_perks = relationship("SubmissionToPerk", cascade="all, delete-orphan")
     submission_to_employment_type = relationship("SubmissionToEmploymentType", uselist=False, cascade="all, delete-orphan")
-    submission_to_role = relationship("SubmissionToRole", cascade="all, delete-orphan")
+    submission_to_roles = relationship("SubmissionToRole", cascade="all, delete-orphan")
     submission_to_education = relationship("SubmissionToEducation", uselist=False, cascade="all, delete-orphan")
-    submission_to_tech = relationship("SubmissionToTech", cascade="all, delete-orphan")
+    submission_to_techs = relationship("SubmissionToTech", cascade="all, delete-orphan")
     pay_range = association_proxy('submission_to_pay_range', 'pay_range')
-    perks = association_proxy('submission_to_perk', 'perk')
+    perks = association_proxy('submission_to_perks', 'perk')
     employment_type = association_proxy('submission_to_employment_type', 'employment_type')
-    roles = association_proxy('submission_to_role', 'role')
+    roles = association_proxy('submission_to_roles', 'role')
     education = association_proxy('submission_to_education', 'education')
-    techs = association_proxy('submission_to_tech', 'tech')
+    techs = association_proxy('submission_to_techs', 'tech')
 
 class Employer(db.Model):
     __tablename__ = 'employer'

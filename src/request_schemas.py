@@ -45,12 +45,11 @@ class SubmissionRequestSchema(Schema):
 
     @validates_schema(skip_on_field_errors=True)
     def validate_object(self, data):
+        """ years_experience >= years_with_current_employer """
         if 'years_with_current_employer' in data and 'years_experience' in data:
             if not data['years_with_current_employer'] <= data['years_experience']:
                 raise ValidationError('Years with current employer must be <= total years of experience',
                       ['years_with_current_employer', 'years_experience'])
-
-
 
 
 class ConfirmRequestSchema(Schema):

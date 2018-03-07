@@ -52,12 +52,12 @@ class TestCorePersistence(unittest.TestCase):
         for education_level in self.education_levels:
             db.session.add(education_level)
 
-        self.tech = [
+        self.techs = [
             Tech('Python', listed=True),
             Tech('PHP', listed=True),
             Tech('Java', listed=True)
         ]
-        for tech in self.tech:
+        for tech in self.techs:
             db.session.add(tech)
 
         db.session.commit()
@@ -69,22 +69,23 @@ class TestCorePersistence(unittest.TestCase):
         submission.number_of_employers = 2
         submission.pay_range = self.pay_ranges[1]
         submission.perks.append(self.perks[0])
-        submission.perks.append(self.perks[1])
-        submission.perks[0].value = 5000
-        submission.perks[1].value = 2000
+        submission.submission_to_perks.append(SubmissionToPerk(self.perks[1], value=100))
+
         submission.employment_type = self.employment_types[0]
-        submission.tech.append(self.tech[0])
-        submission.tech.append(self.tech[2])
+        submission.techs.append(self.techs[0])
+        submission.techs.append(self.techs[2])
         submission.education = self.education_levels[1]
+        db.session.add(submission)
         db.session.commit()
+
+        submission = Submission.query.first()
         assert submission.pay_range == self.pay_ranges[1]
         assert self.perks[0] in submission.perks
         assert self.perks[1] in submission.perks
-        assert self.perks[0].value == 5000
-        assert self.perks[1].value == 2000
+        assert submission.submission_to_perks[1].value == 100
         assert submission.employment_type == self.employment_types[0]
-        assert self.tech[0] in submission.tech
-        assert self.tech[2] in submission.tech
+        assert self.techs[0] in submission.techs
+        assert self.techs[2] in submission.techs
         assert submission.education == self.education_levels[1]
 
 
