@@ -1,0 +1,17 @@
+version: '3'
+services:
+  open-tech-pay:
+    build: .
+    ports:
+     - "5000:5000"
+    volumes:
+     - /home/oles/open-tech-pay/:/app
+
+  smtp:
+    image: "namshi/smtp"
+    environment:
+      - MAILNAME=londontechpay.ca
+    volumes:
+      - /etc/postfix/main.cf:/etc/postfix/main.cf
+    ports:
+      - 25:25
