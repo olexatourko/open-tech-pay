@@ -8,11 +8,17 @@
         {% else %}
             <title>OpenPay London - Tech Pay Sharing</title>
         {% endif %}
+
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="OpenPay London - Closing the Pay Information Gap"/>
+        <meta property="og:description" content="This project aims to provide detailed compensation data to students, employees, and employers in the London, Ontario tech industry."/>
+        <meta property="og:image" content="{{ url_for('static', filename='opengraph-header.png', _external=True) }}" />
+
         <script src="{{ url_for('static', filename='packages/knockout/build/output/knockout-latest.js') }}"></script>
         <script src="{{ url_for('static', filename='packages/jquery/dist/jquery.min.js') }}"></script>
         <script src="{{ url_for('static', filename='packages/parsleyjs/dist/parsley.min.js') }}"></script>
         <script src="{{ url_for('static', filename='packages/autonumeric/dist/autoNumeric.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='packages/requirejs/require.js') }}"></script>
+        <script src="{{ url_for('static', filename='packages/requirejs/require.js', _external=True) }}"></script>
         <script>
         require.config({
             paths: {
