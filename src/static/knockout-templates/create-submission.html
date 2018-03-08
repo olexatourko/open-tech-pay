@@ -10,9 +10,11 @@
         </label>
         <label>
             <div class="text">Employment type</div>
-            <select name="employment_type" data-bind="foreach: employment_types, value: selected_employment_type">
-                <option data-bind="value: $data, text: name"></option>
-            </select>
+            <select name="employment_type" data-bind="
+            options: employment_types,
+            optionsText: function(item) { return item.name; },
+            value: selected_employment_type
+            "></select>
         </label>
         <label>
             <div class="text">Years with current employer</div>
@@ -117,9 +119,11 @@
     <div class="row input-container">
         <label>
             <div class="text">Education (highest)</div>
-            <select name="education" data-bind="foreach: educations, value: selected_education">
-                <option data-bind="value: $data, text: name"></option>
-            </select>
+            <select name="education" data-bind="
+            options: educations,
+            optionsText: function(item) { return item.name; },
+            value: selected_education
+            "></select>
         </label>
         </label>
         <label>
