@@ -39,9 +39,9 @@ class SubmissionRequestSchema(Schema):
     employment_type = fields.Integer(required=True, validate=validate_employment_type)
     education = fields.Integer(required=True, validate=validate_education)
 
-    perks = fields.List(fields.Dict(), required=True, validate=Length(min=1, max=10))
+    perks = fields.List(fields.Dict(), validate=Length(max=10))
     roles = fields.List(fields.Dict(), required=True, validate=Length(min=1, max=5))
-    techs = fields.List(fields.Dict(), required=True, validate=Length(min=1, max=15))
+    techs = fields.List(fields.Dict(), validate=Length(max=15))
 
     @validates_schema(skip_on_field_errors=True)
     def validate_object(self, data):

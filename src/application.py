@@ -155,11 +155,11 @@ def submit():
         if tech:
             submission.techs.append(tech)
 
-    if len(submission.perks) == 0 or len(submission.roles) == 0 or len(submission.techs) == 0:
+    if len(submission.roles) == 0:
         db.session.rollback()
         return jsonify({
             'status': 'error',
-            'errors': ['No roles, perks, or technologies selected']
+            'errors': ['No roles selected']
         })
 
     submission.pay_range = pay_range
