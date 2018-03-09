@@ -51,6 +51,10 @@ class SubmissionRequestSchema(Schema):
                 raise ValidationError('Years with current employer must be <= total years of experience',
                       ['years_with_current_employer', 'years_experience'])
 
+        """ Detect emails with '+' in them """
+        if re.search(r'.*\+.*(?=@)', data['email']):
+            raise ValidationError('Invalid email', ['email'])
+
 
 class ConfirmRequestSchema(Schema):
     confirmation_code = fields.String(required=True)

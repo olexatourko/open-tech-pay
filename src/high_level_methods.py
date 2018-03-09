@@ -27,6 +27,11 @@ def confirm_submission(confirmation_code):
 
 
 def check_email(email):
+    """
+
+    :param email: It is assumed that the email has already been sanitized
+    :return: dict
+    """
     email_domain = re.search(r'(?<=@)[\w.]+$', email).group(0)
     submission = Submission.query.filter(and_(
         Submission.confirmed == True,

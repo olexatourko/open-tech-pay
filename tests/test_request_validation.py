@@ -48,7 +48,6 @@ class TestRequestValidation(unittest.TestCase):
         }
         assert len(SubmissionRequestSchema().validate(request_dict)) > 0
 
-
     def test_invalid_request_2(self):
         """ years_with_current_employer > years_experience """
         request_dict = {
@@ -61,11 +60,29 @@ class TestRequestValidation(unittest.TestCase):
                     'id': Role.query.first().id
                 }
             ],
-            'roles': [],
             'techs': [],
             'perks': [],
             'education': Education.query.first().id,
             'email': 'test@test.com'
+        }
+        assert len(SubmissionRequestSchema().validate(request_dict)) > 0
+
+    def test_invalid_request_3(self):
+        """ email with '+' in it """
+        request_dict = {
+            'pay_range': PayRange.query.first().id,
+            'employment_type': EmploymentType.query.first().id,
+            'years_with_current_employer': 1,
+            'years_experience': 1,
+            'roles': [
+                {
+                    'id': Role.query.first().id
+                }
+            ],
+            'techs': [],
+            'perks': [],
+            'education': Education.query.first().id,
+            'email': 'test+malicious.intent@test.com'
         }
         assert len(SubmissionRequestSchema().validate(request_dict)) > 0
 
