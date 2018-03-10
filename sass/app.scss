@@ -39,6 +39,7 @@ h1, h2, h3, h4, h5 { font-family: 'Courier', monospace; }
 /* ----------------------------- */
 
 $success_green: #cbff9f;
+$verified_green: #e8ffd4;
 $error_red: #ffbbb3;
 $grey_1: #efefef;
 
@@ -64,7 +65,7 @@ header {
 th { vertical-align: bottom; }
 td { vertical-align: top; }
 th, td {
-    padding: 5px;
+    padding: 0.25em 0.5em;
 }
 
 .debug {
@@ -80,12 +81,10 @@ th, td {
     font-size: 10pt;
 
     label { float: right; }
-    thead th:nth-of-type(1) {}
-    thead th:nth-of-type(2) { min-width: 150px; }
-    thead th:nth-of-type(3) { min-width: 100px; }
-    thead th:nth-of-type(4) { min-width: 120px; }
 
-    .salary { padding-right: 2em; }
+    table { width: 100%; }
+    tr.verified { background-color: $verified_green; }
+    .data-submitted { min-width: 80px; }
  }
 
 /* Submissions */
