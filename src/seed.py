@@ -6,10 +6,8 @@ from src.models import *
 
 def seed_db(database):
     try:
-        pay_ranges = [PayRange(lower=i, upper=i + 4999.99) for i in range(0, 145000 + 1, 5000)]
         perks = [
-            Perk('Yearly Bonus', listed=True),
-            Perk('Quarterly Bonuses', description='Use the total value paid out per year', listed=True),
+            Perk('Bonus', listed=True),
             Perk('RRSP Matching / Profit Sharing', description='Use the value when the benefit is maxxed out', listed=True),
             Perk('Professional Development Expense Reimbursement', listed=True),
             Perk('Fitness Expense Reimbursement', listed=True),
@@ -69,7 +67,6 @@ def seed_db(database):
             Tech('Spring', listed=False),
             Tech('Rails', listed=False)
         ]
-        for v in pay_ranges: db.session.add(v)
         for v in perks: db.session.add(v)
         for v in employment_types: db.session.add(v)
         for v in roles: db.session.add(v)
@@ -80,12 +77,12 @@ def seed_db(database):
         from random import randint
         for i in range(0, 10):
             submission = Submission()
+            submission.salary = randint(25, 100) * 1000
             submission.email = 'submission_{}@company1.com'.format(i)
             submission.confirmed = True
             submission.years_experience = randint(0, 15)
             submission.years_with_current_employer = randint(0, 5)
             submission.number_of_employers = randint(1, 3)
-            submission.pay_range = pay_ranges[randint(6, 16)]
             db.session.add(submission)
 
             for j in range(0, 3):

@@ -14,14 +14,6 @@ class TestCorePersistence(unittest.TestCase):
         db.drop_all() # http://docs.sqlalchemy.org/en/latest/orm/extensions/declarative/basic_use.html
         db.create_all()
 
-        self.pay_ranges = [
-            PayRange(lower=0, upper=29999.99),
-            PayRange(lower=30000, upper=69999.99),
-            PayRange(lower=70000, upper=99999.99)
-        ]
-        for pay_range in self.pay_ranges:
-            db.session.add(pay_range)
-
         self.perks = [
             Perk('Yearly Bonus', listed=True),
             Perk('Food / Drinks', listed=True)
@@ -64,10 +56,10 @@ class TestCorePersistence(unittest.TestCase):
 
     def test_create_submission(self):
         submission = Submission()
+        submission.salary = 60000
         submission.years_experience = 5
         submission.years_with_current_employer = 1
         submission.number_of_employers = 2
-        submission.pay_range = self.pay_ranges[1]
         submission.perks.append(self.perks[0])
         submission.submission_to_perks.append(SubmissionToPerk(self.perks[1], value=100))
 
@@ -79,7 +71,7 @@ class TestCorePersistence(unittest.TestCase):
         db.session.commit()
 
         submission = Submission.query.first()
-        assert submission.pay_range == self.pay_ranges[1]
+        assert submission.salary == 60000
         assert self.perks[0] in submission.perks
         assert self.perks[1] in submission.perks
         assert submission.submission_to_perks[1].value == 100

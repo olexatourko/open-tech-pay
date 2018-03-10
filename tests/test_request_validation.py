@@ -17,7 +17,7 @@ class TestRequestValidation(unittest.TestCase):
 
     def test_valid_request_1(self):
         request_dict = {
-            'pay_range': PayRange.query.first().id,
+            'salary': 60000,
             'employment_type': EmploymentType.query.first().id,
             'years_with_current_employer': 1,
             'years_experience': 1,
@@ -36,7 +36,7 @@ class TestRequestValidation(unittest.TestCase):
     def test_invalid_request_1(self):
         """ Missing roles """
         request_dict = {
-            'pay_range': PayRange.query.first().id,
+            'salary': 60000,
             'employment_type': EmploymentType.query.first().id,
             'years_with_current_employer': 1,
             'years_experience': 1,
@@ -51,7 +51,7 @@ class TestRequestValidation(unittest.TestCase):
     def test_invalid_request_2(self):
         """ years_with_current_employer > years_experience """
         request_dict = {
-            'pay_range': PayRange.query.first().id,
+            'salary': 60000,
             'employment_type': EmploymentType.query.first().id,
             'years_with_current_employer': 2,
             'years_experience': 1,
@@ -70,7 +70,7 @@ class TestRequestValidation(unittest.TestCase):
     def test_invalid_request_3(self):
         """ email with '+' in it """
         request_dict = {
-            'pay_range': PayRange.query.first().id,
+            'salary': 60000,
             'employment_type': EmploymentType.query.first().id,
             'years_with_current_employer': 1,
             'years_experience': 1,

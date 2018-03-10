@@ -4,7 +4,7 @@
 import unittest
 from src import app, db
 from src.models import *
-from src.model_mappings import *
+from src.model_schemas import *
 
 
 class TestModelMappings(unittest.TestCase):

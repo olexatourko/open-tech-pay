@@ -4,18 +4,6 @@ from datetime import datetime
 from sqlalchemy.ext.associationproxy import association_proxy
 
 
-class PayRange(db.Model):
-    __tablename__ = 'pay_range'
-    id = db.Column(db.Integer, primary_key=True)
-    lower = db.Column(db.Numeric(10, 2))
-    upper = db.Column(db.Numeric(10, 2))
-
-    def __init__(self, lower, upper):
-        assert lower < upper
-        self.lower = lower
-        self.upper = upper
-
-
 class Perk(db.Model):
     __tablename__ = 'perk'
     id = db.Column(db.Integer, primary_key=True)
@@ -72,6 +60,7 @@ class Tech(db.Model):
 class Submission(db.Model):
     __tablename__ = 'submission'
     id = db.Column(db.Integer, primary_key=True)
+    salary = db.Column(db.Numeric(10, 2))
     years_experience = db.Column(db.Integer)
     years_with_current_employer = db.Column(db.Integer)
     number_of_employers = db.Column(db.Integer)
@@ -119,13 +108,11 @@ class Submission(db.Model):
         return self
 
     """ Relations """
-    submission_to_pay_range = relationship("SubmissionToPayRange", uselist=False, cascade="all, delete-orphan")
     submission_to_perks = relationship("SubmissionToPerk", cascade="all, delete-orphan")
     submission_to_employment_type = relationship("SubmissionToEmploymentType", uselist=False, cascade="all, delete-orphan")
     submission_to_roles = relationship("SubmissionToRole", cascade="all, delete-orphan")
     submission_to_education = relationship("SubmissionToEducation", uselist=False, cascade="all, delete-orphan")
     submission_to_techs = relationship("SubmissionToTech", cascade="all, delete-orphan")
-    pay_range = association_proxy('submission_to_pay_range', 'pay_range')
     perks = association_proxy('submission_to_perks', 'perk')
     employment_type = association_proxy('submission_to_employment_type', 'employment_type')
     roles = association_proxy('submission_to_roles', 'role')
@@ -144,24 +131,6 @@ class Employer(db.Model):
         self.email_domain = email_domain,
         self.url = url
 
-
-class SubmissionToPayRange(db.Model):
-    __tablename__ = 'submission_to_pay_range'
-
-    """
-    Relations:
-    
-    1 Submission
-    1 PayRange
-    """
-
-    submission_id = db.Column(db.Integer, db.ForeignKey('submission.id', ondelete='CASCADE'), primary_key=True)
-    pay_range_id = db.Column(db.Integer, db.ForeignKey('pay_range.id', ondelete='CASCADE'), primary_key=True)
-    submission = relationship(Submission)
-    pay_range = relationship(PayRange)
-
-    def __init__(self, pay_range):
-        self.pay_range = pay_range
 
 class SubmissionToPerk(db.Model):
     __tablename__ = 'submission_to_perk'

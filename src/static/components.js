@@ -62,8 +62,8 @@ ko.components.register('market-data', {
         }, this);
 
         /* Functions used by template */
-        self.get_pay_range_text = function(item) {
-            return '$' + number_with_commas(item.lower) + ' - $' + number_with_commas(item.upper);
+        self.get_salary_text = function(salary) {
+            return '$' + number_with_commas(salary);
         }
     },
     template: { require: 'text!static/knockout-templates/market-data.html' }
@@ -75,19 +75,18 @@ ko.components.register('create-submission', {
         self.message_bus = params.message_bus;
         self.inner_message_bus = new ko.subscribable();
 
+        self.salary = ko.observable();
         self.email = ko.observable();
         self.years_experience = ko.observable();
         self.number_of_employers = ko.observable();
         self.years_with_employer = ko.observable();
 
-        self.pay_ranges = params.pay_ranges;
         self.employment_types = params.employment_types;
         self.perks = params.perks;
         self.roles = params.roles;
         self.techs = params.techs;
         self.educations = params.educations,
 
-        self.selected_pay_range = ko.observable();
         self.selected_perks = ko.observableArray();
         self.selected_employment_type = ko.observable();
         self.selected_roles = ko.observableArray();
@@ -140,11 +139,6 @@ ko.components.register('create-submission', {
             return arr();
         }, this);
 
-        /* Functions used by template */
-        self.get_pay_range_text = function(item) {
-            return '$' + number_with_commas(item.lower) + ' - $' + number_with_commas(item.upper);
-        }
-
         self.on_submit = function(item, event) {
             var button = event.target;
             var form = jQuery(button).parents('form').get(0);
@@ -174,11 +168,11 @@ ko.components.register('create-submission', {
 
             /* Build the request data */
             var data = {
+                'salary': self.salary(),
                 'email': self.email(),
                 'years_experience': self.years_experience(),
                 'number_of_employers': self.number_of_employers(),
                 'years_with_current_employer': self.years_with_employer(),
-                'pay_range': self.selected_pay_range().id,
                 'employment_type': self.selected_employment_type().id,
                 'education': self.selected_education().id,
                 'perks': self.selected_perks().map(perk_mapper_function),

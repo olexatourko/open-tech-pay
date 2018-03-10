@@ -1,7 +1,6 @@
 /* Placeholder submissions */
 var submissions = ko.observableArray([]);
 
-var pay_ranges = ko.observableArray();
 var perks = ko.observableArray();
 var employment_types = ko.observableArray();
 var roles = ko.observableArray();
@@ -51,7 +50,6 @@ function fetch_submissions() {
 }
 
 function fetch_fields() {
-    pay_ranges.removeAll();
     employment_types.removeAll();
     educations.removeAll();
     perks.removeAll();
@@ -59,7 +57,6 @@ function fetch_fields() {
     techs.removeAll();
 
     jQuery.getJSON('fetch_fields', function(data) {
-        ko.utils.arrayPushAll(pay_ranges, data['pay_ranges']);
         ko.utils.arrayPushAll(employment_types, data['employment_types']);
         ko.utils.arrayPushAll(educations, data['educations']);
         ko.utils.arrayPushAll(perks, data['perks']);

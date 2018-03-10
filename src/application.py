@@ -2,28 +2,28 @@ from flask import render_template, jsonify, request, url_for
 from flask_migrate import Migrate
 from src import app, db
 from src.models import *
-from src.model_mappings import *
+from src.model_schemas import *
 from src.request_schemas import *
 import high_level_methods as hlm
 import json
 
 migrate = Migrate(app, db)
 
+
 @app.route('/')
 def index():
     return render_template('app.html', is_debug=app.config['DEBUG'])
 
+
 @app.route('/fetch_fields')
 def fetch_fields():
     perks = Perk.query.filter(Perk.listed).all()
-    pay_ranges = PayRange.query.all()
     employment_types = EmploymentType.query.all()
     roles = Role.query.filter(Role.listed).all()
     educations = Education.query.all()
     techs = Tech.query.filter(Tech.listed).all()
 
     return jsonify({
-        'pay_ranges': [PayRangeSchema().dump(model).data for model in pay_ranges],
         'perks': [PerkSchema().dump(model).data for model in perks],
         'employment_types': [EmploymentTypeSchema().dump(model).data for model in employment_types],
         'roles': [RoleSchema().dump(model).data for model in roles],
@@ -36,7 +36,7 @@ def fetch_fields():
 def fetch_submissions():
     submissions = Submission.query.filter(Submission.confirmed).all()
     schema = SubmissionSchema(only={
-        'pay_range',
+        'salary',
         'employment_type',
         'perks',
         'roles',
@@ -65,7 +65,6 @@ def check_email():
     return jsonify(result)
 
 
-
 @app.route('/submit', methods=['POST'])
 def submit():
     payload = json.loads(request.form['payload'])
@@ -85,16 +84,19 @@ def submit():
 
     if submission:
         # This is quite hacky. Notice the "instance" key in the passed param.
-        payload['instance'] = submission
+        data = request_schema.data
+        data['instance'] = submission
         submission = SubmissionSchema(only=[
             'instance',
+            'salary',
             'email',
             'years_experience',
             'years_with_current_employer',
             'number_of_employers'
-        ]).load(request_schema.data).data
+        ]).load(data).data
     else:
         submission = SubmissionSchema(only=[
+            'salary',
             'email',
             'years_experience',
             'years_with_current_employer',
@@ -102,7 +104,6 @@ def submit():
         ]).load(request_schema.data).data
 
     """ Load PayRange, Eduction, EmploymentType """
-    pay_range = PayRange.query.filter(PayRange.id == payload['pay_range']).first()
     employment_type = EmploymentType.query.filter(EmploymentType.id == payload['employment_type']).first()
     education = Education.query.filter(Education.id == payload['education']).first()
 
@@ -162,7 +163,6 @@ def submit():
             'errors': ['No roles selected']
         })
 
-    submission.pay_range = pay_range
     submission.employment_type = employment_type
     submission.education = education
     submission.confirmed = False

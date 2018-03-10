@@ -1,17 +1,12 @@
 from marshmallow import Schema, fields, post_load, validates, validates_schema, ValidationError
 from marshmallow.validate import *
 from src.models import *
-
+from high_level_methods import check_email
 
 class SubmissionRequestSchema(Schema):
     """
     This class ONLY validates the inputs. It does not fetch the models.
     """
-    def validate_pay_range(value):
-        pay_range = PayRange.query.filter(PayRange.id == value).first()
-        if not pay_range:
-            raise ValidationError('Pay Range does not exist.')
-
     def validate_employment_type(value):
         employment_type = EmploymentType.query.filter(EmploymentType.id == value).first()
         if not employment_type:
@@ -30,12 +25,12 @@ class SubmissionRequestSchema(Schema):
         if submission and submission.confirmed:
             raise ValidationError('Submission for this email already exists')
 
+    salary = fields.Number(required=True)
     email = fields.Email(required=True, validate=validate_email)
     years_experience = fields.Integer(required=True)
     years_with_current_employer = fields.Integer(required=True)
     number_of_employers = fields.Integer()
 
-    pay_range = fields.Integer(required=True, validate=validate_pay_range)
     employment_type = fields.Integer(required=True, validate=validate_employment_type)
     education = fields.Integer(required=True, validate=validate_education)
 
@@ -54,6 +49,11 @@ class SubmissionRequestSchema(Schema):
         """ Detect emails with '+' in them """
         if re.search(r'.*\+.*(?=@)', data['email']):
             raise ValidationError('Invalid email', ['email'])
+
+        """ Check that the email hasn't been used already """
+        email_status = check_email(data['email'])
+        if email_status['in_use']:
+            raise ValidationError('Email in use', ['email'])
 
 
 class ConfirmRequestSchema(Schema):

@@ -3,7 +3,7 @@
 
 import unittest
 from src.models import *
-from src.model_mappings import *
+from src.model_schemas import *
 
 
 class TestValidation(unittest.TestCase):
@@ -45,6 +45,7 @@ class TestValidation(unittest.TestCase):
     def test_submission_schema_validation(self):
         # Happy path
         errors = SubmissionSchema().validate({
+            'salary': 60000,
             'email': 'test@test.com',
             'years_experience': 5,
             'number_of_employers': 3,
@@ -88,6 +89,7 @@ class TestValidation(unittest.TestCase):
 
         # years_with_current_employer > years_experience
         errors = SubmissionSchema().validate({
+            'salary': 60000,
             'email': 'test@test.com',
             'years_experience': 1,
             'number_of_employers': 1,

@@ -10,7 +10,7 @@
     <table>
         <thead>
         <tr>
-            <th>Salary Range</th>
+            <th>Salary</th>
             <th>Roles</th>
             <th>Tech</th>
             <th>Type</th>
@@ -23,7 +23,7 @@
             <!-- /ko -->
         </tr>
         <tbody data-bind="foreach: { data: table_submissions, as: 'item' }">
-        <td data-bind="text: $component.get_pay_range_text(item.pay_range)"></td>
+        <td class="salary" data-bind="text: $component.get_salary_text(item.salary)"></td>
         <td data-bind="foreach: { data: roles, as: 'role' }">
             <span data-bind="text: role.name"></span><!-- ko if: $index() < item.roles.length - 1 -->,<br><!-- /ko -->
         </td>

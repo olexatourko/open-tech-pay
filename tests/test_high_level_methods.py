@@ -4,7 +4,7 @@
 import unittest
 from src import app, db
 from src.models import *
-from src.model_mappings import *
+from src.model_schemas import *
 from src.high_level_methods import *
 from src.seed import seed_db
 

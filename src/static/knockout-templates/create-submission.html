@@ -2,11 +2,7 @@
     <div class="row">
         <label>
             <div class="text">Base salary (C$)</div>
-            <select name="pay_range" data-bind="
-            options: pay_ranges,
-            optionsText: get_pay_range_text,
-            value: selected_pay_range
-            "></select>
+            <input type="text" name="salary" data-bind="autoNumeric: salary" required placeholder="$ Required">
         </label>
         <label>
             <div class="text">Employment type</div>

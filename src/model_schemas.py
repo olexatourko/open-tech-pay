@@ -7,18 +7,6 @@ def dump_dict_values(class_instance, raw_dict):
         if hasattr(class_instance, key): setattr(class_instance, key, value)
 
 
-class PayRangeSchema(Schema):
-    id = fields.Integer()
-    lower = fields.Number(required=True)
-    upper = fields.Number(required=True)
-
-    @validates_schema(skip_on_field_errors=True)
-    def validate_object(self, data):
-        if not data['lower'] < data['upper']:
-            raise ValidationError('lower should be less than upper', ['lower', 'upper'])
-
-
-
 class PerkSchema(Schema):
     id = fields.Integer()
     name = fields.String(required=True)
@@ -74,11 +62,11 @@ class EmployerSchema(Schema):
 
 class SubmissionSchema(Schema):
     id = fields.Integer()
+    salary = fields.Number(required=True)
     email = fields.Email(required=True)
     years_experience = fields.Integer(required=True)
     number_of_employers = fields.Integer()
     years_with_current_employer = fields.Integer()
-    pay_range = fields.Nested('PayRangeSchema')
     perks = fields.Nested('PerkSchema', many=True)
     employment_type = fields.Nested('EmploymentTypeSchema')
     roles = fields.Nested('RoleSchema', many=True)
