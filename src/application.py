@@ -196,3 +196,8 @@ def confirm():
         succeeded = hlm.confirm_submission(request.args['confirmation_code']) is not None
 
     return render_template('confirm.html', succeeded=succeeded)
+
+
+@app.route('/privacy_policy')
+def privacy_policy():
+    return render_template('privacy-policy.html')

@@ -4,9 +4,9 @@
     <head>
     <meta charset="UTF-8">
         {% if title is defined %}
-            <title>OpenPay London - {{ title }}</title>
+            <title>{{ config['DEPLOYMENT_NAME'] }} - {{ title }}</title>
         {% else %}
-            <title>OpenPay London - Tech Pay Sharing</title>
+            <title>{{ config['DEPLOYMENT_NAME'] }} - Tech Pay Sharing</title>
         {% endif %}
 
         <meta property="og:type" content="website"/>
@@ -36,7 +36,11 @@
     <body>
         <header>
             <div class="container">
-                <h1>$_OpenPay London</h1>
+                <h1>$_{{ config['DEPLOYMENT_NAME'] }}</h1>
+                <nav>
+                    <a href="{{ url_for('index', _external=True) }}">Market Data</a>
+                    <a href="{{ url_for('privacy_policy', _external=True) }}">Privacy Policy</a>
+                </nav>
             </div>
         </header>
         {% block content %}{% endblock %}

@@ -60,6 +60,24 @@ header {
             color: rgba(255, 255, 255, 0.9);
         }
     }
+
+    nav {
+        border-top: 1px solid #ffffff;
+        margin-top: 0.5em;
+        padding-top: 0.5em;
+
+        a {
+            font-family: 'Courier', monospace;
+            color: rgba(255, 255, 255, 1.0);
+            text-decoration: none;
+            text-transform: uppercase;
+            margin-right: 1em;
+
+            &:hover {
+                color: rgba(255, 255, 255, 0.5);
+            }
+        }
+    }
 }
 
 th { vertical-align: bottom; }
@@ -85,6 +103,7 @@ th, td {
     table { width: 100%; }
     tr.verified { background-color: $verified_green; }
     .data-submitted { min-width: 80px; }
+    tr:last-of-type td { border-bottom: none; }
  }
 
 /* Submissions */

@@ -17,12 +17,33 @@ A web application for sharing local tech industry compensation. It aims to freel
 ### Option 1: Running With Docker 
 
 You can use [Docker](https://www.docker.com) to create a container which will grab all of the dependencies for you.
-  
-```
+  ```
 docker build -t open-tech-pay .
-docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay
 ```
 
+You'll need to run the database migrations if you haven't:
+```
+docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay flask db init
+docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay flask db migrate
+docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay flask db upgrade
+```
+
+Install frontend packages and compile SASS:
+```
+docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay yarn install
+docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay sass --watch sass:src/static/stylesheet
+```
+
+Run the application container:
+```
+docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay flask db init
+```
+or
+```
+docker-compose up
+```
+
+---
 
 ### Option 2: Installing Dependencies
 
