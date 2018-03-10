@@ -22,7 +22,8 @@ RUN apt-get update && apt-get install yarn -y
 
 EXPOSE 5000
 
+# FLASK_APP is only used by Flask's internal server, not Gunicorn.
 ENV FLASK_APP=/app/src/application.py
 ENV CONFIG_FILEPATH=/app/config.py
 
-CMD [ "python", "-m", "flask", "run", "--host=0.0.0.0" ]
+CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "wsgi:app"]

@@ -36,7 +36,7 @@ docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay sass
 
 Run the application container:
 ```
-docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay flask db init
+docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay
 ```
 or
 ```
