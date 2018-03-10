@@ -1,5 +1,6 @@
 from flask import render_template, jsonify, request, url_for
 from flask_migrate import Migrate
+from sqlalchemy import and_
 from src import app, db
 from src.models import *
 from src.model_schemas import *
@@ -45,7 +46,8 @@ def fetch_submissions():
         'years_experience',
         'years_with_current_employer',
         'number_of_employers',
-        'verified'
+        'verified',
+        'created_at'
     })
     result = [schema.dump(submission).data for submission in submissions]
     return jsonify(result)
@@ -79,21 +81,21 @@ def submit():
 
     """ Overwriting existing unconfirmed submission, otherwise create a new one """
     submission = Submission.query.filter(
-        Submission.email == payload['email']
+        and_(
+            Submission.email == payload['email'],
+            Submission.confirmed == False
+        )
     ).first()
 
     if submission:
-        # This is quite hacky. Notice the "instance" key in the passed param.
-        data = request_schema.data
-        data['instance'] = submission
+        db.session.delete(submission)
         submission = SubmissionSchema(only=[
-            'instance',
             'salary',
             'email',
             'years_experience',
             'years_with_current_employer',
             'number_of_employers'
-        ]).load(data).data
+        ]).load(request_schema.data).data
     else:
         submission = SubmissionSchema(only=[
             'salary',

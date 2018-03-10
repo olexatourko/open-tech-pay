@@ -20,6 +20,7 @@
             <!-- ko if: $component.show_detailed_view() -->
             <th>Years with Current Employer</th>
             <th>Lifetime Employers</th>
+            <th>Date Submitted</th>
             <!-- /ko -->
         </tr>
         <tbody data-bind="foreach: { data: table_submissions, as: 'item' }">
@@ -39,6 +40,7 @@
         <!-- ko if: $component.show_detailed_view() -->
         <td data-bind="text: item.years_with_current_employer"></td>
         <td data-bind="text: item.number_of_employers"></td>
+        <td data-bind="text: item.created_at"></td>
         <!-- /ko -->
         </tbody>
         </thead>

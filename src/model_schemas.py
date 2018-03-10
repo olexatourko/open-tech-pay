@@ -72,6 +72,7 @@ class SubmissionSchema(Schema):
     roles = fields.Nested('RoleSchema', many=True)
     education = fields.Nested('EducationSchema')
     techs = fields.Nested('TechSchema', many=True)
+    created_at = fields.DateTime('%Y-%m-%d')
 
     @post_load
     def make_model(self, data):
@@ -91,5 +92,3 @@ class SubmissionSchema(Schema):
         if not data['years_with_current_employer'] <= data['years_experience']:
             raise ValidationError('Years with current employer must be <= total years of experience',
                   ['years_with_current_employer', 'years_experience'])
-
-
