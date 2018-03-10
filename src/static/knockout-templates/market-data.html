@@ -33,8 +33,8 @@
                     <span data-bind="text: tech.name"></span><!-- ko if: $index() < item.techs.length - 1 -->,<!-- /ko -->
                 </td>
                 <td data-bind="text: item.employment_type.name"></td>
-                <td data-bind="foreach: { data: perks, as: 'perk' }">
-                    <span data-bind="text: perk.name"></span><!-- ko if: $index() < item.perks.length - 1 -->,<br><!-- /ko -->
+                <td data-bind="foreach: { data: submission_to_perks, as: 'submission_to_perk' }">
+                    <span data-bind="text: $component.get_perk_text(submission_to_perk)"></span><!-- ko if: $index() < item.submission_to_perks.length - 1 -->,<br><!-- /ko -->
                 </td>
                 <td data-bind="text: item.years_experience"></td>
                 <td data-bind="text: item.education.name"></td>

@@ -86,7 +86,11 @@ def seed_db(database):
             db.session.add(submission)
 
             for j in range(0, 3):
-                submission.associate_perk(perks[randint(0, len(perks) - 1)])
+                perk = perks[randint(0, len(perks) - 1)]
+                if perk not in submission.perks:
+                    value = randint(1, 50) * 100
+                    submission.submission_to_perks.append(SubmissionToPerk(perk, value))
+
 
             submission.employment_type = employment_types[randint(0, len(employment_types) - 2 - 1)]
             for j in range(0, 2):

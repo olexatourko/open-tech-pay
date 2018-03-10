@@ -20,6 +20,13 @@ class PerkSchema(Schema):
         return model
 
 
+class SubmissionToPerkSchema(Schema):
+    submission_id = fields.Integer()
+    perk_id = fields.Integer()
+    perk = fields.Nested('PerkSchema')
+    value = fields.Number()
+
+
 class EmploymentTypeSchema(Schema):
     id = fields.Integer()
     name = fields.String(required=True)
@@ -68,10 +75,13 @@ class SubmissionSchema(Schema):
     number_of_employers = fields.Integer()
     years_with_current_employer = fields.Integer()
     perks = fields.Nested('PerkSchema', many=True)
+    submission_to_perks = fields.Nested('SubmissionToPerkSchema',
+        exclude=('submission_id', 'perk_id'),
+        many=True)
     employment_type = fields.Nested('EmploymentTypeSchema')
-    roles = fields.Nested('RoleSchema', many=True)
-    education = fields.Nested('EducationSchema')
-    techs = fields.Nested('TechSchema', many=True)
+    roles = fields.Nested('RoleSchema', exclude=('id',), many=True)
+    education = fields.Nested('EducationSchema', exclude=('id',))
+    techs = fields.Nested('TechSchema', exclude=('id',), many=True)
     created_at = fields.DateTime('%Y-%m-%d')
 
     @post_load

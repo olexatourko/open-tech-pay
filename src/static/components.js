@@ -65,6 +65,14 @@ ko.components.register('market-data', {
         self.get_salary_text = function(salary) {
             return '$' + number_with_commas(salary);
         }
+        self.get_perk_text =  function(submission_to_perk) {
+            var text = submission_to_perk.perk.name;
+            if (submission_to_perk.value) {
+                text += ' ($' + number_with_commas(submission_to_perk.value) + ')';
+            }
+
+            return text;
+        }
     },
     template: { require: 'text!static/knockout-templates/market-data.html' }
 });

@@ -39,7 +39,7 @@ def fetch_submissions():
     schema = SubmissionSchema(only={
         'salary',
         'employment_type',
-        'perks',
+        'submission_to_perks',
         'roles',
         'education',
         'techs',
