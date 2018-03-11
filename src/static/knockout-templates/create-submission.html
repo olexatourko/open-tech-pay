@@ -147,7 +147,7 @@
     <div class="row server-errors">
         <h6>Encountered Errors:</h6>
         <ul data-bind="foreach: { data: server_errors, as: 'error' }">
-            <li class="error" data-bind="text: error"></li>
+            <li class="error" data-bind="text: $component.get_error_text(error)"></li>
         </ul>
     </div>
     <!-- /ko -->

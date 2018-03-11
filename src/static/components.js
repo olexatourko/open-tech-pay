@@ -283,6 +283,27 @@ ko.components.register('create-submission', {
         self.inner_message_bus.subscribe(function(tech) {
             self.selected_techs.remove(tech);
         }, {}, 'tech_unselected')
+
+
+        /* Error Labels --------------------*/
+        self.get_error_text = function(error) {
+            var labels = {
+                'email': 'Email',
+                'roles': 'Roles',
+                'perks': 'Perks',
+                'techs': 'Technologies',
+                'years_experience': 'Years Experience',
+                'years_with_current_employer': 'Years With Current Employer'
+            }
+
+            var key = error[0];
+            var message = error[1]
+            if (key in labels) {
+                return labels[key] + ": " + message;
+            }
+
+            return key + ": " + message;
+        };
     },
     template: { require: 'text!static/knockout-templates/create-submission.html' }
 });

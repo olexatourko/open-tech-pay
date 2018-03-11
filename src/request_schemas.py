@@ -23,7 +23,7 @@ class SubmissionRequestSchema(Schema):
         ).first()
 
         if submission and submission.confirmed:
-            raise ValidationError('Submission for this email already exists')
+            raise ValidationError('Submission for this email already exists.')
 
     salary = fields.Number(required=True)
     email = fields.Email(required=True, validate=validate_email)
@@ -34,9 +34,14 @@ class SubmissionRequestSchema(Schema):
     employment_type = fields.Integer(required=True, validate=validate_employment_type)
     education = fields.Integer(required=True, validate=validate_education)
 
-    perks = fields.List(fields.Dict(), validate=Length(max=10))
-    roles = fields.List(fields.Dict(), required=True, validate=Length(min=1, max=5))
-    techs = fields.List(fields.Dict(), validate=Length(max=15))
+    perks = fields.List(fields.Dict(), validate=Length(
+        max=10, error="A maximum of 10 perks are allowed. Please narrow down your selection to the most important ones."))
+    roles = fields.List(fields.Dict(), required=True, validate=Length(
+        min=1, max=5, error="Between 1 and 5 Roles must be selected. Please narrow down your selection to the most"
+                            " important ones if you have more than 5."
+    ))
+    techs = fields.List(fields.Dict(), validate=Length(
+        max=15, error="A maximum of 15 technologies are allowed. Please narrow down your selection to the most important ones."))
 
     @validates_schema(skip_on_field_errors=True)
     def validate_object(self, data):

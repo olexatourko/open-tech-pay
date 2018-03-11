@@ -26,7 +26,7 @@ def seed_db(database):
             Role('Software Developer', listed=True),
             Role('Backend Web Developer', listed=True),
             Role('Frontend Web Developer', listed=True),
-            Role('Full-Stack Developer', listed=True),
+            Role('Full-Stack Web Developer', listed=True),
             Role('Web Design', listed=True),
             Role('Graphic Designer', listed=True),
             Role('System Administrator', listed=True),
