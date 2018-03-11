@@ -1,0 +1,43 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="container about">
+    <h4>About</h4>
+    <p>{{ config['DEPLOYMENT_NAME'] }} is a tool for sharing tech industry compensation in {{ config['REGION_NAME'] }}.</p>
+    <hr>
+    <section>
+        <h5>Why Share?</h5>
+        <p>By sharing your pay, you help make the market fairer and more competitive.</p>
+        <p>Pay secrecy is very common in Canada and the United States. Many of us are hesitant to discuss salary,
+            and are often discouraged from doing so. This creates a situation in which one party has far more information
+            than the other. Employees with similar experience, skills, and output often earn wildly different wages
+            based on when they were hired and how well they negotiated.</p>
+        <p><a href="https://www.youtube.com/watch?v=7xH7eGFuSYI">Here</a> is a great video explaining this information gap.</p>
+
+        <p style="margin-bottom: 0.5em;">There are various benefits to having publicly available pay information:</p>
+        <ul>
+            <li>Gives employees a more equal playing field in pay negations.</li>
+            <li>Allows employers to make informed hiring and pay decisions.</li>
+            <li>Helps job seekers objectively value offers.</li>
+            <li>May help avoid gender-based pay differences.</li>
+        </ul>
+    </section>
+    <section>
+        <h5>Resources</h5>
+        <ul>
+            <li>
+                <a href="https://www.ledc.com/tech-jobs">LEDC Tech Jobs</a>
+                - A comprehensive list of London's major tech companies. Job postings are updated monthly.
+            </li>
+            <li>
+                <a href="https://devldn.ca/">DevLdn Slack</a>
+                - An active slack channel for London developers.
+            </li>
+            <li>
+                <a href="https://insights.stackoverflow.com/survey/2017">StackOverflow Salary Survey</a>
+                - StackOverflow's yearly salary survey. Great information, but limited data is available for London.
+            </li>
+        </ul>
+    </section>
+</div>
+{% endblock %}

@@ -200,4 +200,9 @@ def confirm():
 
 @app.route('/privacy_policy')
 def privacy_policy():
-    return render_template('privacy-policy.html')
+    return render_template('privacy-policy.html', title='Privacy Policy')
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html', title='About')
