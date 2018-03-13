@@ -136,7 +136,7 @@
         <label>
             <div class="text">Email</div>
             <input name="email" type="email" data-bind="value: email, hasFocus: email_focused" data-parsley-type="email" required placeholder="Required">
-            <!-- ko if: last_email_status() == 'whitelisted' -->
+            <!-- ko if: last_email_status() == 'whitelisted' && email().length > 0 -->
                 <div class="text email-status">This email is whitelisted - your submission will be marked as verified!</div>
             <!-- /ko -->
         </label>

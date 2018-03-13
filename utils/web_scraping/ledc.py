@@ -8,7 +8,7 @@ def getHTML(url):
     page = requests.get(url)
     tree = html.fromstring(page.content)
     result = {}
-    result['company'] = tree.xpath('//*[@id="listing-tech-jobs"]/a/img/@alt')
+    result['name'] = tree.xpath('//*[@id="listing-tech-jobs"]/a/img/@alt')
     result['url'] = tree.xpath('//*[@id="listing-tech-jobs"]/a/@href')
     return result
 
@@ -26,11 +26,11 @@ def writeIntoFile(data, file):
 def main():
     result = getHTML('https://www.ledc.com/tech-jobs')
     resultList = []
-    for index, company in enumerate(result['company']):
+    for index, company in enumerate(result['name']):
         item = {}
         item['url'] = result['url'][index]
-        item['domain'] = getDomainFromUrl(item['url'])
-        item['company'] = company
+        item['email_domain'] = getDomainFromUrl(item['url'])
+        item['name'] = company
         resultList.append(dict(item))
     print(json.dumps(resultList, indent=4))
 
