@@ -2,10 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from src import app, db
+
+from src import app
 from src.models import *
 from src.request_schemas import SubmissionRequestSchema
-from src.seed import seed_db
+from utils.seeding.seed_core import seed_db
+
 
 class TestRequestValidation(unittest.TestCase):
     def setUp(self):

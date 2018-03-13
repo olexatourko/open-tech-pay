@@ -21,11 +21,12 @@ You can use [Docker](https://www.docker.com) to create a container which will gr
 docker build -t open-tech-pay .
 ```
 
-You'll need to run the database migrations if you haven't:
+You'll need to run the database migrations and seed the database if you haven't:
 ```
 docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay flask db init
 docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay flask db migrate
 docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay flask db upgrade
+docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay python utils/seeding/seed_core.py
 ```
 
 Install frontend packages and compile SASS:
@@ -81,6 +82,12 @@ pip install marshmallow
 
 First get the dependencies above, then...
 
+Set your `PYTHONPATH` [PyCharm](https://stackoverflow.com/questions/28326362/pycharm-and-pythonpath):
+```
+cd /path/to/project/
+export PYTHONPATH=$(pwd)
+```
+
 **Initial Migrations and Seeding**
 
 First specify your database credentials in a file called `/config.py`. (check out /`example_config.py`)
@@ -89,12 +96,7 @@ First specify your database credentials in a file called `/config.py`. (check ou
 flask db init
 flask db migrate
 flask db upgrade
-```
-
-Seed the db with clients and product ares:
-
-```
-python src/seed.py
+python utils/seeding/seed_core.py
 ```
 
 Compile SASS:

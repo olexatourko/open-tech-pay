@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from src import app, db
-from src.models import *
-from src.model_schemas import *
+
+from src import app
 from src.high_level_methods import *
-from src.seed import seed_db
+from utils.seeding.seed_core import seed_db
+
 
 class TestHighLevelMethods(unittest.TestCase):
 

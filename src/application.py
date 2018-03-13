@@ -180,7 +180,8 @@ def submit():
     msg = Message("OpenPay London Submission Confirmation",
                   sender="noreply@londontechpay.ca",
                   recipients=[submission.email])
-    msg.body = url_for('confirm', _external=True, confirmation_code=submission.confirmation_code)
+
+    msg.body = 'Please confirm your submission here: {}'.format(url_for('confirm', _external=True, confirmation_code=submission.confirmation_code))
     mail.send(msg)
 
     return jsonify({

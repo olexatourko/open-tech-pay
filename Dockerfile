@@ -25,5 +25,7 @@ EXPOSE 5000
 # FLASK_APP is only used by Flask's internal server, not Gunicorn.
 ENV FLASK_APP=/app/src/application.py
 ENV CONFIG_FILEPATH=/app/config.py
+# Used to get a common base for import statements
+ENV PYTHONPATH=/app/
 
 CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "wsgi:app"]
