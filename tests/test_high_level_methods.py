@@ -5,7 +5,8 @@ import unittest
 
 from src import app
 from src.high_level_methods import *
-from utils.seeding.seed_core import seed_db
+from utils.seeding.seed_core import seed_core
+from utils.seeding.seed_random_submissions import seed_random_submisssions
 
 
 class TestHighLevelMethods(unittest.TestCase):
@@ -15,7 +16,10 @@ class TestHighLevelMethods(unittest.TestCase):
         db.session.close()
         db.drop_all()  # http://docs.sqlalchemy.org/en/latest/orm/extensions/declarative/basic_use.html
         db.create_all()
-        seed_db(db)
+        seed_core(db)
+        seed_random_submisssions(db)
+        db.session.add(Employer(name='Company 1', email_domain='company1.com', url='https://company1.com'))
+        db.session.commit()
         self.submissions = Submission.query.all()
 
     def test_check_email(self):

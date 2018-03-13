@@ -49,6 +49,11 @@ class EducationSchema(Schema):
     name = fields.String(required=True)
 
 
+class LocationSchema(Schema):
+    id = fields.Integer()
+    name = fields.String(required=True)
+
+
 class TechSchema(Schema):
     id = fields.Integer()
     name = fields.String(required=True)
@@ -79,9 +84,10 @@ class SubmissionSchema(Schema):
         exclude=('submission_id', 'perk_id'),
         many=True)
     employment_type = fields.Nested('EmploymentTypeSchema')
-    roles = fields.Nested('RoleSchema', exclude=('id',), many=True)
-    education = fields.Nested('EducationSchema', exclude=('id',))
-    techs = fields.Nested('TechSchema', exclude=('id',), many=True)
+    location = fields.Nested('LocationSchema')
+    roles = fields.Nested('RoleSchema', exclude=('id', 'listed'), many=True)
+    education = fields.Nested('EducationSchema', exclude=('id', 'listed'))
+    techs = fields.Nested('TechSchema', exclude=('id', 'listed'), many=True)
     created_at = fields.DateTime('%Y-%m-%d')
 
     @post_load

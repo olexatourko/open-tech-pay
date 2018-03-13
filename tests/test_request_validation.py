@@ -6,7 +6,7 @@ import unittest
 from src import app
 from src.models import *
 from src.request_schemas import SubmissionRequestSchema
-from utils.seeding.seed_core import seed_db
+from utils.seeding.seed_core import seed_core
 
 
 class TestRequestValidation(unittest.TestCase):
@@ -15,12 +15,13 @@ class TestRequestValidation(unittest.TestCase):
         db.session.close()
         db.drop_all()
         db.create_all()
-        seed_db(db)
+        seed_core(db)
 
     def test_valid_request_1(self):
         request_dict = {
             'salary': 60000,
             'employment_type': EmploymentType.query.first().id,
+            'location': Location.query.first().id,
             'years_with_current_employer': 1,
             'years_experience': 1,
             'roles': [
@@ -40,6 +41,7 @@ class TestRequestValidation(unittest.TestCase):
         request_dict = {
             'salary': 60000,
             'employment_type': EmploymentType.query.first().id,
+            'location': Location.query.first().id,
             'years_with_current_employer': 1,
             'years_experience': 1,
             'roles': [],
@@ -55,6 +57,7 @@ class TestRequestValidation(unittest.TestCase):
         request_dict = {
             'salary': 60000,
             'employment_type': EmploymentType.query.first().id,
+            'location': Location.query.first().id,
             'years_with_current_employer': 2,
             'years_experience': 1,
             'roles': [
@@ -74,6 +77,7 @@ class TestRequestValidation(unittest.TestCase):
         request_dict = {
             'salary': 60000,
             'employment_type': EmploymentType.query.first().id,
+            'location': Location.query.first().id,
             'years_with_current_employer': 1,
             'years_experience': 1,
             'roles': [

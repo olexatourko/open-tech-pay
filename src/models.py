@@ -26,6 +26,15 @@ class EmploymentType(db.Model):
         self.name = name
 
 
+class Location(db.Model):
+    __tablename__ = 'location'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text)
+
+    def __init__(self, name):
+        self.name = name
+
+
 class Role(db.Model):
     __tablename__ = 'role'
     id = db.Column(db.Integer, primary_key=True)
@@ -110,11 +119,13 @@ class Submission(db.Model):
     """ Relations """
     submission_to_perks = relationship("SubmissionToPerk", cascade="all, delete-orphan")
     submission_to_employment_type = relationship("SubmissionToEmploymentType", uselist=False, cascade="all, delete-orphan")
+    submission_to_location = relationship("SubmissionToLocation", uselist=False, cascade="all, delete-orphan")
     submission_to_roles = relationship("SubmissionToRole", cascade="all, delete-orphan")
     submission_to_education = relationship("SubmissionToEducation", uselist=False, cascade="all, delete-orphan")
     submission_to_techs = relationship("SubmissionToTech", cascade="all, delete-orphan")
     perks = association_proxy('submission_to_perks', 'perk')
     employment_type = association_proxy('submission_to_employment_type', 'employment_type')
+    location = association_proxy('submission_to_location', 'location')
     roles = association_proxy('submission_to_roles', 'role')
     education = association_proxy('submission_to_education', 'education')
     techs = association_proxy('submission_to_techs', 'tech')
@@ -169,6 +180,26 @@ class SubmissionToEmploymentType(db.Model):
 
     def __init__(self, employment_type):
         self.employment_type = employment_type
+
+
+class SubmissionToLocation(db.Model):
+    __tablename__ = 'submission_to_location'
+
+    """
+    Relations:
+
+    1 Submission
+    1 Location
+    """
+
+    submission_id = db.Column(db.Integer, db.ForeignKey('submission.id', ondelete='CASCADE'), primary_key=True)
+    location_id = db.Column(db.Integer, db.ForeignKey('location.id', ondelete='CASCADE'), primary_key=True)
+    submission = relationship(Submission)
+    location = relationship(Location)
+
+    def __init__(self, location):
+        self.location = location
+
 
 class SubmissionToRole(db.Model):
     __tablename__ = 'submission_to_role'

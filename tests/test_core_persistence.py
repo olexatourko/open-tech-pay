@@ -21,6 +21,13 @@ class TestCorePersistence(unittest.TestCase):
         for perk in self.perks:
             db.session.add(perk)
 
+        self.locations = [
+            Location('London, Ontario'),
+            Location('Near London, Ontario')
+        ]
+        for location in self.locations:
+            db.session.add(location)
+
         self.employment_types = [
             EmploymentType('Full-Time'),
             EmploymentType('Part-Time'),
@@ -64,6 +71,7 @@ class TestCorePersistence(unittest.TestCase):
         submission.submission_to_perks.append(SubmissionToPerk(self.perks[1], value=100))
 
         submission.employment_type = self.employment_types[0]
+        submission.location = self.locations[0]
         submission.techs.append(self.techs[0])
         submission.techs.append(self.techs[2])
         submission.education = self.education_levels[1]
@@ -76,6 +84,7 @@ class TestCorePersistence(unittest.TestCase):
         assert self.perks[1] in submission.perks
         assert submission.submission_to_perks[1].value == 100
         assert submission.employment_type == self.employment_types[0]
+        assert submission.location == self.locations[0]
         assert self.techs[0] in submission.techs
         assert self.techs[2] in submission.techs
         assert submission.education == self.education_levels[1]

@@ -20,16 +20,18 @@ def index():
 def fetch_fields():
     perks = Perk.query.filter(Perk.listed).all()
     employment_types = EmploymentType.query.all()
+    locations = Location.query.all()
     roles = Role.query.filter(Role.listed).all()
     educations = Education.query.all()
     techs = Tech.query.filter(Tech.listed).all()
 
     return jsonify({
-        'perks': [PerkSchema().dump(model).data for model in perks],
+        'perks': [PerkSchema(exclude=['listed']).dump(model).data for model in perks],
         'employment_types': [EmploymentTypeSchema().dump(model).data for model in employment_types],
-        'roles': [RoleSchema().dump(model).data for model in roles],
+        'locations': [LocationSchema().dump(model).data for model in locations],
+        'roles': [RoleSchema(exclude=['listed']).dump(model).data for model in roles],
         'educations': [EducationSchema().dump(model).data for model in educations],
-        'techs': [TechSchema().dump(model).data for model in techs],
+        'techs': [TechSchema(exclude=['listed']).dump(model).data for model in techs],
     })
 
 
@@ -42,6 +44,7 @@ def fetch_submissions():
         'submission_to_perks',
         'roles',
         'education',
+        'location',
         'techs',
         'years_experience',
         'years_with_current_employer',
@@ -108,6 +111,7 @@ def submit():
     """ Load PayRange, Eduction, EmploymentType """
     employment_type = EmploymentType.query.filter(EmploymentType.id == payload['employment_type']).first()
     education = Education.query.filter(Education.id == payload['education']).first()
+    location = Location.query.filter(Location.id == payload['location']).first()
 
     submission.perks = []
     submission.roles = []
@@ -167,8 +171,10 @@ def submit():
 
     submission.employment_type = employment_type
     submission.education = education
+    submission.location = location
     submission.confirmed = False
     submission.confirmation_code = hlm.get_confirmation_code()
+    submission.verified = hlm.check_email(request_schema.data['email'])['whitelisted']
 
     db.session.add(submission)
     db.session.commit()

@@ -5,6 +5,7 @@ from src.models import *
 
 def seed_random_submisssions(database, n=10):
     employment_types = EmploymentType.query.all()
+    locations = Location.query.all()
     roles = Role.query.all()
     perks = Perk.query.all()
     techs = Tech.query.all()
@@ -29,7 +30,8 @@ def seed_random_submisssions(database, n=10):
                     submission.submission_to_perks.append(SubmissionToPerk(perk, value))
 
 
-            submission.employment_type = employment_types[randint(0, len(employment_types) - 2 - 1)]
+            submission.employment_type = employment_types[randint(0, len(employment_types) - 1)]
+            submission.location = locations[randint(0, len(locations) - 1)]
             for j in range(0, 2):
                 submission.associate_role(roles[randint(0, len(roles) - 1)])
 

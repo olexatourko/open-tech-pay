@@ -17,6 +17,11 @@ class SubmissionRequestSchema(Schema):
         if not education:
             raise ValidationError('Education does not exist.')
 
+    def validate_location(value):
+        location = Location.query.filter(Location.id == value).first()
+        if not location:
+            raise ValidationError('Location does not exist.')
+
     def validate_email(value):
         submission = Submission.query.filter(
             Submission.email == value
@@ -32,6 +37,7 @@ class SubmissionRequestSchema(Schema):
     number_of_employers = fields.Integer()
 
     employment_type = fields.Integer(required=True, validate=validate_employment_type)
+    location = fields.Integer(required=True, validate=validate_location)
     education = fields.Integer(required=True, validate=validate_education)
 
     perks = fields.List(fields.Dict(), validate=Length(

@@ -89,6 +89,7 @@ ko.components.register('create-submission', {
         self.number_of_employers = ko.observable();
         self.years_with_employer = ko.observable();
 
+        self.locations = params.locations;
         self.employment_types = params.employment_types;
         self.perks = params.perks;
         self.roles = params.roles;
@@ -96,6 +97,7 @@ ko.components.register('create-submission', {
         self.educations = params.educations,
 
         self.selected_perks = ko.observableArray();
+        self.selected_location = ko.observable();
         self.selected_employment_type = ko.observable();
         self.selected_roles = ko.observableArray();
         self.selected_techs = ko.observableArray();
@@ -181,6 +183,7 @@ ko.components.register('create-submission', {
                 'years_experience': self.years_experience(),
                 'number_of_employers': self.number_of_employers(),
                 'years_with_current_employer': self.years_with_employer(),
+                'location': self.selected_location().id,
                 'employment_type': self.selected_employment_type().id,
                 'education': self.selected_education().id,
                 'perks': self.selected_perks().map(perk_mapper_function),

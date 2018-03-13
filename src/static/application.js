@@ -2,6 +2,7 @@
 var submissions = ko.observableArray([]);
 
 var perks = ko.observableArray();
+var locations = ko.observableArray();
 var employment_types = ko.observableArray();
 var roles = ko.observableArray();
 var techs = ko.observableArray();
@@ -51,6 +52,7 @@ function fetch_submissions() {
 
 function fetch_fields() {
     employment_types.removeAll();
+    locations.removeAll();
     educations.removeAll();
     perks.removeAll();
     roles.removeAll();
@@ -58,6 +60,7 @@ function fetch_fields() {
 
     jQuery.getJSON('fetch_fields', function(data) {
         ko.utils.arrayPushAll(employment_types, data['employment_types']);
+        ko.utils.arrayPushAll(locations, data['locations']);
         ko.utils.arrayPushAll(educations, data['educations']);
         ko.utils.arrayPushAll(perks, data['perks']);
         ko.utils.arrayPushAll(roles, data['roles']);

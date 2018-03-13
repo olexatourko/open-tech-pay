@@ -20,6 +20,11 @@ def seed_core(database):
             EmploymentType('Independent Contractor'),
             EmploymentType('Internship')
         ]
+        locations = [
+            Location('London, Ontario'),
+            Location('Near London, Ontario'),
+            Location('Other')
+        ]
         roles = [
             Role('Software Developer', listed=True),
             Role('Backend Web Developer', listed=True),
@@ -56,7 +61,6 @@ def seed_core(database):
             Tech('SQL', listed=True),
             Tech('HTML', listed=True),
             Tech('CSS', listed=True),
-            Tech('Bash / Shell', listed=True),
             Tech('Linux', listed=True),
             Tech('Golang', listed=True),
             Tech('Git', listed=True),
@@ -67,6 +71,7 @@ def seed_core(database):
         ]
         for v in perks: db.session.add(v)
         for v in employment_types: db.session.add(v)
+        for v in locations: db.session.add(v)
         for v in roles: db.session.add(v)
         for v in educations: db.session.add(v)
         for v in techs: db.session.add(v)
