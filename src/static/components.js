@@ -6,7 +6,9 @@ ko.bindingHandlers.autoNumeric = {
             currencySymbol : '$',
             decimalCharacter : '.',
             digitGroupSeparator : ',',
-            decimalPlaces: 0
+            decimalPlaces: 0,
+            minimumValue: 0,
+            maximumValue: 1000000
         });
         value_accessor()(auto_numeric.getNumber()); // Set raw_value
         jQuery(element).on('autoNumeric:formatted', function() {

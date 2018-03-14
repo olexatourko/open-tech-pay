@@ -30,7 +30,7 @@ class SubmissionRequestSchema(Schema):
         if submission and submission.confirmed:
             raise ValidationError('Submission for this email already exists.')
 
-    salary = fields.Number(required=True)
+    salary = fields.Number(required=True, validate=Range(min=0, max=1000000))
     email = fields.Email(required=True, validate=validate_email)
     years_experience = fields.Integer(required=True)
     years_with_current_employer = fields.Integer(required=True)

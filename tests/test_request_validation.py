@@ -92,5 +92,45 @@ class TestRequestValidation(unittest.TestCase):
         }
         assert len(SubmissionRequestSchema().validate(request_dict)) > 0
 
+    def test_invalid_request_4(self):
+        """ Salary < 0 """
+        request_dict = {
+            'salary': -1000,
+            'employment_type': EmploymentType.query.first().id,
+            'location': Location.query.first().id,
+            'years_with_current_employer': 1,
+            'years_experience': 1,
+            'roles': [
+                {
+                    'id': Role.query.first().id
+                }
+            ],
+            'techs': [],
+            'perks': [],
+            'education': Education.query.first().id,
+            'email': 'test@test.com'
+        }
+        assert len(SubmissionRequestSchema().validate(request_dict)) > 0
+
+    def test_invalid_request_5(self):
+        """ Salary < 0 """
+        request_dict = {
+            'salary': 1000001,
+            'employment_type': EmploymentType.query.first().id,
+            'location': Location.query.first().id,
+            'years_with_current_employer': 1,
+            'years_experience': 1,
+            'roles': [
+                {
+                    'id': Role.query.first().id
+                }
+            ],
+            'techs': [],
+            'perks': [],
+            'education': Education.query.first().id,
+            'email': 'test@test.com'
+        }
+        assert len(SubmissionRequestSchema().validate(request_dict)) > 0
+
 if __name__ == '__main__':
     unittest.main()
