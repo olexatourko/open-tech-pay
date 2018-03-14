@@ -183,8 +183,8 @@ def submit():
     # https://pythonhosted.org/flask-mail/
     from flask_mail import Mail, Message
     mail = Mail(app)
-    msg = Message("OpenPay London Submission Confirmation",
-                  sender="noreply@londontechpay.ca",
+    msg = Message("Confirm your submission",
+                  sender=("OpenPay London", "noreply@londontechpay.ca"),
                   recipients=[submission.email])
 
     msg.body = 'Please confirm your submission here: {}'.format(url_for('confirm', _external=True, confirmation_code=submission.confirmation_code))
