@@ -124,7 +124,12 @@ python -m unittest discover
 
 ---
 
-#### PostgreSQL resources
+#### Resources
 
+##### PostgreSQL
 [Installing on Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04)  
 [Usage with Flask](https://suhas.org/sqlalchemy-tutorial/)
+
+##### Email
+[SPF / DKIM setup](https://blog.codinghorror.com/so-youd-like-to-send-some-email-through-code/)  
+[Using DKIM with the SMTP Docker image](https://github.com/namshi/docker-smtp/issues/22)

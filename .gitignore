@@ -10,3 +10,4 @@ yarn.lock
 yarn-error.log
 .sass-cache
 stylesheets
+dkim

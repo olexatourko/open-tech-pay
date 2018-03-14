@@ -68,7 +68,7 @@ class SubmissionRequestSchema(Schema):
 
 
 class ConfirmRequestSchema(Schema):
-    confirmation_code = fields.String(required=True)
+    code = fields.String(required=True)
 
 
 class CheckEmailRequestSchema(Schema):

@@ -187,7 +187,8 @@ def submit():
                   sender=("OpenPay London", "noreply@londontechpay.ca"),
                   recipients=[submission.email])
 
-    msg.body = 'Please confirm your submission here: {}'.format(url_for('confirm', _external=True, confirmation_code=submission.confirmation_code))
+    msg.body = 'Thank you for your submission! To confirm your submission, please follow this link:\n\n {}\n\n' \
+               ''.format(url_for('confirm', _external=True, code=submission.confirmation_code))
     mail.send(msg)
 
     return jsonify({
@@ -200,7 +201,7 @@ def confirm():
     request_schema = ConfirmRequestSchema().load(request.args)
     succeeded = False
     if not request_schema.errors:
-        succeeded = hlm.confirm_submission(request.args['confirmation_code']) is not None
+        succeeded = hlm.confirm_submission(request.args['code']) is not None
 
     return render_template('confirm.html', succeeded=succeeded)
 
