@@ -1,6 +1,6 @@
 from models import *
 from marshmallow import Schema, fields, post_load, validates, validates_schema, ValidationError
-
+from marshmallow.validate import Length
 
 def dump_dict_values(class_instance, raw_dict):
     for key, value in raw_dict.items():
@@ -9,7 +9,8 @@ def dump_dict_values(class_instance, raw_dict):
 
 class PerkSchema(Schema):
     id = fields.Integer()
-    name = fields.String(required=True)
+    name = fields.String(required=True, validate=Length(min=1, max=32,
+        error="Perk name must be between {min} and {max} characters."))
     description = fields.String()
     listed = fields.Boolean()
 
@@ -34,7 +35,8 @@ class EmploymentTypeSchema(Schema):
 
 class RoleSchema(Schema):
     id = fields.Integer()
-    name = fields.String(required=True)
+    name = fields.String(required=True, validate=Length(min=1, max=32,
+        error="Role name must be between {min} and {max} characters."))
     listed = fields.Boolean()
 
     @post_load
@@ -56,7 +58,8 @@ class LocationSchema(Schema):
 
 class TechSchema(Schema):
     id = fields.Integer()
-    name = fields.String(required=True)
+    name = fields.String(required=True, validate=Length(min=1, max=32,
+        error="Technology name must be between {min} and {max} characters."))
 
     @post_load
     def make_model(self, data):

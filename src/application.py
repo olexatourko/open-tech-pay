@@ -21,9 +21,9 @@ def fetch_fields():
     perks = Perk.query.filter(Perk.listed).all()
     employment_types = EmploymentType.query.all()
     locations = Location.query.all()
-    roles = Role.query.filter(Role.listed).all()
-    educations = Education.query.all()
-    techs = Tech.query.filter(Tech.listed).all()
+    roles = Role.query.filter(Role.listed).order_by(Role.name).all()
+    educations = Education.query.order_by().all()
+    techs = Tech.query.filter(Tech.listed).order_by(Tech.name).all()
 
     return jsonify({
         'perks': [PerkSchema(exclude=['listed']).dump(model).data for model in perks],
@@ -125,7 +125,13 @@ def submit():
         elif 'name' in perk_dict:
             perk = Perk.query.filter(Perk.name == perk_dict['name']).first()
             if not perk:
-                perk = Perk(name=perk_dict['name'], listed=False)
+                perk_schema = PerkSchema(only=['name']).load(perk_dict)
+                if len(perk_schema.errors) > 0:
+                    return jsonify({
+                        'status': 'error',
+                        'errors': perk_schema.errors.items()
+                    })
+                perk = perk_schema.data
 
         if perk:
             if 'value' in perk_dict:
@@ -144,7 +150,13 @@ def submit():
         elif 'name' in role_dict:
             role = Role.query.filter(Role.name == role_dict['name']).first()
             if not role:
-                role = Role(name=role_dict['name'], listed=False)
+                role_schema = RoleSchema(only=['name']).load(role_dict)
+                if len(role_schema.errors) > 0:
+                    return jsonify({
+                        'status': 'error',
+                        'errors': role_schema.errors.items()
+                    })
+                role = role_schema.data
 
         if role:
             submission.roles.append(role)
@@ -157,7 +169,13 @@ def submit():
         elif 'name' in tech_dict:
             tech = Tech.query.filter(Tech.name == tech_dict['name']).first()
             if not tech:
-                tech = Tech(name=tech_dict['name'], listed=False)
+                tech_schema = TechSchema(only=['name']).load(role_dict)
+                if len(tech_schema.errors) > 0:
+                    return jsonify({
+                        'status': 'error',
+                        'errors': tech_schema.errors.items()
+                    })
+                tech = tech_schema.data
 
         if tech:
             submission.techs.append(tech)

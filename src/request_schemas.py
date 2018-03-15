@@ -33,7 +33,7 @@ class SubmissionRequestSchema(Schema):
     salary = fields.Number(required=True, validate=Range(min=0, max=1000000))
     email = fields.Email(required=True, validate=validate_email)
     years_experience = fields.Integer(required=True)
-    years_with_current_employer = fields.Integer(required=True)
+    years_with_current_employer = fields.Integer()
     number_of_employers = fields.Integer()
 
     employment_type = fields.Integer(required=True, validate=validate_employment_type)

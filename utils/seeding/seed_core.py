@@ -30,11 +30,10 @@ def seed_core(database):
             Role('Backend Web Developer', listed=True),
             Role('Frontend Web Developer', listed=True),
             Role('Full-Stack Web Developer', listed=True),
-            Role('Web Design', listed=True),
+            Role('Web Designer', listed=True),
             Role('Graphic Designer', listed=True),
             Role('System Administrator', listed=True),
             Role('DevOps', listed=True),
-            Role('Embedded Software Developer', listed=True),
             Role('Hardware Developer', listed=True),
             Role('Project Manager', listed=True),
             Role('Mobile Developer', listed=False),
@@ -43,7 +42,6 @@ def seed_core(database):
             Education('Some High School'),
             Education('Completed High School'),
             Education('Some College / University'),
-            Education('Completed Associate\'s Degree'),
             Education('Completed College Degree'),
             Education('Completed Bachelor\'s Degree'),
             Education('Completed Master\'s'),
@@ -63,11 +61,7 @@ def seed_core(database):
             Tech('CSS', listed=True),
             Tech('Linux', listed=True),
             Tech('Golang', listed=True),
-            Tech('Git', listed=True),
-            Tech('Perforce', listed=True),
-            Tech('Laravel', listed=False),
-            Tech('Spring', listed=False),
-            Tech('Rails', listed=False)
+            Tech('Git', listed=True)
         ]
         for v in perks: db.session.add(v)
         for v in employment_types: db.session.add(v)
