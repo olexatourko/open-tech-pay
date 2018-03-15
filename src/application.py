@@ -191,11 +191,15 @@ def submit():
         'Recipients': [{'Email': submission.email}]
     }
     result = mailjet.send.create(data=data)
-    print result.status_code
-
-    return jsonify({
-        'status': 'eh'
-    })
+    if result.status_code == 200:
+        return jsonify({
+            'status': 'ok'
+        })
+    else:
+        return jsonify({
+            'status': 'error',
+            'errors': 'Error sending email, please try again later.'
+        })
 
 
 @app.route('/confirm')
