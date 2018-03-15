@@ -2,7 +2,9 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-    <meta charset="UTF-8">
+        {% include 'partials/google_analytics.html' ignore missing %}
+
+        <meta charset="UTF-8">
         {% if title is defined %}
             <title>{{ config['DEPLOYMENT_NAME'] }} - {{ title }}</title>
         {% else %}
