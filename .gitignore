@@ -11,3 +11,4 @@ yarn-error.log
 .sass-cache
 stylesheets
 dkim
+DNS-self-hosted-email-entries.txt

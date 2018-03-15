@@ -180,19 +180,21 @@ def submit():
     db.session.commit()
 
     """ Send confirmation email """
-    # https://pythonhosted.org/flask-mail/
-    from flask_mail import Mail, Message
-    mail = Mail(app)
-    msg = Message("Confirm your submission",
-                  sender=("OpenPay London", "noreply@londontechpay.ca"),
-                  recipients=[submission.email])
-
-    msg.body = 'Thank you for your submission! To confirm your submission, please follow this link:\n\n {}\n\n' \
-               ''.format(url_for('confirm', _external=True, code=submission.confirmation_code))
-    mail.send(msg)
+    from mailjet_rest import Client
+    mailjet = Client(auth=(app.config['MAILJET_API_KEY'], app.config['MAILJET_API_SECRET']))
+    data = {
+        'FromEmail': 'noreply@londontechpay.ca',
+        'FromName': app.config['DEPLOYMENT_NAME'],
+        'Subject': 'Confirm your submission',
+        'Text-part': 'Thank you for your submission! To confirm your submission, please follow this link:\n\n {}\n\n' \
+               ''.format(url_for('confirm', _external=True, code=submission.confirmation_code)),
+        'Recipients': [{'Email': submission.email}]
+    }
+    result = mailjet.send.create(data=data)
+    print result.status_code
 
     return jsonify({
-        'status': 'ok'
+        'status': 'eh'
     })
 
 

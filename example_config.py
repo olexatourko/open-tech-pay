@@ -9,6 +9,10 @@ MAIL_USE_SSL = False
 MAIL_USERNAME = ''
 MAIL_PASSWORD = ''
 
+#Mailjet
+MAILJET_API_KEY = ''
+MAILJET_API_SECRET = ''
+
 # Used on the frontend for this particular deployment
 DEPLOYMENT_NAME = 'OpenPay'
 REGION_NAME = 'Region'

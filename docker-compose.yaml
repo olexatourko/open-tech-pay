@@ -6,15 +6,3 @@ services:
      - "5000:5000"
     volumes:
      - /home/oles/open-tech-pay/:/app
-
-  smtp:
-    image: "namshi/smtp"
-    environment:
-      - MAILNAME=londontechpay.ca
-    volumes:
-      - /etc/postfix/main.cf:/etc/postfix/main.cf
-      - ./dkim/config:/etc/exim4/_docker_additional_macros:ro
-      - ./dkim/domain.key:/etc/exim4/domain.key:ro
-
-    ports:
-      - 25:25

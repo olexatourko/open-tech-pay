@@ -131,5 +131,8 @@ python -m unittest discover
 [Usage with Flask](https://suhas.org/sqlalchemy-tutorial/)
 
 ##### Email
+Transactional emails are sent with the [Mailjet](https://www.mailjet.com/) because it manages to avoid spam filters pretty well.
+Alternatively, you can send emails directly - check out the `own-emails` branch to see how.
+
 [SPF / DKIM setup](https://blog.codinghorror.com/so-youd-like-to-send-some-email-through-code/)  
 [Using DKIM with the SMTP Docker image](https://github.com/namshi/docker-smtp/issues/22)
