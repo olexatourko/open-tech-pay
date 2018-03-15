@@ -37,7 +37,7 @@ def fetch_fields():
 
 @app.route('/fetch_submissions')
 def fetch_submissions():
-    submissions = Submission.query.filter(Submission.confirmed).all()
+    submissions = Submission.query.filter(Submission.confirmed).order_by(Submission.created_at.desc()).all()
     schema = SubmissionSchema(only={
         'salary',
         'employment_type',
