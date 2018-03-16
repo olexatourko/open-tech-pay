@@ -169,7 +169,7 @@ def submit():
         elif 'name' in tech_dict:
             tech = Tech.query.filter(Tech.name == tech_dict['name']).first()
             if not tech:
-                tech_schema = TechSchema(only=['name']).load(role_dict)
+                tech_schema = TechSchema(only=['name']).load(tech_dict)
                 if len(tech_schema.errors) > 0:
                     return jsonify({
                         'status': 'error',
