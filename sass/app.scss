@@ -38,8 +38,8 @@ h1, h2, h3, h4, h5 { font-family: 'Courier', monospace; }
 
 /* ----------------------------- */
 
-$success_green: #cbff9f;
-$verified_green: #e8ffd4;
+$success_green: #cfff9f;
+$verified_color: #e8ffd4;
 $error_red: #ffbbb3;
 $grey_1: #efefef;
 
@@ -86,12 +86,18 @@ th, td {
     padding: 0.25em 0.5em;
 }
 
-.debug {
-    background: $error_red;
+.site-message {
     padding: 1em;
     margin-bottom: 2em;
 
     p { margin-bottom: 0; }
+
+    &.debug {
+        background: $error_red;
+    }
+    &.live {
+        background: $success_green;
+    }
 }
 
 /* Market Data */
@@ -101,7 +107,7 @@ th, td {
     label { float: right; }
 
     table { width: 100%; }
-    tr.verified { background-color: $verified_green; }
+    tr.verified { background-color: $verified_color; }
     .data-submitted { min-width: 80px; }
     tr:last-of-type td { border-bottom: none; }
  }
