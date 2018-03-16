@@ -39,13 +39,12 @@ def seed_core(database):
             Role('Mobile Developer', listed=False),
         ]
         educations = [
-            Education('Some High School'),
-            Education('Completed High School'),
+            Education('High School / GED'),
             Education('Some College / University'),
-            Education('Completed College Degree'),
-            Education('Completed Bachelor\'s Degree'),
-            Education('Completed Master\'s'),
-            Education('Completed Doctorate Degree')
+            Education('College Degree'),
+            Education('Bachelor\'s Degree'),
+            Education('Master\'s'),
+            Education('Doctorate Degree')
         ]
         techs = [
             Tech('Python', listed=True),
