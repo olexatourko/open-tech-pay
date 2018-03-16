@@ -43,7 +43,7 @@ def seed_core(database):
             Education('Some College / University'),
             Education('College Degree'),
             Education('Bachelor\'s Degree'),
-            Education('Master\'s'),
+            Education('Master\'s Degree'),
             Education('Doctorate Degree')
         ]
         techs = [
