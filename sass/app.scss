@@ -107,6 +107,8 @@ th, td {
     label { float: right; }
 
     table { width: 100%; }
+    th.roles { min-width: 180px; }
+
     tr.verified { background-color: $verified_color; }
     .data-submitted { min-width: 80px; }
     tr:last-of-type td { border-bottom: none; }
