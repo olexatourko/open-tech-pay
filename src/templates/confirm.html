@@ -1,12 +1,57 @@
 
 {% extends "base.html" %}
 {% block content %}
+<script>
+    jQuery(function() {
+        function confirmation_page_view_model() {
+            var self = this;
+            self.state = ko.observable('working');
+
+            var code = '{{ code }}';
+            var form_data = new FormData();
+            form_data.append('code', code);
+            jQuery.ajax({
+                url: '/confirm',
+                type: 'POST',
+                data: form_data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function(data) {
+                    if(data.status == 'ok') {
+                        if(data.succeeded) {
+                            self.state('succeeded');
+                        } else {
+                            self.state('fail');
+                        }
+                    } else if(data.status == 'error') {
+                        self.state('fail');
+                    }
+                }
+            });
+        };
+        var view_model = confirmation_page_view_model()
+        ko.applyBindings(view_model);
+    });
+</script>
 <div class="container">
-    {% if succeeded %}
+    <!-- ko if: state() == 'working' -->
+    <div style="display: none" data-bind="visible: state() == 'working'">
+        <p>Attempting confirmation...</p>
+    </div>
+    <!-- /ko -->
+
+    <!-- ko if: state() == 'succeeded' -->
+    <div style="display: none" data-bind="visible: state() == 'succeeded'">
         <p><strong>Confirmation successful!</strong></p>
         <p>Thank you for helping create a market that is more transparent, competitive, and fair.</p>
-    {% else %}
-        <p>Invalid confirmation code</p>
-    {% endif %}
+    </div>
+    <!-- /ko -->
+
+    <!-- ko if: state() == 'fail' -->
+    <div style="display: none" data-bind="visible: state() == 'fail'">
+        <p>Invalid confirmation code.</p>
+    </div>
+    <!-- /ko -->
 </div>
 {% endblock %}

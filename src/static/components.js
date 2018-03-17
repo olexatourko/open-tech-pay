@@ -105,6 +105,7 @@ ko.components.register('create-submission', {
         self.selected_techs = ko.observableArray();
         self.selected_education = ko.observable();
 
+        self.is_submitting = ko.observable(false);
         self.server_errors = ko.observableArray();
 
         self.email_focused = ko.observable();
@@ -195,6 +196,7 @@ ko.components.register('create-submission', {
             var form_data = new FormData();
             form_data.append('payload', JSON.stringify(data));
 
+            self.is_submitting(true);
             jQuery.ajax({
                 url: '/submit',
                 type: 'POST',
@@ -210,6 +212,7 @@ ko.components.register('create-submission', {
                         self.server_errors.removeAll();
                         ko.utils.arrayPushAll(self.server_errors, data.errors);
                     }
+                    self.is_submitting(false);
                 }
             });
         };

@@ -1,6 +1,8 @@
 
 {% extends "base.html" %}
 {% block content %}
+<script src="{{ url_for('static', filename='application.js') }}"></script>
+
 {% if is_debug %}
 <div class="container site-message debug">
     <p><strong>{{ config['DEPLOYMENT_NAME'] }} is currently in development!</strong></p>
@@ -46,7 +48,7 @@
             <hr>
         <!-- /ko -->
         <!-- ko if: submitted() -->
-            <div class="row submission-success">
+            <div style="display: none;" data-bind="visible: submitted()" class="row submission-success">
                 <p><strong>Submission succesful!</strong> A confirmation link has been sent to the email you entered.
                     <strong>Check your spam folder</strong> if you can't see it. Your submission will appear in the market data once you've confirmed.</p>
             </div>

@@ -222,12 +222,32 @@ def submit():
 
 @app.route('/confirm')
 def confirm():
+    """
+    This is split up into a GET and POST route because some email virus scanners will
+    inspect the link, triggering a confirmation before the user opens the email.
+    To fix this, the GET confirm route uses an AJAX call to the POST confirm route to confirm.
+    """
     request_schema = ConfirmRequestSchema().load(request.args)
-    succeeded = False
-    if not request_schema.errors:
-        succeeded = hlm.confirm_submission(request.args['code']) is not None
+    code = 'undefined'
+    if len(request_schema.errors) == 0:
+        code = request_schema.data['code']
 
-    return render_template('confirm.html', succeeded=succeeded)
+    return render_template('confirm.html', code=code)
+
+@app.route('/confirm', methods=['POST'])
+def confirm_post():
+    request_schema = ConfirmRequestSchema().load(request.form)
+
+    if len(request_schema.errors) > 0:
+        return jsonify({
+            'status': 'error',
+            'error': request_schema.errors.items()
+        })
+
+    return jsonify({
+        'status': 'ok',
+        'succeeded': hlm.confirm_submission(request_schema.data['code']) is not None
+    })
 
 
 @app.route('/privacy_policy')

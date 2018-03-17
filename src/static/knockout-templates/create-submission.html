@@ -151,7 +151,12 @@
             it is coming from a known source (marked green in market view).<br>
             Your email is only used for confirmation purposes. It will <strong>never</strong> be shared publicly or with third parties.
         </p>
-        <button class="button-primary" data-bind="click: on_submit">Submit</button>
+        <!-- ko if: is_submitting() -->
+            <p><strong>Submitting...</strong></p>
+        <!-- /ko -->
+        <!-- ko if: !is_submitting() -->
+            <button class="button-primary" data-bind="click: on_submit">Submit</button>
+        <!-- /ko -->
     </div>
     <!-- ko if: server_errors().length > 0 -->
     <div class="row server-errors">
