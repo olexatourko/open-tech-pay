@@ -11,39 +11,39 @@
         <thead>
         <tr>
             <th class="salary">Salary</th>
-            <th>Location</th>
+            <th class="location">Location</th>
             <th class="roles">Roles</th>
-            <th>Tech</th>
-            <th>Type</th>
-            <th>Perks</th>
-            <th>Years Experience</th>
-            <th>Education</th>
+            <th class="techs">Tech</th>
+            <th class="employment-type">Type</th>
+            <th class="perks">Perks</th>
+            <th class="years-experience">Years Exp.</th>
+            <th class="education">Education</th>
             <!-- ko if: $component.show_detailed_view() -->
-            <th>Years w. Current Employer</th>
-            <th>Lifetime Employers</th>
+            <th class="years-with-current-employer">Years w. Current Employer</th>
+            <th class="lifetime-employers">Lifetime Employers</th>
             <th class="data-submitted">Date Submitted</th>
             <!-- /ko -->
         </tr>
         <tbody data-bind="foreach: { data: table_submissions, as: 'item' }">
             <tr data-bind="css: { verified: item.verified }">
-                <td data-bind="text: $component.get_salary_text(item.salary)"></td>
-                <td data-bind="text: item.location.name"></td>
-                <td data-bind="foreach: { data: roles, as: 'role' }">
+                <td class="salary" data-bind="text: $component.get_salary_text(item.salary)"></td>
+                <td class="location" data-bind="text: item.location.name"></td>
+                <td class="roles" data-bind="foreach: { data: roles, as: 'role' }">
                     <span data-bind="text: role.name"></span><!-- ko if: $index() < item.roles.length - 1 -->,<br><!-- /ko -->
                 </td>
-                <td data-bind="foreach: { data: techs, as: 'tech' }">
+                <td class="techs" data-bind="foreach: { data: techs, as: 'tech' }">
                     <span data-bind="text: tech.name"></span><!-- ko if: $index() < item.techs.length - 1 -->,<!-- /ko -->
                 </td>
-                <td data-bind="text: item.employment_type.name"></td>
-                <td data-bind="foreach: { data: submission_to_perks, as: 'submission_to_perk' }">
+                <td class="employment-type" data-bind="text: item.employment_type.name"></td>
+                <td class="perks" data-bind="foreach: { data: submission_to_perks, as: 'submission_to_perk' }">
                     <span data-bind="text: $component.get_perk_text(submission_to_perk)"></span><!-- ko if: $index() < item.submission_to_perks.length - 1 -->,<br><!-- /ko -->
                 </td>
-                <td data-bind="text: item.years_experience"></td>
-                <td data-bind="text: item.education.name"></td>
+                <td class="years-experience" data-bind="text: item.years_experience"></td>
+                <td class="education" data-bind="text: item.education.name"></td>
                 <!-- ko if: $component.show_detailed_view() -->
-                <td data-bind="text: item.years_with_current_employer"></td>
-                <td data-bind="text: item.number_of_employers"></td>
-                <td data-bind="text: item.created_at"></td>
+                <td class="years-with-current-employer" data-bind="text: item.years_with_current_employer"></td>
+                <td class="lifetime-employers" data-bind="text: item.number_of_employers"></td>
+                <td class="date-submitted" data-bind="text: item.created_at"></td>
                 <!-- /ko -->
             </tr>
         </tbody>

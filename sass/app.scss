@@ -42,8 +42,14 @@ $success_green: #cfff9f;
 $verified_color: #e8ffd4;
 $error_red: #ffbbb3;
 $grey_1: #efefef;
+$border_grey: #e1e1e1;
 
-.container { max-width: 1200px; }
+.container {
+    max-width: 1200px;
+    @media screen and (max-width: 768px) {
+        width: 90%
+    }
+}
 
 header {
     background: url('../header.jpg') no-repeat;
@@ -112,6 +118,42 @@ th, td {
     tr.verified { background-color: $verified_color; }
     .data-submitted { min-width: 80px; }
     tr:last-of-type td { border-bottom: none; }
+
+    /* Mobile Table */
+    @media screen and (max-width: 768px) {
+        thead { display: none; }
+        td, tr {
+            display: block;
+            width: 100%;
+            border: none;
+        }
+        tr {
+            padding: 0.25em 0;
+            &:nth-of-child(2n),  { background: #ffffff; }
+            &.verified:nth-child(2n) { background: #ffffff; }
+            &:nth-child(2n+1) { background: $grey_1; }
+            &.verified:nth-child(2n+1) { background: $grey_1; }
+        }
+        td {
+            padding: 0 0.25em;
+            &:before {
+                display: inline-block;
+                font-weight: bold;
+                margin-right: 0.25em;
+            }
+            &.salary:before { content: 'Salary:' }
+            &.location:before { content: 'Location:' }
+            &.roles:before { content: 'Roles:' }
+            &.techs:before { content: 'Techs:' }
+            &.employment-type:before { content: 'Employment Type:' }
+            &.perks:before { content: 'Perks:' }
+            &.years-experience:before { content: 'Years Exp.:' }
+            &.education:before { content: 'Education:' }
+            &.years-with-current-employer:before { content: 'Years w. Current Employer:' }
+            &.lifetime-employers:before { content: 'Lifetime Employers:' }
+            &.date-submitted:before { content: 'Date Submitted:' }
+        }
+    }
  }
 
 /* Submissions */
