@@ -7,6 +7,7 @@ from src.model_schemas import *
 from src.request_schemas import *
 import high_level_methods as hlm
 import json
+import click
 
 migrate = Migrate(app, db)
 
@@ -258,3 +259,17 @@ def privacy_policy():
 @app.route('/about')
 def about():
     return render_template('about.html', title='About')
+
+"""
+Custom CLI Commands
+"""
+@app.cli.command()
+@click.argument('email')
+def remove_submission(email):
+    submission = Submission.query.filter(Submission.email == email).first()
+    if submission:
+        click.echo('Submission found and deleted')
+        db.session.delete(submission)
+        db.session.commit()
+    else:
+        click.echo('Submission not found')
