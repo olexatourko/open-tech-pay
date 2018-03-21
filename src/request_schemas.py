@@ -61,6 +61,15 @@ class SubmissionRequestSchema(Schema):
         if re.search(r'.*\+.*(?=@)', data['email']):
             raise ValidationError('Invalid email', ['email'])
 
+        """ Detect emails from blacklisted domains """
+        blacklisted_domains = ['mailinator.com', 'maildrop.cc']
+        for domain in blacklisted_domains:
+            if re.search(r'{}$'.format(domain), data['email']):
+                raise ValidationError('Invalid email', ['email'])
+
+        if re.search(r'.*\+.*(?=@)', data['email']):
+            raise ValidationError('Invalid email', ['email'])
+
         """ Check that the email hasn't been used already """
         email_status = check_email(data['email'])
         if email_status['in_use']:
