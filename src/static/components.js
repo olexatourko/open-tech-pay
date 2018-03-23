@@ -31,7 +31,7 @@ ko.bindingHandlers.resizeOnChange = {
             var length = value.toString().length;
             length = Math.round(length * 1.1);
         }
-        length = Math.max(1, length);
+        length = Math.max(4, length);
         element.setAttribute('size', length);
     }
 };
