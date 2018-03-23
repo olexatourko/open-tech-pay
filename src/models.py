@@ -130,6 +130,11 @@ class Submission(db.Model):
     education = association_proxy('submission_to_education', 'education')
     techs = association_proxy('submission_to_techs', 'tech')
 
+    def __str__(self):
+        return '{id}, ${salary}, {email}, {confirmed}, {date}'.format(
+            id=self.id, salary=self.salary, email=self.email, confirmed=self.confirmed, date=self.created_at.strftime('%Y-%m-%d')
+        )
+
 class Employer(db.Model):
     __tablename__ = 'employer'
     id = db.Column(db.Integer, primary_key=True)

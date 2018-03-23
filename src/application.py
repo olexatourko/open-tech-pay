@@ -264,6 +264,12 @@ def about():
 Custom CLI Commands
 """
 @app.cli.command()
+def list_submissions():
+    submissions = Submission.query.all()
+    for submission in submissions:
+        click.echo(submission)
+
+@app.cli.command()
 @click.argument('email')
 def remove_submission(email):
     submission = Submission.query.filter(Submission.email == email).first()
