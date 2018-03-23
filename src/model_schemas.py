@@ -91,7 +91,7 @@ class SubmissionSchema(Schema):
     roles = fields.Nested('RoleSchema', exclude=('id', 'listed'), many=True)
     education = fields.Nested('EducationSchema', exclude=('id', 'listed'))
     techs = fields.Nested('TechSchema', exclude=('id', 'listed'), many=True)
-    created_at = fields.DateTime('%Y-%m-%d')
+    created_at = fields.DateTime()
 
     @post_load
     def make_model(self, data):

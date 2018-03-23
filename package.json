@@ -9,6 +9,7 @@
     "autonumeric": "^4.2.7",
     "jquery": "^3.2.1",
     "knockout": "^3.4.2",
+    "moment": "^2.21.0",
     "parsleyjs": "^2.8.0",
     "requirejs": "^2.3.5",
     "requirejs-text": "^2.0.15",

@@ -9,7 +9,15 @@ var techs = ko.observableArray();
 var educations = ko.observableArray();
 var number_of_employers = ko.observable();
 
-require(['static/components'], function() {
+requirejs.config({
+  packages: [{
+    name: 'moment',
+    location: 'static/packages/moment',
+    main: 'moment'
+  }]
+});
+
+require(['static/components', 'moment'], function() {
     function page_view_model() {
         var self = this;
         self.submitted = ko.observable(false);
@@ -45,7 +53,14 @@ require(['static/components'], function() {
 
 function fetch_submissions() {
     submissions.removeAll();
+
+    var moment = require('moment');
     jQuery.getJSON('fetch_submissions', function(data) {
+        data.forEach(function(submission) {
+            local_date = moment(submission['created_at']).format('YYYY-MM-DD');
+            submission['created_at'] = local_date;
+        });
+
         ko.utils.arrayPushAll(submissions, data);
     });
 }
