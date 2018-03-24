@@ -48,6 +48,14 @@
                 </nav>
             </div>
         </header>
+        {% if config.get('MESSAGES') %}
+        <div class="container site-message">
+            {% for message in config.get('MESSAGES') %}
+                <p>{{ message|safe }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         {% block content %}{% endblock %}
     </body>
         <footer>

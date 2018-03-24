@@ -9,3 +9,6 @@ MAILJET_API_SECRET = ''
 # Used on the frontend for this particular deployment
 DEPLOYMENT_NAME = 'OpenPay'
 REGION_NAME = 'Region'
+
+# A List of string messages
+MESSAGES = []

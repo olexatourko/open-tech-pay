@@ -3,16 +3,6 @@
 {% block content %}
 <script src="{{ url_for('static', filename='application.js') }}"></script>
 
-{% if is_debug %}
-<div class="container site-message debug">
-    <p><strong>{{ config['DEPLOYMENT_NAME'] }} is currently in development!</strong></p>
-    <p>Please play around with it, try to break it, or try to hack it. All submissions will be reset once its ready.</p>
-    <p>You can follow progress, report issues, or contribute to the project on <a href="https://github.com/olestourko/open-tech-pay">Github</a>.</p>
-    <p>The market data displayed is for testing purposes - it is not accurate.</p>
-    <p>This development version may become unavailable intermittently.</p>
-</div>
-{% endif %}
-
 <div class="container">
     <h4>Closing the Pay Information Gap</h4>
     <p>This project aims to provide detailed compensation data to students, employees, and employers in the
