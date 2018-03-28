@@ -42,12 +42,6 @@ ko.components.register('market-data', {
         self.message_bus = params.message_bus;
         self.submissions = params.submissions;
         self.show_all = ko.observable(false);
-
-        self.randomize = 'randomize' in params ? params.randomize : false;
-        if (self.randomize) {
-            shuffle_array(self.submissions());
-        }
-
         self.table_submissions = ko.pureComputed(function() {
             if (self.show_all()) {
                 return self.submissions();
@@ -429,18 +423,4 @@ ko.components.register('value-custom-tag', {
 /* Utilities */
 const number_with_commas = (x) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-/**
- * Shuffles array in place.
- * @param {Array} a items An array containing the items.
- */
-function shuffle_array(a) {
-    var j, x, i;
-    for (i = a.length - 1; i > 0; i--) {
-        j = Math.floor(Math.random() * (i + 1));
-        x = a[i];
-        a[i] = a[j];
-        a[j] = x;
-    }
 }

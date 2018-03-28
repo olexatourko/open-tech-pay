@@ -61,6 +61,9 @@ function fetch_submissions() {
             submission['created_at'] = local_date;
         });
 
+        if ('randomize_market_data' in config && config['randomize_market_data']) {
+            shuffle_array(data);
+        }
         ko.utils.arrayPushAll(submissions, data);
     });
 }
@@ -81,4 +84,19 @@ function fetch_fields() {
         ko.utils.arrayPushAll(roles, data['roles']);
         ko.utils.arrayPushAll(techs, data['techs']);
     });
+}
+
+
+/**
+ * Shuffles array in place.
+ * @param {Array} a items An array containing the items.
+ */
+function shuffle_array(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
 }
