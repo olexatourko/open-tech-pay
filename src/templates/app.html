@@ -1,5 +1,10 @@
 
 {% extends "base.html" %}
+
+{% block head %}
+{% include 'partials/js_config.html' %}
+{% endblock %}
+
 {% block content %}
 <script src="{{ url_for('static', filename='application.js') }}"></script>
 
@@ -16,7 +21,8 @@
     <div class="container">
         <market-data params="
         message_bus: message_bus,
-        submissions: submissions
+        submissions: submissions,
+        randomize: config.randomize_market_data
         "></market-data>
         <hr>
     </div>

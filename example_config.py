@@ -12,3 +12,6 @@ REGION_NAME = 'Region'
 
 # A List of string messages
 MESSAGES = []
+
+# Other settings
+RANDOMIZE_MARKET_DATA = False
