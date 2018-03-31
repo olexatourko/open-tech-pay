@@ -1,0 +1,49 @@
+<div class="market-data">
+    <h5>Market Data</h5>
+    <div class="row">
+        <p><strong>Fetching full market data...</strong></p>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th class="salary">Salary</th>
+            <th class="location">Employer Location</th>
+            <th class="roles">Roles</th>
+            <th class="techs">Tech</th>
+            <th class="employment-type">Type</th>
+            <th class="perks">Perks</th>
+            <th class="years-experience">Years Exp.</th>
+            <th class="education">Education</th>
+        </tr>
+        <tbody>
+            {% for submission in preview_submissions %}
+            <tr class="{{ 'verified' if submission.verified }}">
+                <td class="salary">{{ "${:,.0f}".format(submission.salary) }}</td>
+                <td class="location">{{ submission.location.name }}</td>
+                <td class="roles">
+                    {% for role in submission.roles %}
+                    <span>{{ role.name }}</span>
+                    {% if submission.roles[-1] != role %},<br>{% endif %}
+                    {% endfor %}
+                </td>
+                <td class="techs">
+                    {% for tech in submission.techs %}
+                    <span>{{ tech.name }}</span>
+                    {% if submission.techs[-1] != tech %},{% endif %}
+                    {% endfor %}
+                </td>
+                <td class="employment-type">{{submission.employment_type.name}}</td>
+                <td class="perks">
+                    {% for perk in submission.perks %}
+                    <span>{{ perk.name }}</span>
+                    {% if submission.perks[-1] != perk %},<br>{% endif %}
+                    {% endfor %}
+                </td>
+                <td class="years-experience">{{submission.years_experience}}</td>
+                <td class="education">{{submission.education.name}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </thead>
+    </table>
+</div>

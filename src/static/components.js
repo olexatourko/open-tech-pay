@@ -42,11 +42,12 @@ ko.components.register('market-data', {
         self.message_bus = params.message_bus;
         self.submissions = params.submissions;
         self.show_all = ko.observable(false);
+        self.min_display_number = params.min_display_number;
         self.table_submissions = ko.pureComputed(function() {
             if (self.show_all()) {
                 return self.submissions();
             } else {
-                return self.submissions().slice(0, 3);
+                return self.submissions().slice(0, self.min_display_number);
             }
 
         }, this);

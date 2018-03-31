@@ -14,7 +14,27 @@ migrate = Migrate(app, db)
 
 @app.route('/')
 def index():
-    return render_template('app.html', is_debug=app.config['DEBUG'])
+    preview_submissions = Submission.query.filter(Submission.confirmed)\
+        .order_by(Submission.created_at.desc())\
+        .limit(app.config['MARKET_DATA_MIN_DISPLAY'])\
+        .all()
+    schema = SubmissionSchema(only={
+        'salary',
+        'employment_type',
+        'perks',
+        'roles',
+        'education',
+        'location',
+        'techs',
+        'years_experience',
+        'years_with_current_employer',
+        'number_of_employers',
+        'verified',
+        'created_at'
+    })
+    preview_submissions = [schema.dump(submission).data for submission in preview_submissions]
+
+    return render_template('app.html', preview_submissions=preview_submissions)
 
 
 @app.route('/fetch_fields')

@@ -19,10 +19,17 @@
 
 <section id="market-data">
     <div class="container">
+        <!-- ko if: submissions().length == 0 -->
+        {% include 'partials/market-data-preview.html' %}
+        <!-- /ko -->
+
+        <!-- ko if: submissions().length > 0 -->
         <market-data params="
         message_bus: message_bus,
-        submissions: submissions
+        submissions: submissions,
+        min_display_number: config.market_data_min_display
         "></market-data>
+        <!-- /ko -->
         <hr>
     </div>
 </section>

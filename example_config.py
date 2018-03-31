@@ -14,4 +14,5 @@ REGION_NAME = 'Region'
 MESSAGES = []
 
 # Other settings
+MARKET_DATA_MIN_DISPLAY = 4
 RANDOMIZE_MARKET_DATA = False
