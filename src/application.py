@@ -18,6 +18,8 @@ def index():
         .order_by(Submission.created_at.desc())\
         .limit(app.config['MARKET_DATA_MIN_DISPLAY'])\
         .all()
+    aggregate_data = hlm.get_aggregate_data()
+
     schema = SubmissionSchema(only={
         'salary',
         'employment_type',
@@ -34,7 +36,7 @@ def index():
     })
     preview_submissions = [schema.dump(submission).data for submission in preview_submissions]
 
-    return render_template('app.html', preview_submissions=preview_submissions)
+    return render_template('app.html', preview_submissions=preview_submissions, aggregate_data=aggregate_data)
 
 
 @app.route('/fetch_fields')

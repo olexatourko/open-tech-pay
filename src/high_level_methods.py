@@ -1,4 +1,4 @@
-from src import db
+from src import app, db
 from models import *
 from sqlalchemy import and_
 import uuid
@@ -48,3 +48,22 @@ def check_email(email):
         'whitelisted': employer is not None
     }
 
+
+def get_aggregate_data():
+    from sqlalchemy.sql import func
+
+    region_id = Location.query.filter(Location.name == app.config['REGION_NAME']).first().id
+    query = db.session.query(
+        func.avg(Submission.salary).label('average_salary'),
+        func.avg(Submission.years_experience).label('average_experience')
+    ).filter(
+        Submission.confirmed == True,
+        Submission.location.has(
+            Location.id == region_id
+        )
+    )
+    result = query.first()
+    return {
+        'average_salary': result[0],
+        'average_experience': result[1],
+    }

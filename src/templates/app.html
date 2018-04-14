@@ -19,6 +19,12 @@
 
 <section id="market-data">
     <div class="container">
+        <h5>Market Data</h5>
+        <p>The average web/software developer in {{ config['REGION_NAME'] }} earns a base salary of
+            <strong>{{ "${:,.0f}".format(aggregate_data['average_salary']) }} (CAD)</strong> per year and has
+            <strong>{{ "{:,.0f}".format(aggregate_data['average_experience']) }}</strong> years of experience.
+            <br><i>* Based on current submissions, excluding those with remote employers. More detailed aggregate data
+                will eventually be available.</i></p>
         <!-- ko if: submissions().length == 0 -->
         {% include 'partials/market-data-preview.html' %}
         <!-- /ko -->
