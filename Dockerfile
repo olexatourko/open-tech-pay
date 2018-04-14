@@ -9,6 +9,7 @@ WORKDIR /app
 RUN pip install -r requirements.txt
 
 # For SASS
+RUN apt-get update
 RUN apt-get install -y ruby ruby-dev
 RUN gem install sass
 

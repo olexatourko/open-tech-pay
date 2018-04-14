@@ -82,7 +82,8 @@ pip install marshmallow
 
 First get the dependencies above, then...
 
-Set your `PYTHONPATH` [PyCharm](https://stackoverflow.com/questions/28326362/pycharm-and-pythonpath):
+Set your `PYTHONPATH`  
+[PyCharm](https://stackoverflow.com/questions/28326362/pycharm-and-pythonpath):
 ```
 cd /path/to/project/
 export PYTHONPATH=$(pwd)
