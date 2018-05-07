@@ -94,13 +94,15 @@ export PYTHONPATH=$(pwd)
 First specify your database credentials in a file called `/config.py`. (check out /`example_config.py`)
 
 ```
+export CONFIG_FILEPATH=$(pwd)/config.py
 flask db init
 flask db migrate
 flask db upgrade
 python utils/seeding/seed_core.py
 ```
 
-Compile SASS:
+**Compile SASS:**  
+If you don't have SASS, [install it](https://sass-lang.com/install) first.
 ```
 sass --watch sass:src/static/stylesheets
 ```
@@ -110,7 +112,6 @@ sass --watch sass:src/static/stylesheets
 From the `bc-sample` directory:
 ```
 export FLASK_APP=$(pwd)/src/application.py
-export CONFIG_FILEPATH=$(pwd)/config.py
 flask run
 ```
 Note: You should use a proper application server like uWSGI in production, but this is good enough for demo purposes.
