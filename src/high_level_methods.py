@@ -64,6 +64,6 @@ def get_aggregate_data():
     )
     result = query.first()
     return {
-        'average_salary': result[0],
-        'average_experience': result[1],
+        'average_salary': float(result[0]),
+        'average_experience': float(result[1]),
     }
