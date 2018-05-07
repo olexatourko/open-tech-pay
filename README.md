@@ -107,9 +107,16 @@ If you don't have SASS, [install it](https://sass-lang.com/install) first.
 sass --watch sass:src/static/stylesheets
 ```
 
+**Install Frontend Dependencies with YARN:**  
+If you don't have Yarn, [install it](https://yarnpkg.com/lang/en/docs/install) first.
+```
+yarn install
+```
+
+
 **Start the Flask server**
 
-From the `bc-sample` directory:
+From the `open-pay` directory:
 ```
 export FLASK_APP=$(pwd)/src/application.py
 flask run
