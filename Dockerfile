@@ -14,7 +14,7 @@ RUN apt-get install -y ruby ruby-dev
 RUN gem install sass
 
 # For Yarn
-RUN apt-get update && apt-get install -y curl python-software-properties
+RUN apt-get update && apt-get install -y curl software-properties-common
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get install -y nodejs
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
@@ -29,4 +29,4 @@ ENV CONFIG_FILEPATH=/app/config.py
 # Used to get a common base for import statements
 ENV PYTHONPATH=/app/
 
-CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "wsgi:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "wsgi:app"]
