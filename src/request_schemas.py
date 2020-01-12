@@ -24,7 +24,7 @@ class SubmissionRequestSchema(Schema):
 
     def validate_email(value):
         if is_email_recently_used(value):
-            raise ValidationError('Submission for this email already exists.')
+            raise ValidationError('Recent submission for this email already exists.')
 
     salary = fields.Number(required=True, validate=Range(min=0, max=1000000))
     email = fields.Email(required=True, validate=validate_email)
