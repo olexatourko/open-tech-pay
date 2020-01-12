@@ -24,7 +24,9 @@
             <strong>{{ "${:,.0f}".format(aggregate_data['average_salary']) }} (CAD)</strong> per year and has
             <strong>{{ "{:,.1f}".format(aggregate_data['average_experience']) }}</strong> years of experience.
             <br><i>* Based on current submissions, excluding those with remote employers. More detailed aggregate data
-                will eventually be available.</i></p>
+                will eventually be available.</i>
+            <br><i>* Green submissions are those which have been verified through known employer emails.</i></p>
+
         <!-- ko if: submissions().length == 0 -->
         {% include 'partials/market-data-preview.html' %}
         <!-- /ko -->

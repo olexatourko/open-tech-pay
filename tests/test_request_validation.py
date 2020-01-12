@@ -133,7 +133,7 @@ class TestRequestValidation(unittest.TestCase):
         assert len(SubmissionRequestSchema().validate(request_dict)) > 0
 
     def test_invalid_request_6(self):
-        """ Salary < 0 """
+        """ Salary > 1,000,000 """
         request_dict = {
             'salary': 1000001,
             'employment_type': EmploymentType.query.first().id,
