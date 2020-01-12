@@ -9,6 +9,7 @@ from utils.seeding.seed_core import seed_core
 from utils.seeding.seed_preset_submissions import seed_preset_submisssions
 import datetime
 
+
 class TestHighLevelMethods(unittest.TestCase):
 
     def setUp(self):
@@ -46,6 +47,21 @@ class TestHighLevelMethods(unittest.TestCase):
         assert confirm_submission('123abc') is not None
         assert confirm_submission('123abc') is None
 
+    def test_get_aggregate_data(self):
+        self.submissions[0].salary = 40000
+        self.submissions[0].years_experience = 1
+        self.submissions[1].salary = 50000
+        self.submissions[1].years_experience = 2
+        self.submissions[2].salary = 60000
+        self.submissions[2].years_experience = 3
+        result = get_aggregate_data()
+        assert result['average_salary'] == 50000
+        assert result['average_experience'] == 2
+
+        Submission.query.delete()
+        result = get_aggregate_data()
+        assert result['average_salary'] == 'NA'
+        assert result['average_experience'] == 'NA'
 
 if __name__ == '__main__':
     unittest.main()

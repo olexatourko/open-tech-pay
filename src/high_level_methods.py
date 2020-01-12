@@ -61,7 +61,14 @@ def get_aggregate_data():
         )
     )
     result = query.first()
-    return {
-        'average_salary': float(result[0]),
-        'average_experience': float(result[1]),
-    }
+
+    if result[0] is not None and result[1] is not None:
+        return {
+            'average_salary': float(result[0]),
+            'average_experience': float(result[1]),
+        }
+    else:
+        return {
+            'average_salary': 'NA',
+            'average_experience': 'NA',
+        }
