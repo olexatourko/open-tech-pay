@@ -2,6 +2,12 @@ from models import *
 from marshmallow import Schema, fields, post_load, validates, validates_schema, ValidationError
 from marshmallow.validate import Length
 
+
+'''
+Contains logic to convert models to dicts and vice-versa using Marshmallow
+'''
+
+
 def dump_dict_values(class_instance, raw_dict):
     for key, value in raw_dict.items():
         if hasattr(class_instance, key): setattr(class_instance, key, value)

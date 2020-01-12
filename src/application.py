@@ -11,6 +11,9 @@ import click
 
 migrate = Migrate(app, db)
 
+'''
+Contains all endpoints and CLI commands
+'''
 
 @app.route('/')
 def index():
@@ -87,7 +90,11 @@ def check_email():
             'status': 'error'
         })
 
-    result = hlm.check_email(request_schema.data['email'])
+    result = {
+        'in_use': hlm.is_email_recently_used(request_schema.data['email']),
+        'whitelisted': hlm.is_email_whitelisted(request_schema.data['email'])
+    }
+
     result.pop('in_use', None) # Otherwise, it would be very easy to check if an employee/coworker has submitted.
     result['status'] = 'ok'
     return jsonify(result)
@@ -215,7 +222,7 @@ def submit():
     submission.location = location
     submission.confirmed = False
     submission.confirmation_code = hlm.get_confirmation_code()
-    submission.verified = hlm.check_email(request_schema.data['email'])['whitelisted']
+    submission.verified = hlm.is_email_whitelisted(request_schema.data['email'])
 
     db.session.add(submission)
     db.session.commit()

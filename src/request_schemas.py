@@ -1,7 +1,7 @@
 from marshmallow import Schema, fields, post_load, validates, validates_schema, ValidationError
 from marshmallow.validate import *
 from src.models import *
-from high_level_methods import check_email
+from high_level_methods import is_email_recently_used
 
 class SubmissionRequestSchema(Schema):
     """
@@ -23,11 +23,7 @@ class SubmissionRequestSchema(Schema):
             raise ValidationError('Location does not exist.')
 
     def validate_email(value):
-        submission = Submission.query.filter(
-            Submission.email == value
-        ).first()
-
-        if submission and submission.confirmed:
+        if is_email_recently_used(value):
             raise ValidationError('Submission for this email already exists.')
 
     salary = fields.Number(required=True, validate=Range(min=0, max=1000000))
@@ -71,9 +67,8 @@ class SubmissionRequestSchema(Schema):
             raise ValidationError('Invalid email', ['email'])
 
         """ Check that the email hasn't been used already """
-        email_status = check_email(data['email'])
-        if email_status['in_use']:
-            raise ValidationError('Email in use', ['email'])
+        if is_email_recently_used(data['email']):
+            raise ValidationError('Email has been used in the past year', ['email'])
 
 
 class ConfirmRequestSchema(Schema):

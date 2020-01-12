@@ -3,7 +3,11 @@ from models import *
 from sqlalchemy import and_
 import uuid
 import re
+import datetime
 
+'''
+Contains high-level application logic
+'''
 
 def get_confirmation_code():
     uid = uuid.uuid4()
@@ -26,27 +30,21 @@ def confirm_submission(confirmation_code):
     return submission
 
 
-def check_email(email):
-    """
-
-    :param email: It is assumed that the email has already been sanitized
-    :return: dict
-    """
+def is_email_whitelisted(email):
     email_domain = re.search(r'(?<=@)[\w.]+$', email).group(0)
-    submission = Submission.query.filter(and_(
-        Submission.confirmed == True,
-        Submission.email == email
-    )).first()
-
     employer = Employer.query.filter(
         Employer.email_domain == email_domain
     ).first()
+    return employer is not None
 
 
-    return {
-        'in_use': submission is not None,
-        'whitelisted': employer is not None
-    }
+def is_email_recently_used(email, date=datetime.date.today()):
+    submission = Submission.query.filter(and_(
+        Submission.confirmed == True,
+        Submission.email == email,
+        Submission.created_at >= date - datetime.timedelta(days=365)
+    )).first()
+    return submission is not None
 
 
 def get_aggregate_data():
