@@ -3,7 +3,6 @@ venv
 *.pyc
 config.py
 tests/config.py
-migrations
 node_modules
 src/static/packages
 yarn.lock
