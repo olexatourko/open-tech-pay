@@ -50,7 +50,7 @@
             </div>
         </header>
         {% if config.get('MESSAGES') %}
-        <div class="container site-message">
+        <div class="container site-message" data-nosnippet>
             {% for message in config.get('MESSAGES') %}
                 <p>{{ message|safe }}</p>
             {% endfor %}
