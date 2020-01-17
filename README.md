@@ -32,7 +32,7 @@ docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay pyth
 Install frontend packages and compile SASS:
 ```
 docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay yarn install
-docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay sass --watch sass:src/static/stylesheet
+docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay sass --watch sass:src/static/stylesheets
 ```
 
 Run the application container:
