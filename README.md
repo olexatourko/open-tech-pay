@@ -24,7 +24,7 @@ docker-compose up
 
 You'll need to run the database migrations and seed the database if you haven't:
 ```
-composer exec -it open_tech_pay_app /bin/bash
+docker exec -it open_tech_pay_app /bin/bash
 flask db init
 flask db upgrade
 python utils/seeding/seed_core.py
@@ -32,22 +32,9 @@ python utils/seeding/seed_core.py
 
 ---
 
-### Option 2: Using pipenv
+### Option 2: Using pipenv for local development without Docker
 
 **TODO Readme**
-
----
-
-#### Running It
-
-**Start the Flask server**
-
-From the `open-pay` directory:
-```
-export FLASK_APP=$(pwd)/src/application.py
-flask run
-```
-Note: You should use a proper application server like uWSGI in production, but this is good enough for demo purposes.
 
 ---
 
@@ -56,18 +43,3 @@ They're in the `/tests` folder. Create a config file in the `tests` directory. Y
 ```
 python -m unittest discover
 ```
-
----
-
-#### Resources
-
-##### PostgreSQL
-[Installing on Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04)  
-[Usage with Flask](https://suhas.org/sqlalchemy-tutorial/)
-
-##### Email
-Transactional emails are sent with the [Mailjet](https://www.mailjet.com/) because it manages to avoid spam filters pretty well.
-Alternatively, you can send emails directly - check out the `own-emails` branch to see how.
-
-[SPF / DKIM setup](https://blog.codinghorror.com/so-youd-like-to-send-some-email-through-code/)  
-[Using DKIM with the SMTP Docker image](https://github.com/namshi/docker-smtp/issues/22)
