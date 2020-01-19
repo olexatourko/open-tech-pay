@@ -1,7 +1,7 @@
 from marshmallow import Schema, fields, post_load, validates, validates_schema, ValidationError
 from marshmallow.validate import *
 from src.models import *
-from high_level_methods import is_email_recently_used
+from src.high_level_methods import is_email_recently_used
 
 class SubmissionRequestSchema(Schema):
     """
@@ -46,29 +46,29 @@ class SubmissionRequestSchema(Schema):
         max=15, error="A maximum of 15 technologies are allowed. Please narrow down your selection to the most important ones."))
 
     @validates_schema(skip_on_field_errors=True)
-    def validate_object(self, data):
+    def validate_object(self, data, **kwargs):
         """ years_experience >= years_with_current_employer """
         if 'years_with_current_employer' in data and 'years_experience' in data:
             if not data['years_with_current_employer'] <= data['years_experience']:
-                raise ValidationError('Years with current employer must be <= total years of experience',
-                      ['years_with_current_employer', 'years_experience'])
+                raise ValidationError(
+                    {
+                        'years_with_current_employer': 'Years with current employer must be <= total years of experience',
+                        'years_experience': 'Years with current employer must be <= total years of experience'
+                    }
+                )
 
         """ Detect emails with '+' in them """
         if re.search(r'.*\+.*(?=@)', data['email']):
-            raise ValidationError('Invalid email', ['email'])
+            raise ValidationError('Invalid email', 'email')
 
         """ Detect emails from blacklisted domains """
         blacklisted_domains = ['mailinator.com', 'maildrop.cc']
         for domain in blacklisted_domains:
             if re.search(r'{}$'.format(domain), data['email']):
-                raise ValidationError('Invalid email', ['email'])
+                raise ValidationError('Invalid email', 'email')
 
         if re.search(r'.*\+.*(?=@)', data['email']):
-            raise ValidationError('Invalid email', ['email'])
-
-        """ Check that the email hasn't been used already """
-        if is_email_recently_used(data['email']):
-            raise ValidationError('Email has been used in the past year', ['email'])
+            raise ValidationError('Invalid email', 'email')
 
 
 class ConfirmRequestSchema(Schema):

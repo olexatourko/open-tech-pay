@@ -211,7 +211,11 @@ ko.components.register('create-submission', {
                         self.message_bus.notifySubscribers({}, 'submission_success');
                     } else if(data.status == 'error') {
                         self.server_errors.removeAll();
-                        ko.utils.arrayPushAll(self.server_errors, data.errors);
+                        // Convert received JSON object into array of errors.
+                        errorsArray = [];
+                        Object.keys(data.errors).forEach(field => errorsArray.push([field, data.errors[field]]));
+                        // Push to Knockout observable array
+                        ko.utils.arrayPushAll(self.server_errors, errorsArray);
                     }
                     self.is_submitting(false);
                 }

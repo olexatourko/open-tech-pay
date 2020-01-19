@@ -1,4 +1,4 @@
-from models import *
+from src.models import *
 from marshmallow import Schema, fields, post_load, validates, validates_schema, ValidationError
 from marshmallow.validate import Length
 
@@ -21,7 +21,7 @@ class PerkSchema(Schema):
     listed = fields.Boolean()
 
     @post_load
-    def make_model(self, data):
+    def make_model(self, data, **kwargs):
         model = Perk()
         dump_dict_values(model, data)
         return model
@@ -46,7 +46,7 @@ class RoleSchema(Schema):
     listed = fields.Boolean()
 
     @post_load
-    def make_model(self, data):
+    def make_model(self, data, **kwargs):
         model = Role()
         dump_dict_values(model, data)
         return model
@@ -66,9 +66,10 @@ class TechSchema(Schema):
     id = fields.Integer()
     name = fields.String(required=True, validate=Length(min=1, max=32,
         error="Technology name must be between {min} and {max} characters."))
+    listed = fields.Boolean()
 
     @post_load
-    def make_model(self, data):
+    def make_model(self, data, **kwargs):
         model = Tech()
         dump_dict_values(model, data)
         return model
@@ -88,6 +89,7 @@ class SubmissionSchema(Schema):
     years_experience = fields.Integer(required=True)
     number_of_employers = fields.Integer()
     years_with_current_employer = fields.Integer()
+    verified = fields.Boolean()
     perks = fields.Nested('PerkSchema', many=True)
     submission_to_perks = fields.Nested('SubmissionToPerkSchema',
         exclude=('submission_id', 'perk_id'),
@@ -95,12 +97,12 @@ class SubmissionSchema(Schema):
     employment_type = fields.Nested('EmploymentTypeSchema')
     location = fields.Nested('LocationSchema')
     roles = fields.Nested('RoleSchema', exclude=('id', 'listed'), many=True)
-    education = fields.Nested('EducationSchema', exclude=('id', 'listed'))
+    education = fields.Nested('EducationSchema', exclude=('id',))
     techs = fields.Nested('TechSchema', exclude=('id', 'listed'), many=True)
     created_at = fields.DateTime()
 
     @post_load
-    def make_model(self, data):
+    def make_model(self, data, **kwargs):
         if 'instance' in data:
             model = data['instance']
         else:
@@ -110,10 +112,14 @@ class SubmissionSchema(Schema):
         return model
 
     @validates_schema(skip_on_field_errors=True)
-    def validate_object(self, data):
+    def validate_object(self, data, **kwargs):
         if not ('years_with_current_employer' in data and 'years_experience') in data:
             return
 
         if not data['years_with_current_employer'] <= data['years_experience']:
-            raise ValidationError('Years with current employer must be <= total years of experience',
-                  ['years_with_current_employer', 'years_experience'])
+            raise ValidationError(
+                {
+                    'years_with_current_employer': 'Years with current employer must be <= total years of experience',
+                    'years_experience': 'years_with_current_employer'
+                }
+            )

@@ -1,5 +1,5 @@
 from src import app, db
-from models import *
+from src.models import *
 from sqlalchemy import and_
 import uuid
 import re

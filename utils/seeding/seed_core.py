@@ -23,7 +23,7 @@ def seed_core(database):
         locations = [
             Location('London, Ontario'),
             Location('Near London, Ontario'),
-            Location('Other')
+            Location('Remote Work')
         ]
         roles = [
             Role('Software Developer', listed=True),

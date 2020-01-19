@@ -1,9 +1,18 @@
 version: '3'
 services:
-  open-tech-pay:
+  app:
     build: .
+    container_name: open_tech_pay_app
     ports:
      - "5000:5000"
+     - "5001:5001"
     volumes:
-     - /home/oles/open-tech-pay/:/app
-    network_mode: host
+     - ./:/app
+  db:
+    container_name: open_tech_pay_db
+    image: mysql:5.7
+    ports:
+    - "3306:3306"
+    environment:
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_DATABASE=open_tech_pay

@@ -19,7 +19,7 @@ class TestModelMappings(unittest.TestCase):
             'name': 'Role 1'
         }
         schema = RoleSchema()
-        role = schema.load(role_dict).data
+        role = schema.load(role_dict)
         assert role.id == role_dict['id']
         assert role.name == role_dict['name']
 
@@ -27,7 +27,7 @@ class TestModelMappings(unittest.TestCase):
             'name': 'Role 3',
         }
         schema = RoleSchema()
-        role = schema.load(role_dict).data
+        role = schema.load(role_dict)
         assert not role.id
         assert role.name == role_dict['name']
 

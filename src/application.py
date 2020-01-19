@@ -1,11 +1,11 @@
 from flask import render_template, jsonify, request, url_for
 from flask_migrate import Migrate
 from sqlalchemy import and_
+from marshmallow import ValidationError, EXCLUDE
 from src import app, db
-from src.models import *
 from src.model_schemas import *
 from src.request_schemas import *
-import high_level_methods as hlm
+import src.high_level_methods as hlm
 import json
 import click
 
@@ -37,7 +37,7 @@ def index():
         'verified',
         'created_at'
     })
-    preview_submissions = [schema.dump(submission).data for submission in preview_submissions]
+    preview_submissions = [schema.dump(submission) for submission in preview_submissions]
 
     return render_template('app.html', preview_submissions=preview_submissions, aggregate_data=aggregate_data)
 
@@ -52,12 +52,12 @@ def fetch_fields():
     techs = Tech.query.filter(Tech.listed).order_by(Tech.name).all()
 
     return jsonify({
-        'perks': [PerkSchema(exclude=['listed']).dump(model).data for model in perks],
-        'employment_types': [EmploymentTypeSchema().dump(model).data for model in employment_types],
-        'locations': [LocationSchema().dump(model).data for model in locations],
-        'roles': [RoleSchema(exclude=['listed']).dump(model).data for model in roles],
-        'educations': [EducationSchema().dump(model).data for model in educations],
-        'techs': [TechSchema(exclude=['listed']).dump(model).data for model in techs],
+        'perks': [PerkSchema(exclude=['listed']).dump(model) for model in perks],
+        'employment_types': [EmploymentTypeSchema().dump(model) for model in employment_types],
+        'locations': [LocationSchema().dump(model) for model in locations],
+        'roles': [RoleSchema(exclude=['listed']).dump(model) for model in roles],
+        'educations': [EducationSchema().dump(model) for model in educations],
+        'techs': [TechSchema(exclude=['listed']).dump(model) for model in techs],
     })
 
 
@@ -78,21 +78,22 @@ def fetch_submissions():
         'verified',
         'created_at'
     })
-    result = [schema.dump(submission).data for submission in submissions]
+    result = [schema.dump(submission) for submission in submissions]
     return jsonify(result)
 
 
 @app.route('/check_email')
 def check_email():
-    request_schema = CheckEmailRequestSchema().load(request.args)
-    if len(request_schema.errors) > 0:
+    try:
+        request_schema = CheckEmailRequestSchema().load(request.args)
+    except ValidationError as err:
         return jsonify({
             'status': 'error'
         })
 
     result = {
-        'in_use': hlm.is_email_recently_used(request_schema.data['email']),
-        'whitelisted': hlm.is_email_whitelisted(request_schema.data['email'])
+        'in_use': hlm.is_email_recently_used(request_schema['email']),
+        'whitelisted': hlm.is_email_whitelisted(request_schema['email'])
     }
 
     result.pop('in_use', None) # Otherwise, it would be very easy to check if an employee/coworker has submitted.
@@ -105,11 +106,12 @@ def submit():
     payload = json.loads(request.form['payload'])
 
     """ Perform basic validation on the request params """
-    request_schema = SubmissionRequestSchema().load(payload)
-    if len(request_schema.errors) > 0:
+    try:
+        request_schema = SubmissionRequestSchema().load(payload)
+    except ValidationError as err:
         return jsonify({
             'status': 'error',
-            'errors': request_schema.errors.items()
+            'errors': err.messages
         })
 
     """ Overwriting existing unconfirmed submission, otherwise create a new one """
@@ -122,23 +124,16 @@ def submit():
 
     if submission:
         db.session.delete(submission)
-        submission = SubmissionSchema(only=[
-            'salary',
-            'email',
-            'years_experience',
-            'years_with_current_employer',
-            'number_of_employers'
-        ]).load(request_schema.data).data
-    else:
-        submission = SubmissionSchema(only=[
-            'salary',
-            'email',
-            'years_experience',
-            'years_with_current_employer',
-            'number_of_employers'
-        ]).load(request_schema.data).data
 
-    """ Load PayRange, Eduction, EmploymentType """
+    submission = SubmissionSchema(only=(
+        'salary',
+        'email',
+        'years_experience',
+        'years_with_current_employer',
+        'number_of_employers'
+    )).load(request_schema, unknown=EXCLUDE)
+
+    """ Load EmploymentType, Education, Location """
     employment_type = EmploymentType.query.filter(EmploymentType.id == payload['employment_type']).first()
     education = Education.query.filter(Education.id == payload['education']).first()
     location = Location.query.filter(Location.id == payload['location']).first()
@@ -155,13 +150,14 @@ def submit():
         elif 'name' in perk_dict:
             perk = Perk.query.filter(Perk.name == perk_dict['name']).first()
             if not perk:
-                perk_schema = PerkSchema(only=['name']).load(perk_dict)
-                if len(perk_schema.errors) > 0:
+                try:
+                    perk_schema = PerkSchema(only=['name']).load(perk_dict)
+                except ValidationError as err:
                     return jsonify({
                         'status': 'error',
-                        'errors': perk_schema.errors.items()
+                        'errors': err.messages
                     })
-                perk = perk_schema.data
+                perk = perk_schema
 
         if perk:
             if 'value' in perk_dict:
@@ -180,13 +176,14 @@ def submit():
         elif 'name' in role_dict:
             role = Role.query.filter(Role.name == role_dict['name']).first()
             if not role:
-                role_schema = RoleSchema(only=['name']).load(role_dict)
-                if len(role_schema.errors) > 0:
+                try:
+                    role_schema = RoleSchema(only=['name']).load(role_dict)
+                except ValidationError as err:
                     return jsonify({
                         'status': 'error',
-                        'errors': role_schema.errors.items()
+                        'errors': err.messages
                     })
-                role = role_schema.data
+                role = role_schema
 
         if role:
             submission.roles.append(role)
@@ -199,13 +196,14 @@ def submit():
         elif 'name' in tech_dict:
             tech = Tech.query.filter(Tech.name == tech_dict['name']).first()
             if not tech:
-                tech_schema = TechSchema(only=['name']).load(tech_dict)
-                if len(tech_schema.errors) > 0:
+                try:
+                    tech_schema = TechSchema(only=['name']).load(tech_dict)
+                except ValidationError as err:
                     return jsonify({
                         'status': 'error',
-                        'errors': tech_schema.errors.items()
+                        'errors': err.messages
                     })
-                tech = tech_schema.data
+                tech = tech_schema
 
         if tech:
             submission.techs.append(tech)
@@ -222,7 +220,7 @@ def submit():
     submission.location = location
     submission.confirmed = False
     submission.confirmation_code = hlm.get_confirmation_code()
-    submission.verified = hlm.is_email_whitelisted(request_schema.data['email'])
+    submission.verified = hlm.is_email_whitelisted(request_schema['email'])
 
     db.session.add(submission)
     db.session.commit()
@@ -257,26 +255,28 @@ def confirm():
     inspect the link, triggering a confirmation before the user opens the email.
     To fix this, the GET confirm route uses an AJAX call to the POST confirm route to confirm.
     """
-    request_schema = ConfirmRequestSchema().load(request.args)
     code = 'undefined'
-    if len(request_schema.errors) == 0:
-        code = request_schema.data['code']
+    try:
+        request_schema = ConfirmRequestSchema().load(request.args)
+        code = request_schema['code']
+    except ValidationError as err:
+        pass
 
     return render_template('confirm.html', code=code)
 
 @app.route('/confirm', methods=['POST'])
 def confirm_post():
-    request_schema = ConfirmRequestSchema().load(request.form)
-
-    if len(request_schema.errors) > 0:
+    try:
+        request_schema = ConfirmRequestSchema().load(request.form)
+    except ValidationError as err:
         return jsonify({
             'status': 'error',
-            'error': request_schema.errors.items()
+            'error': err.messages
         })
 
     return jsonify({
         'status': 'ok',
-        'succeeded': hlm.confirm_submission(request_schema.data['code']) is not None
+        'succeeded': hlm.confirm_submission(request_schema['code']) is not None
     })
 
 

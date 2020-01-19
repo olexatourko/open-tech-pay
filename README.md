@@ -8,7 +8,7 @@ A web application for sharing local tech industry compensation. It aims to freel
  employee benefits, specific tools used in a job, years with current employer, total number of employers during career, etc...
 - Anonymous and verified submissions: using any email, or using a "verified" email based on whitelisted domains. Specific emails addresses will never be shared.
 - Segmented data by year - allow multiple submissions from the same sources every year in order to keep the data up to date.
-- A side tool for valuing non-salary benefits using [NPV](https://www.investopedia.com/terms/n/npv.asp) calculations.
+- (TODO) A side tool for valuing non-salary benefits using [NPV](https://www.investopedia.com/terms/n/npv.asp) calculations.
 
 ![Preview](https://github.com/olestourko/open-pay/raw/master/preview.png)
 
@@ -18,101 +18,27 @@ A web application for sharing local tech industry compensation. It aims to freel
 
 You can use [Docker](https://www.docker.com) to create a container which will grab all of the dependencies for you.
   ```
-docker build -t open-tech-pay .
+docker-compose build
+docker-compose up
 ```
 
 You'll need to run the database migrations and seed the database if you haven't:
 ```
-docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay flask db init
-docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay flask db migrate
-docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay flask db upgrade
-docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay python utils/seeding/seed_core.py
-```
-
-Install frontend packages and compile SASS:
-```
-docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay yarn install
-docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay sass --watch sass:src/static/stylesheets
-```
-
-Run the application container:
-```
-docker run -v full/path/to/app:/app -p 5000:5000 --net="host" open-tech-pay
-```
-or
-```
-docker-compose up
-```
-
----
-
-### Option 2: Installing Dependencies
-
-
-**[Flask](http://flask.pocoo.org/docs/0.12/quickstart/)**: The web application framework.
-
-```
-pip install flask
-```
-
-**[SQLAlchemy](https://www.sqlalchemy.org/)**: The ORM.
-
-```
-pip install psycopg2-binary # using postgreSQL instead of MySQL
-pip install sqlalchemy
-```
-
-**Flask Extensions**
-
-```
-pip install flask-sqlalchemy
-pip install flask-migrate
-pip install flask-mail
-```
-
-**[Marshmallow](https://marshmallow.readthedocs.io/en/latest/)**:  Model mapper for SQLAlchemy model -> JSON.
-
-```
-pip install marshmallow
-```
-
----
-
-#### Running It
-
-First get the dependencies above, then...
-
-Set your `PYTHONPATH`  
-[PyCharm](https://stackoverflow.com/questions/28326362/pycharm-and-pythonpath):
-```
-cd /path/to/project/
-export PYTHONPATH=$(pwd)
-```
-
-**Initial Migrations and Seeding**
-
-First specify your database credentials in a file called `/config.py`. (check out /`example_config.py`)
-
-```
-export CONFIG_FILEPATH=$(pwd)/config.py
+composer exec -it open_tech_pay_app /bin/bash
 flask db init
-flask db migrate
 flask db upgrade
 python utils/seeding/seed_core.py
 ```
 
-**Compile SASS:**  
-If you don't have SASS, [install it](https://sass-lang.com/install) first.
-```
-sass --watch sass:src/static/stylesheets
-```
+---
 
-**Install Frontend Dependencies with YARN:**  
-If you don't have Yarn, [install it](https://yarnpkg.com/lang/en/docs/install) first.
-```
-yarn install
-```
+### Option 2: Using pipenv
 
+**TODO Readme**
+
+---
+
+#### Running It
 
 **Start the Flask server**
 
@@ -126,7 +52,7 @@ Note: You should use a proper application server like uWSGI in production, but t
 ---
 
 #### Unit tests
-They're in the `/tests` folder. Similar to running the application, set an env variable with the config file location. You should set up a seperate DB just for tests.
+They're in the `/tests` folder. Create a config file in the `tests` directory. You should set up a seperate DB just for tests.
 ```
 python -m unittest discover
 ```

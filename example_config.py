@@ -1,14 +1,14 @@
-SQLALCHEMY_DATABASE_URI = 'postgresql://user:password@localhost/databasename'
+SQLALCHEMY_DATABASE_URI = 'mysql://root:root@db/open_tech_pay'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
-SERVER_NAME = 'localhost:5000' # Used by url_for()
+SERVER_NAME = 'hostname' # Used by url_for()
 
 #Mailjet
-MAILJET_API_KEY = ''
-MAILJET_API_SECRET = ''
+MAILJET_API_KEY = None
+MAILJET_API_SECRET = None
 
 # Used on the frontend for this particular deployment
-DEPLOYMENT_NAME = 'OpenPay'
-REGION_NAME = 'Region'
+DEPLOYMENT_NAME = ''
+REGION_NAME = ''
 
 # A List of string messages
 MESSAGES = []
