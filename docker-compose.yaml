@@ -12,7 +12,9 @@ services:
     container_name: open_tech_pay_db
     image: mysql:5.7
     ports:
-    - "3306:3306"
+     - "3306:3306"
     environment:
-    - MYSQL_ROOT_PASSWORD=root
-    - MYSQL_DATABASE=open_tech_pay
+     - MYSQL_ROOT_PASSWORD=root
+     - MYSQL_DATABASE=open_tech_pay
+    volumes:
+     - "${HOST_SQL_STORAGE_PATH}:/var/lib/mysql"

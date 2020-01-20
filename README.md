@@ -16,7 +16,8 @@ A web application for sharing local tech industry compensation. It aims to freel
 
 ### Option 1: Running With Docker 
 
-You can use [Docker](https://www.docker.com) to create a container which will grab all of the dependencies for you.
+You can use [Docker](https://www.docker.com) and docker-compose to create a container which will grab all of the dependencies for you.
+First, create a `.env` file in your root directory. Set where the DB container will store its data using the `HOST_SQL_STORAGE_PATH=` variable.
   ```
 docker-compose build
 docker-compose up

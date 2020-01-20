@@ -1,5 +1,4 @@
 .idea
-venv
 *.pyc
 config.py
 tests/config.py
@@ -9,5 +8,6 @@ yarn.lock
 yarn-error.log
 .sass-cache
 stylesheets
-dkim
-DNS-self-hosted-email-entries.txt
+.env
+mysql_data
+mysql_data/*
