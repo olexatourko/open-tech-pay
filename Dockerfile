@@ -65,6 +65,13 @@ RUN apt-get update && apt-get install yarn -y
 RUN apt-get -y install iproute2 net-tools
 
 # ----------------------------
+# Set locale (required if you ever need to use pudb
+# ----------------------------
+RUN apt-get install -y locales
+RUN locale-gen en_US.UTF-8
+RUN echo "LANG=en_US.UTF-8" > /etc/default/local
+
+# ----------------------------
 # Final application setup
 # ----------------------------
 # FLASK_APP is only used by Flask's internal server, not Gunicorn.

@@ -226,26 +226,27 @@ def submit():
     db.session.commit()
 
     """ Send confirmation email """
-    from mailjet_rest import Client
-    mailjet = Client(auth=(app.config['MAILJET_API_KEY'], app.config['MAILJET_API_SECRET']))
-    data = {
-        'FromEmail': 'noreply@londontechpay.ca',
-        'FromName': app.config['DEPLOYMENT_NAME'],
-        'Subject': 'Confirm your submission',
-        'Text-part': 'Thank you for your submission! To confirm your submission, please follow this link:\n\n {}\n\n' \
-               ''.format(url_for('confirm', _external=True, code=submission.confirmation_code)),
-        'Recipients': [{'Email': submission.email}]
-    }
-    result = mailjet.send.create(data=data)
-    if result.status_code == 200:
-        return jsonify({
-            'status': 'ok'
-        })
-    else:
-        return jsonify({
-            'status': 'error',
-            'errors': 'Error sending email, please try again later.'
-        })
+    if app.config['MAILJET_API_KEY'] and app.config['MAILJET_API_SECRET']:
+        from mailjet_rest import Client
+        mailjet = Client(auth=(app.config['MAILJET_API_KEY'], app.config['MAILJET_API_SECRET']))
+        data = {
+            'FromEmail': 'noreply@londontechpay.ca',
+            'FromName': app.config['DEPLOYMENT_NAME'],
+            'Subject': 'Confirm your submission',
+            'Text-part': 'Thank you for your submission! To confirm your submission, please follow this link:\n\n {}\n\n' \
+                   ''.format(url_for('confirm', _external=True, code=submission.confirmation_code)),
+            'Recipients': [{'Email': submission.email}]
+        }
+        result = mailjet.send.create(data=data)
+        if result.status_code != 200:
+            return jsonify({
+                'status': 'error',
+                'errors': 'Error sending email, please try again later.'
+            })
+
+    return jsonify({
+        'status': 'ok'
+    })
 
 
 @app.route('/confirm')
