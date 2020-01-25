@@ -6,6 +6,7 @@ from src import app, db
 from src.model_schemas import *
 from src.request_schemas import *
 import src.high_level_methods as hlm
+import datetime
 import json
 import click
 
@@ -39,7 +40,10 @@ def index():
     })
     preview_submissions = [schema.dump(submission) for submission in preview_submissions]
 
-    return render_template('app.html', preview_submissions=preview_submissions, aggregate_data=aggregate_data)
+    return render_template('app.html',
+                           preview_submissions=preview_submissions,
+                           aggregate_data=aggregate_data,
+                           asset_date=(datetime.datetime.today() - datetime.timedelta(hours=1)).strftime('%Y-%m-%d'))
 
 
 @app.route('/fetch_fields')

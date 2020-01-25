@@ -101,7 +101,18 @@ th, td {
     > p:last-child { margin-bottom: 0; }
 }
 
-/* Market Data */
+/* The section */
+#market-data {
+    @media (min-width: 550px) {
+        > .container > .row {
+            display: flex;
+            align-items:center
+        }
+        h5:first-of-type { margin-top: -1em; }
+    }
+}
+
+/* The component */
 .market-data {
     font-size: 10pt;
 

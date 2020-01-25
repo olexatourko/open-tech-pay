@@ -57,6 +57,8 @@ RUN apt-get install -y nodejs
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 RUN apt-get update && apt-get install yarn -y
+# RUN sass --watch sass:src/static/stylesheets
+RUN sass --update sass:src/static/stylesheets
 
 # ----------------------------
 # Get the ip and route commands for network inspection, which could be useful
@@ -70,6 +72,7 @@ RUN apt-get -y install iproute2 net-tools
 RUN apt-get install -y locales
 RUN locale-gen en_US.UTF-8
 RUN echo "LANG=en_US.UTF-8" > /etc/default/local
+RUN ln -fs /usr/share/zoneinfo/America/Toronto /etc/localtime && dpkg-reconfigure -f noninteractive tzdata
 
 # ----------------------------
 # Final application setup

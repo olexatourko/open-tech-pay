@@ -15,6 +15,9 @@ gunicorn = "*"
 psycopg2-binary = "*"
 mysqlclient = "*"
 pudb = "*"
+matplotlib = "*"
+numpy = "*"
+pandas = "*"
 
 [requires]
 python_version = "3.8"

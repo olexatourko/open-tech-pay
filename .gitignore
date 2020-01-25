@@ -11,3 +11,6 @@ stylesheets
 .env
 mysql_data
 mysql_data/*
+# Ignore auto-generated graphs
+src/static/graphs/*.png
+src/static/graphs/*.jpg

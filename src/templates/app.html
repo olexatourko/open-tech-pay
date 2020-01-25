@@ -19,13 +19,21 @@
 
 <section id="market-data">
     <div class="container">
-        <h5>Market Data</h5>
-        <p>The average web/software developer in {{ config['REGION_NAME'] }} earns a base salary of
-            <strong>{{ "${:,.0f}".format(aggregate_data['average_salary']) }} (CAD)</strong> per year and has
-            <strong>{{ "{:,.1f}".format(aggregate_data['average_experience']) }}</strong> years of experience.
-            <br><i>* Based on current submissions, excluding those with remote employers. More detailed aggregate data
-                will eventually be available.</i>
-            <br><i>* Green submissions are those which have been verified through known employer emails.</i></p>
+        <div class="row">
+            <div class="six columns">
+                <h5>Market Data</h5>
+                <p>The average web/software developer in {{ config['REGION_NAME'] }} earns a base salary of
+                    <strong>{{ "${:,.0f}".format(aggregate_data['average_salary']) }} (CAD)</strong> per year and has
+                    <strong>{{ "{:,.1f}".format(aggregate_data['average_experience']) }}</strong> years of experience.
+                </p>
+                <p>This is based on current submissions, excluding those with remote employers. More detailed aggregate data
+                    will eventually be available as more data comes in.
+                </p>
+            </div>
+            <div class="six columns">
+                <img src="static/graphs/basic_salary_to_exp_graph.png?d={{ asset_date }}" style="max-width:100%">
+            </div>
+        </div>
 
         <!-- ko if: submissions().length == 0 -->
         {% include 'partials/market-data-preview.html' %}
