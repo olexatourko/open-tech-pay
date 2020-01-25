@@ -45,7 +45,6 @@ def index():
                            aggregate_data=aggregate_data,
                            asset_date=(datetime.datetime.today() - datetime.timedelta(hours=1)).strftime('%Y-%m-%d'))
 
-
 @app.route('/fetch_fields')
 def fetch_fields():
     perks = Perk.query.filter(Perk.listed).all()
@@ -105,8 +104,13 @@ def check_email():
     return jsonify(result)
 
 
-@app.route('/submit', methods=['POST'])
+@app.route('/submit')
 def submit():
+    return render_template('submit.html', title='Submit')
+
+
+@app.route('/submit', methods=['POST'])
+def submit_post():
     payload = json.loads(request.form['payload'])
 
     """ Perform basic validation on the request params """

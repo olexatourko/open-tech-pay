@@ -42,7 +42,7 @@ class TestSubmit(unittest.TestCase):
         }
 
     def test_submit(self):
-        response = self.app.post('/submit', data=self.payload)
+        response = self.app.post('/submit_post', data=self.payload)
         self.assertEqual(response.status_code, 200)
         submission = Submission.query.filter_by(email='test@company1.com').first()
         self.assertIsNotNone(submission)
