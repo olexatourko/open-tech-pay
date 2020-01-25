@@ -20,7 +20,7 @@ if __name__ == '__main__':
     fig, ax = plt.subplots()
     ax.set(xlabel='Years Experience', ylabel='Base Salary', title='Generated {}'.format(datetime.datetime.today().strftime('%Y-%m-%d %H:%M')))
     ax.yaxis.set_major_formatter(ticker.StrMethodFormatter('${x:,.0f}'))
-    ax.xaxis.set_ticks([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, min(20, dataframe['years_experience'].max())])
+    ax.xaxis.set_ticks([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, min(20, dataframe['years_experience'].max())])
 
     ax.plot(local_dataframe['years_experience'], local_dataframe['salary'], color='#27b1d4', marker='o', linestyle='none', label='Working in or near London, Ontario')
     ax.plot(remote_dataframe['years_experience'], remote_dataframe['salary'], color='#f0822d', marker='o', linestyle='none', label='Working remotely')
