@@ -136,9 +136,9 @@ th, td {
         tr {
             padding: 0.25em 0;
             &:nth-of-child(2n),  { background: #ffffff; }
-            &.verified:nth-child(2n) { background: #ffffff; }
+            &.verified:nth-child(2n) { background: #e8ffd4; }
             &:nth-child(2n+1) { background: $grey_1; }
-            &.verified:nth-child(2n+1) { background: $grey_1; }
+            &.verified:nth-child(2n+1) { background: darken(#e8ffd4, 5%); }
         }
         td {
             padding: 0 0.25em;
