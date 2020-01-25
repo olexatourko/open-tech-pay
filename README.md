@@ -2,15 +2,7 @@
 A web application for sharing local tech industry compensation. It aims to freely provide compensation data to students, employees, and employers in the local tech industry
  so they can make informed career and hiring decisions.
 
-### Key Project Features
-
-- Capture data beyond only salary:
- employee benefits, specific tools used in a job, years with current employer, total number of employers during career, etc...
-- Anonymous and verified submissions: using any email, or using a "verified" email based on whitelisted domains. Specific emails addresses will never be shared.
-- Segmented data by year - allow multiple submissions from the same sources every year in order to keep the data up to date.
-- (TODO) A side tool for valuing non-salary benefits using [NPV](https://www.investopedia.com/terms/n/npv.asp) calculations.
-
-![Preview](https://github.com/olestourko/open-pay/raw/master/preview.png)
+Here is an active implementation: http://londontechpay.ca
 
 ---
 
