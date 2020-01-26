@@ -1,3 +1,25 @@
+/* Fonts for Github / Twitter icons */
+@font-face {
+      font-family: 'fontello';
+      src: url('../fontello/font/fontello.eot?35555632');
+      src: url('../fontello/font/fontello.eot?35555632#iefix') format('embedded-opentype'),
+           url('../fontello/font/fontello.woff?35555632') format('woff'),
+           url('../fontello/font/fontello.ttf?35555632') format('truetype'),
+           url('../fontello/font/fontello.svg?35555632#fontello') format('svg');
+      font-weight: normal;
+      font-style: normal;
+}
+
+.fontello-icon {
+    font-family: 'fontello' !important;
+    text-decoration: none;
+    color: inherit;
+    &:hover {
+        opacity: 0.8;
+        color: inherit;
+    }
+}
+
 * { box-sizing: border-box; }
 html {
   height: 100%;
@@ -69,11 +91,13 @@ header {
     }
 
     nav {
+        display: flex;
+        justify-content: space-between;
         border-top: 1px solid #ffffff;
         margin-top: 0.5em;
         padding-top: 0.5em;
 
-        a {
+        .nav-link {
             font-family: 'Courier', monospace;
             color: rgba(255, 255, 255, 1.0);
             text-decoration: none;
@@ -83,6 +107,14 @@ header {
             &:hover {
                 color: rgba(255, 255, 255, 0.5);
             }
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        .social-links .nav-link {
+            margin-right: 0;
         }
     }
 }
@@ -271,6 +303,7 @@ th, td {
 footer {
     padding: 1em 0;
     background: #f0f0f0;
+    color: #505050;
     height: 55px;
 
     position: absolute;

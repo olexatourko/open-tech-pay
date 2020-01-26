@@ -34,6 +34,7 @@
         <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.ico') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='packages/skeleton-css/css/normalize.css') }}"/>
         <link rel="stylesheet" href="{{ url_for('static', filename='packages/skeleton-css/css/skeleton.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='fontello/css/fontello.css') }}"/>
         <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/app.css') }}"/>
         {% block head %}{% endblock %}
     </head>
@@ -42,10 +43,16 @@
             <div class="container">
                 <h1>$_{{ config['DEPLOYMENT_NAME'] }}</h1>
                 <nav>
-                    <a href="{{ url_for('index', _external=True) }}">Market Data</a>
-                    <a href="{{ url_for('submit', _external=True) }}">Submit</a>
-                    <a href="{{ url_for('about', _external=True) }}">About</a>
-                    <a href="{{ url_for('privacy_policy', _external=True) }}">Privacy Policy</a>
+                    <div class="standard-links">
+                        <a class="nav-link" href="{{ url_for('index', _external=True) }}">Market Data</a>
+                        <a class="nav-link" href="{{ url_for('submit', _external=True) }}">Submit</a>
+                        <a class="nav-link" href="{{ url_for('about', _external=True) }}">About</a>
+                        <a class="nav-link" href="{{ url_for('privacy_policy', _external=True) }}">Privacy Policy</a>
+                    </div>
+                    <div class="social-links">
+                        <a class="nav-link fontello-icon icon-github-circled" href="https://github.com/olestourko/open-tech-pay" class="fontello-icon icon-github-circled"></a>
+                        <a class="nav-link fontello-icon icon-twitter" href="https://twitter.com/londontechpay" class="fontello-icon icon-twitter"></a>
+                    </div>
                 </nav>
             </div>
         </header>
@@ -61,7 +68,8 @@
     </body>
         <footer>
             <div class="container">
-                <a href="https://github.com/olestourko/open-pay">View it on Github</a>
+                <a class="nav-link fontello-icon icon-github-circled" href="https://github.com/olestourko/open-tech-pay" class="fontello-icon icon-github-circled"></a>
+                <a class="nav-link fontello-icon icon-twitter" href="https://twitter.com/londontechpay" class="fontello-icon icon-twitter"></a>
             </div>
         </footer>
     </body>
