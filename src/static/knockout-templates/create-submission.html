@@ -1,11 +1,8 @@
 <form>
     <div class="row input-container">
+        <h5>Employment</h5>
         <label>
-            <div class="text">Base salary (C$)</div>
-            <input type="text" name="salary" data-bind="autoNumeric: salary" required placeholder="$ Required">
-        </label>
-        <label>
-            <div class="text">Employer Location</div>
+            <div class="text">Employer location</div>
             <select name="location" data-bind="
             options: locations,
             optionsText: function(item) { return item.name; },
@@ -21,13 +18,13 @@
             "></select>
         </label>
         <label>
-            <div class="text">Years with current employer</div>
-            <input name="years_with_current_employer" type="number" data-bind="value: years_with_employer" data-parsley-type="digits" min="0" placeholder="Optional">
+            <div class="text">Base salary (C$)</div>
+            <input type="text" name="salary" data-bind="autoNumeric: salary" required placeholder="$ Required">
         </label>
     </div>
     <div class="row">
         <div class="role-select six columns">
-            <h6>Roles</h6>
+            <h6>Roles (Current job)</h6>
             <!-- ko if: selected_roles().length > 0 -->
             <hr>
             <div class="u-cf selected-roles" data-bind="foreach: { data: selected_roles, as: 'role' }">
@@ -57,7 +54,7 @@
             </div>
         </div>
         <div class="tech-select six columns">
-            <h6>Technologies (used in current job only)</h6>
+            <h6>Technologies (Current job)</h6>
             <!-- ko if: selected_techs().length > 0 -->
             <hr>
             <div class="u-cf selected-techs" data-bind="foreach: { data: selected_techs, as: 'tech' }">
@@ -121,6 +118,7 @@
         </div>
     </div>
     <div class="row input-container">
+        <h5>Experience</h5>
         <label>
             <div class="text">Education (highest)</div>
             <select name="education" data-bind="
@@ -134,11 +132,17 @@
             <input name="years_experience" type="number" data-bind="value: years_experience" data-parsley-type="digits" min="0" required required placeholder="Required">
         </label>
         <label>
+            <div class="text">Years with current employer</div>
+            <input name="years_with_current_employer" type="number" data-bind="value: years_with_employer" data-parsley-type="digits" min="0" placeholder="Optional">
+        </label>
+        <label>
             <div class="text">Number of employers thus far</div>
             <input name="number_of_employers" type="number" data-bind="value: number_of_employers" data-parsley-type="digits" min="1" placeholder="Optional">
         </label>
     </div>
     <div class="row input-container">
+        <hr>
+        <h5>Confirmation</h5>
         <label>
             <div class="text">Email</div>
             <input name="email" type="email" data-bind="value: email, hasFocus: email_focused" data-parsley-type="email" required placeholder="Required">
