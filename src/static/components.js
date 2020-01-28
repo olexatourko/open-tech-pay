@@ -153,6 +153,18 @@ ko.components.register('create-submission', {
             return arr();
         }, this);
 
+        /* Verification form */
+        self.display_verification_form = ko.observable(true);
+        self.last_email_status.subscribe(function(newValue) {
+            if (newValue == 'whitelisted') {
+                self.display_verification_form(false)
+            }
+        });
+        self.verification_profile_url = ko.observable();
+        self.verification_company_name = ko.observable();
+        self.verification_notes = ko.observable();
+
+        /* Submit logic */
         self.on_submit = function(item, event) {
             var button = event.target;
             var form = jQuery(button).parents('form').get(0);
@@ -194,6 +206,16 @@ ko.components.register('create-submission', {
                 'roles': self.selected_roles().map(mapper_function),
                 'techs': self.selected_techs().map(mapper_function)
             }
+
+            /* If we're using a verification form, include that data too */
+            if (self.display_verification_form() && self.last_email_status() != 'whitelisted') {
+                data['verification_form'] = {
+                    'profile_url': self.verification_profile_url(),
+                    'company_name': self.verification_company_name(),
+                    'notes': self.verification_notes()
+                }
+            }
+
             var form_data = new FormData();
             form_data.append('payload', JSON.stringify(data));
 

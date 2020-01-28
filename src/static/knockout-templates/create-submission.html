@@ -143,6 +143,15 @@
     <div class="row input-container">
         <hr>
         <h5>Confirmation</h5>
+        <p>
+            Please use your work email if you are comfortable doing so. This will increase the quality of the data since
+            it is coming from a known source (marked green in market view).<br> Your email is only used for confirmation
+            purposes. It will <strong>never</strong> be shared publicly or with third parties.
+        </p>
+        <p>
+            Alternatively, if you'd like to have your submission verified but either don't want to use your work email
+            or the company isn't whitelisted yet, you can use the manual verification form.
+        </p>
         <label>
             <div class="text">Email</div>
             <input id="email" name="email" type="email" data-bind="value: email, hasFocus: email_focused" data-parsley-type="email" required placeholder="Required" style="margin-bottom: 0">
@@ -152,21 +161,44 @@
             <input name="email_confirm" type="text" data-parsley-equalto="#email" placeholder="Confirm">
         </label>
         <!-- ko if: last_email_status() == 'whitelisted' && email().length > 0 -->
-            <div class="text email-status">This email is whitelisted - your submission will be marked as verified!</div>
+            <div class="text email-status">This email is whitelisted - your submission will be automatically marked as verified!</div>
+        <!-- /ko -->
+        <!-- ko if: !(last_email_status() == 'whitelisted' && email().length > 0) -->
+            <label style="display: block">
+                <input name="use_verification_form" type="checkbox" data-bind="checked: display_verification_form">
+                <span class="label-body">Verify my submission</span>
+            </label>
         <!-- /ko -->
     </div>
     <div class="row input-container">
-        <p>
-            Please use your work email if you are comfortable doing so. This will increase the quality of the data since
-            it is coming from a known source (marked green in market view).<br>
-            Your email is only used for confirmation purposes. It will <strong>never</strong> be shared publicly or with third parties.
-        </p>
+        <!-- ko if: display_verification_form() -->
+        <hr>
+        <h5>Verification</h5>
+        <div class="row input-container">
+            <p>Your submission will be manually verified. I'll reach out to you through Linkedin and just make sure the submission is yours and that your profile
+            information matches.</p>
+            <label>
+                <div class="text">LinkedIn Profile</div>
+                <input name="verification_profile_url" type="text" data-bind="value: verification_profile_url" required placeholder="Required">
+            </label>
+            <label>
+                <div class="text">Company Name</div>
+                <input name="verification_company_name" type="text" data-bind="value: verification_company_name" required placeholder="Required">
+            </label>
+        </div>
+        <div class="row input-container">
+            <textarea style="height: 100px" name="verification_notes" data-bind="value: verification_notes" class="u-full-width" placeholder="If you'd like to verify in some other way, please say so here."></textarea>
+        </div>
+        <!-- /ko -->
+
+        <div class="row input-container">
         <!-- ko if: is_submitting() -->
             <p><strong>Submitting...</strong></p>
         <!-- /ko -->
         <!-- ko if: !is_submitting() -->
             <button class="button-primary" data-bind="click: on_submit">Submit</button>
         <!-- /ko -->
+        </div>
     </div>
     <!-- ko if: server_errors().length > 0 -->
     <div class="row server-errors">
