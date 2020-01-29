@@ -47,7 +47,7 @@ def index():
 
 @app.route('/fetch_fields')
 def fetch_fields():
-    perks = Perk.query.filter(Perk.listed).all()
+    perks = Perk.query.filter(Perk.listed).order_by(Perk.name).all()
     employment_types = EmploymentType.query.all()
     locations = Location.query.all()
     roles = Role.query.filter(Role.listed).order_by(Role.name).all()
