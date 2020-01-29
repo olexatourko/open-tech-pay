@@ -4,10 +4,10 @@
 <div class="container about">
     <h4>About</h4>
     <p>{{ config['DEPLOYMENT_NAME'] }} is a salary sharing and market information tool for {{ config['REGION_NAME'] }}'s
-        tech industry.<br>It is meant for software/web developers, system administrators, graphics designers, and anyone else working in tech.</p>
+        tech industry.
     <p>You can report any bugs and issues via <a href="https://github.com/olestourko/open-tech-pay">Github</a>.</p>
     <hr>
-    <section>
+    <section id="why_share">
         <h5>Why Share?</h5>
         <p>By sharing your pay, you help make the market fairer and more competitive.</p>
         <p>Pay secrecy is very common in Canada and the United States. Many of us are hesitant to discuss salary,
@@ -24,22 +24,9 @@
             <li>May help avoid gender-based pay differences.</li>
         </ul>
     </section>
-    <section>
-        <h5>Resources</h5>
-        <ul>
-            <li>
-                <a href="https://www.ledc.com/tech-jobs">LEDC Tech Jobs</a>
-                - A comprehensive list of London's major tech companies. Job postings are updated monthly.
-            </li>
-            <li>
-                <a href="https://devldn.ca/">DevLdn Slack</a>
-                - An active slack channel for London developers.
-            </li>
-            <li>
-                <a href="https://insights.stackoverflow.com/survey/2019">StackOverflow Salary Survey</a>
-                - StackOverflow's yearly salary survey. Great information, but limited data is available for London.
-            </li>
-        </ul>
+    <section id="who">
+        <h5>Who Runs This?</h5>
+        <p>I'm just a local developer that thought this would be a fun and useful project.</p>
     </section>
 </div>
 {% endblock %}

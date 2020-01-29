@@ -28,7 +28,7 @@ html {
 body {
     position: relative;
     margin: 0;
-    padding-bottom: 6rem;
+    padding-bottom: 8rem;
     min-height: 100%;
 }
 
@@ -196,8 +196,6 @@ th, td {
 
 /* Submissions */
 #submission {
-    padding: 1em 0;
-
     label {
         vertical-align: top;
 
@@ -312,7 +310,18 @@ footer {
     left: 0;
 }
 
-/* About Page */
-.about {
+/* About Page, Resources Page */
+.about, .resources {
     li { margin-bottom: 0; }
+}
+
+/* Resource Page */
+.resources #company_list ul {
+    @media (min-width: 550px) {
+        column-count: 2;
+    }
+
+    @media (min-width: 750px) {
+        column-count: 3;
+    }
 }

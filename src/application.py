@@ -1,6 +1,6 @@
 from flask import render_template, jsonify, request, url_for
 from flask_migrate import Migrate
-from sqlalchemy import and_
+from sqlalchemy import and_, asc
 from marshmallow import ValidationError, EXCLUDE
 from src import app, db
 from src.model_schemas import *
@@ -293,6 +293,10 @@ def confirm_post():
 def privacy_policy():
     return render_template('privacy-policy.html', title='Privacy Policy')
 
+@app.route('/resources')
+def resources():
+    employers = Employer.query.distinct(Employer.name).order_by(asc(Employer.name)).all()
+    return render_template('resources.html', title='Resources', employers=employers)
 
 @app.route('/about')
 def about():
@@ -306,6 +310,7 @@ def list_submissions():
     submissions = Submission.query.all()
     for submission in submissions:
         click.echo(submission)
+
 
 @app.cli.command()
 @click.argument('email')

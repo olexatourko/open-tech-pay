@@ -1,0 +1,36 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="container resources">
+    <h4>Resources</h4>
+    <hr>
+    <section id="community_links">
+        <h5>Useful Links</h5>
+        <ul>
+            <li>
+                <a href="https://devldn.ca/">DevLdn</a>
+                - Londons' developer group. There's a meetup and an active Slack channel.
+            </li>
+            <li>
+                <a href="https://www.ledc.com/tech-jobs">LEDC Tech Jobs</a>
+                - London tech job listings, run by the LEDC.
+            </li>
+            <li>
+                <a href="https://insights.stackoverflow.com/survey/2019">StackOverflow Salary Survey</a>
+                - StackOverflow's yearly salary survey. Great information, but limited data is available for London.
+            </li>
+        </ul>
+    </section>
+    <section id="company_list">
+        <h5>Employers</h5>
+        <p>This list covers most local employers. If an employer is missing or outdated, please let me know!</p>
+        <ul>
+        {% for employer in employers %}
+            <li>
+                <a href="{{ employer.url }}" target="_blank">{{ employer.name }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    </section>
+</div>
+{% endblock %}
