@@ -145,11 +145,17 @@
         <h5>Confirmation</h5>
         <label>
             <div class="text">Email</div>
-            <input name="email" type="email" data-bind="value: email, hasFocus: email_focused" data-parsley-type="email" required placeholder="Required">
-            <!-- ko if: last_email_status() == 'whitelisted' && email().length > 0 -->
-                <div class="text email-status">This email is whitelisted - your submission will be marked as verified!</div>
-            <!-- /ko -->
+            <input id="email" name="email" type="email" data-bind="value: email, hasFocus: email_focused" data-parsley-type="email" required placeholder="Required" style="margin-bottom: 0">
         </label>
+        <label>
+            <div class="text">&nbsp</div>
+            <input name="email_confirm" type="text" data-parsley-equalto="#email" placeholder="Confirm">
+        </label>
+        <!-- ko if: last_email_status() == 'whitelisted' && email().length > 0 -->
+            <div class="text email-status">This email is whitelisted - your submission will be marked as verified!</div>
+        <!-- /ko -->
+    </div>
+    <div class="row input-container">
         <p>
             Please use your work email if you are comfortable doing so. This will increase the quality of the data since
             it is coming from a known source (marked green in market view).<br>

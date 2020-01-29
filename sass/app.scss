@@ -201,11 +201,12 @@ th, td {
 
         .text {
             #submission h6 { font-size: 10pt; }
-            &.email-status {
-                margin: -10px 0 10px 0;
-                font-weight: bold;
-            }
         }
+    }
+
+    .email-status {
+        margin: -10px 0 10px 0;
+        font-weight: bold;
     }
 }
 
