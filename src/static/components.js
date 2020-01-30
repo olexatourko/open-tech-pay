@@ -161,7 +161,7 @@ ko.components.register('create-submission', {
             }
         });
         self.verification_profile_url = ko.observable();
-        self.verification_company_name = ko.observable();
+        self.verification_employer_name = ko.observable();
         self.verification_notes = ko.observable();
 
         /* Submit logic */
@@ -211,7 +211,7 @@ ko.components.register('create-submission', {
             if (self.display_verification_form() && self.last_email_status() != 'whitelisted') {
                 data['verification_request'] = {
                     'profile_url': self.verification_profile_url(),
-                    'employer_name': self.verification_company_name(),
+                    'employer_name': self.verification_employer_name(),
                     'notes': self.verification_notes()
                 }
             }
