@@ -157,6 +157,7 @@ class VerificationRequest(db.Model):
     employer_name = db.Column('employer_name', db.String(255))
     note = db.Column('note', db.Text)
     status = db.Column('status', db.String(20), default='open')
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
     submission = relationship(Submission)
 
 
