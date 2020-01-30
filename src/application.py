@@ -328,3 +328,36 @@ def remove_submission(email):
         db.session.commit()
     else:
         click.echo('Submission not found')
+
+@app.cli.command()
+def process_verification_requests():
+    verification_requests = VerificationRequest.query.filter(VerificationRequest.status == 'open').all()
+    for verification_request in verification_requests:
+        click.echo(
+            'Submission ID: {submission_id}\n'
+            'Submission Email: {submission_email}\n'
+            'Profile URL: {profile_url}\n'
+            'Employer Name: {employer_name}\n'
+            'Note: {note}'.format(
+                submission_id = verification_request.submission_id,
+                submission_email=verification_request.submission.email,
+                profile_url=verification_request.profile_url,
+                employer_name=verification_request.employer_name,
+                note=verification_request.note
+            )
+        )
+
+        action=click.prompt(click.style('Accept [a], reject [r], or skip [s] ?', fg='green'), type=str).lower()
+        if action in ('accept', 'a'):
+            click.echo(click.style('Accepting and marking submission as verified.', fg='yellow'))
+            verification_request.status = 'accepted'
+            verification_request.submission.verified = True
+            db.session.commit()
+        elif action in ('reject', 'r'):
+            click.echo(click.style('Rejecting.', fg='yellow'))
+            verification_request.status = 'rejected'
+            db.session.commit()
+        elif action in ('skip', 's'):
+            click.echo(click.style('Skipping.', fg='yellow'))
+        else:
+            click.echo(click.style('Invalid selection, skipping for now.', fg='red'))
