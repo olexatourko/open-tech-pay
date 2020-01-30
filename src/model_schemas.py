@@ -99,6 +99,7 @@ class SubmissionSchema(Schema):
     roles = fields.Nested('RoleSchema', exclude=('id', 'listed'), many=True)
     education = fields.Nested('EducationSchema', exclude=('id',))
     techs = fields.Nested('TechSchema', exclude=('id', 'listed'), many=True)
+    verification_request = fields.Nested('VerificationRequestSchema', exclude=('id', ))
     created_at = fields.DateTime()
 
     @post_load
@@ -123,3 +124,17 @@ class SubmissionSchema(Schema):
                     'years_experience': 'years_with_current_employer'
                 }
             )
+
+class VerificationRequestSchema(Schema):
+    id = fields.Integer()
+    profile_url = fields.String(required=True, validate=Length(min=1, max=200))
+    employer_name = fields.String(required=True, validate=Length(min=1, max=200))
+    note = fields.String()
+    status = fields.String(max=20)
+
+    @post_load
+    def make_model(self, data, **kwargs):
+        model = VerificationRequest()
+        dump_dict_values(model, data)
+        return model
+

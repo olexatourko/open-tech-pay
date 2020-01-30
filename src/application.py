@@ -230,6 +230,12 @@ def submit_post():
     submission.confirmation_code = hlm.get_confirmation_code()
     submission.verified = hlm.is_email_whitelisted(request_schema['email'])
 
+    """ Create the verification request, if it exists """
+    if 'verification_request' in payload:
+        submission.verification_request = VerificationRequestSchema(
+            only=('profile_url', 'employer_name', 'note')
+        ).load(payload['verification_request'])
+
     db.session.add(submission)
     db.session.commit()
 

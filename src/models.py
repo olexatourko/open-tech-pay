@@ -129,6 +129,7 @@ class Submission(db.Model):
     roles = association_proxy('submission_to_roles', 'role')
     education = association_proxy('submission_to_education', 'education')
     techs = association_proxy('submission_to_techs', 'tech')
+    verification_request = relationship("VerificationRequest", uselist=False, cascade="all, delete-orphan")
 
     def __str__(self):
         return '{id}, ${salary}, {email}, {confirmed}, {date}'.format(
@@ -146,6 +147,17 @@ class Employer(db.Model):
         self.name = name,
         self.email_domain = email_domain,
         self.url = url
+
+
+class VerificationRequest(db.Model):
+    __tablename__ = 'verification_request'
+    id = db.Column(db.Integer, primary_key=True)
+    submission_id = db.Column(db.Integer, db.ForeignKey('submission.id'))
+    profile_url = db.Column('profile_url', db.String(255))
+    employer_name = db.Column('employer_name', db.String(255))
+    note = db.Column('note', db.Text)
+    status = db.Column('status', db.String(20), default='open')
+    submission = relationship(Submission)
 
 
 class SubmissionToPerk(db.Model):

@@ -1,7 +1,7 @@
 from marshmallow import Schema, fields, post_load, validates, validates_schema, ValidationError
 from marshmallow.validate import *
 from src.models import *
-from src.high_level_methods import is_email_recently_used
+from src.high_level_methods import is_email_recently_used, is_email_whitelisted
 
 class SubmissionRequestSchema(Schema):
     """
@@ -45,6 +45,8 @@ class SubmissionRequestSchema(Schema):
     techs = fields.List(fields.Dict(), validate=Length(
         max=15, error="A maximum of 15 technologies are allowed. Please narrow down your selection to the most important ones."))
 
+    verification_request = fields.Nested('VerificationRequestSchema', exclude=('id',))
+
     @validates_schema(skip_on_field_errors=True)
     def validate_object(self, data, **kwargs):
         """ years_experience >= years_with_current_employer """
@@ -69,6 +71,10 @@ class SubmissionRequestSchema(Schema):
 
         if re.search(r'.*\+.*(?=@)', data['email']):
             raise ValidationError('Invalid email', 'email')
+
+        """ Detect verification requests on whitelisted email """
+        if 'verification_request' in data and is_email_whitelisted(data['email']):
+            raise ValidationError('Manual verification request for already whitelisted email', 'email')
 
 
 class ConfirmRequestSchema(Schema):

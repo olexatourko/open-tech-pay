@@ -209,9 +209,9 @@ ko.components.register('create-submission', {
 
             /* If we're using a verification form, include that data too */
             if (self.display_verification_form() && self.last_email_status() != 'whitelisted') {
-                data['verification_form'] = {
+                data['verification_request'] = {
                     'profile_url': self.verification_profile_url(),
-                    'company_name': self.verification_company_name(),
+                    'employer_name': self.verification_company_name(),
                     'notes': self.verification_notes()
                 }
             }
