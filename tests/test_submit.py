@@ -48,6 +48,17 @@ class TestSubmit(unittest.TestCase):
         submission = Submission.query.filter_by(email='test@company1.com').first()
         self.assertIsNotNone(submission)
 
+    def test_confirm(self):
+        self.app.post('/submit', data=self.payload)
+        submission = Submission.query.filter_by(email='test@company1.com').first()
+        response = self.app.post('/confirm', data={
+            'code': submission.confirmation_code
+        })
+        # Grab it again since the confirm endpoint closes the session
+        submission = Submission.query.filter_by(email='test@company1.com').first()
+        self.assertTrue(submission.confirmed)
+
+
 
 class TestSubmitWithVerificationRequest(unittest.TestCase):
     def setUp(self):
