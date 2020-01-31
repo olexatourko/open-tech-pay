@@ -81,9 +81,9 @@ class TestSubmitWithVerificationRequest(unittest.TestCase):
                     }
                 ],
                 'verification_request': {
-                    'profile_url': 'test',
-                    'employer_name': 'Test',
-                    'note': ''
+                    'profile_url': 'https://www.linkedin.com/in/test',
+                    'employer_name': 'Test Company',
+                    'note': 'Test note'
                 }
             })
         }

@@ -212,7 +212,7 @@ ko.components.register('create-submission', {
                 data['verification_request'] = {
                     'profile_url': self.verification_profile_url(),
                     'employer_name': self.verification_employer_name(),
-                    'notes': self.verification_notes()
+                    'note': self.verification_notes()
                 }
             }
 
