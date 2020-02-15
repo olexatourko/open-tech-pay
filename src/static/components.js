@@ -36,6 +36,7 @@ ko.bindingHandlers.resizeOnChange = {
     }
 };
 
+/* Market Data */
 ko.components.register('market-data', {
     viewModel: function(params) {
         var self = this;
@@ -58,7 +59,7 @@ ko.components.register('market-data', {
         self.show_detailed_view = ko.observable(false);
         self.view_button_text = ko.computed(function() {
             if (!self.show_all()) {
-                return 'Show All (' + submissions().length + ')';
+                return 'Show All (' + self.submissions().length + ')';
             } else {
                 return 'Show Less';
             }
@@ -80,6 +81,7 @@ ko.components.register('market-data', {
     template: { require: 'text!static/knockout-templates/market-data.html' }
 });
 
+/* Create Submission */
 ko.components.register('create-submission', {
     viewModel: function(params) {
         var self = this;
@@ -92,12 +94,29 @@ ko.components.register('create-submission', {
         self.number_of_employers = ko.observable();
         self.years_with_employer = ko.observable();
 
-        self.locations = params.locations;
-        self.employment_types = params.employment_types;
-        self.perks = params.perks;
-        self.roles = params.roles;
-        self.techs = params.techs;
-        self.educations = params.educations,
+        self.locations = ko.observableArray();
+        self.employment_types = ko.observableArray();
+        self.perks = ko.observableArray();
+        self.roles = ko.observableArray();
+        self.techs = ko.observableArray();
+        self.educations = ko.observableArray(),
+        self.fetch_fields = function() {
+            self.employment_types.removeAll();
+            self.locations.removeAll();
+            self.educations.removeAll();
+            self.perks.removeAll();
+            self.roles.removeAll();
+            self.techs.removeAll();
+            jQuery.getJSON('fetch_fields', function(data) {
+                ko.utils.arrayPushAll(self.employment_types, data['employment_types']);
+                ko.utils.arrayPushAll(self.locations, data['locations']);
+                ko.utils.arrayPushAll(self.educations, data['educations']);
+                ko.utils.arrayPushAll(self.perks, data['perks']);
+                ko.utils.arrayPushAll(self.roles, data['roles']);
+                ko.utils.arrayPushAll(self.techs, data['techs']);
+            });
+        }
+        self.fetch_fields()
 
         self.selected_perks = ko.observableArray();
         self.selected_location = ko.observable();

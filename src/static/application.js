@@ -1,14 +1,3 @@
-/* Placeholder submissions */
-var submissions = ko.observableArray([]);
-
-var perks = ko.observableArray();
-var locations = ko.observableArray();
-var employment_types = ko.observableArray();
-var roles = ko.observableArray();
-var techs = ko.observableArray();
-var educations = ko.observableArray();
-var number_of_employers = ko.observable();
-
 requirejs.config({
   packages: [{
     name: 'moment',
@@ -25,7 +14,6 @@ require(['static/components', 'moment'], function() {
         // http://www.knockmeout.net/2012/05/using-ko-native-pubsub.html
         // http://knockoutjs.com/documentation/fn.html
         self.message_bus = new ko.subscribable();
-
 
         / *Listen to internal events */
         self.message_bus.subscribe(function(perk) {
@@ -45,14 +33,15 @@ require(['static/components', 'moment'], function() {
     jQuery(function() {
         var view_model = page_view_model()
         ko.applyBindings(view_model);
-
-        fetch_submissions();
-        fetch_fields();
     });
 });
 
-function fetch_submissions() {
-    submissions.removeAll();
+function fetch_submissions(submissions) {
+    if (submissions) {
+        submissions.removeAll();
+    } else {
+        submissions = ko.observableArray([]);
+    }
 
     var moment = require('moment');
     jQuery.getJSON('fetch_submissions', function(data) {
@@ -66,26 +55,9 @@ function fetch_submissions() {
         }
         ko.utils.arrayPushAll(submissions, data);
     });
+
+    return submissions;
 }
-
-function fetch_fields() {
-    employment_types.removeAll();
-    locations.removeAll();
-    educations.removeAll();
-    perks.removeAll();
-    roles.removeAll();
-    techs.removeAll();
-
-    jQuery.getJSON('fetch_fields', function(data) {
-        ko.utils.arrayPushAll(employment_types, data['employment_types']);
-        ko.utils.arrayPushAll(locations, data['locations']);
-        ko.utils.arrayPushAll(educations, data['educations']);
-        ko.utils.arrayPushAll(perks, data['perks']);
-        ko.utils.arrayPushAll(roles, data['roles']);
-        ko.utils.arrayPushAll(techs, data['techs']);
-    });
-}
-
 
 /**
  * Shuffles array in place.

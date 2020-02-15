@@ -24,24 +24,7 @@ def index():
         .all()
     aggregate_data = hlm.get_aggregate_data()
 
-    schema = SubmissionSchema(only={
-        'salary',
-        'employment_type',
-        'perks',
-        'roles',
-        'education',
-        'location',
-        'techs',
-        'years_experience',
-        'years_with_current_employer',
-        'number_of_employers',
-        'verified',
-        'created_at'
-    })
-    preview_submissions = [schema.dump(submission) for submission in preview_submissions]
-
     return render_template('app.html',
-                           preview_submissions=preview_submissions,
                            aggregate_data=aggregate_data,
                            asset_date=(datetime.datetime.today() - datetime.timedelta(hours=1)).strftime('%Y-%m-%d'))
 

@@ -36,18 +36,11 @@
             </div>
         </div>
         <hr>
-
-        <!-- ko if: submissions().length == 0 -->
-        {% include 'partials/market-data-preview.html' %}
-        <!-- /ko -->
-
-        <!-- ko if: submissions().length > 0 -->
         <market-data params="
         message_bus: message_bus,
-        submissions: submissions,
+        submissions: fetch_submissions(),
         min_display_number: config.market_data_min_display
         "></market-data>
-        <!-- /ko -->
     </div>
 </section>
 {% endblock %}
