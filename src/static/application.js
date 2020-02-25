@@ -36,29 +36,6 @@ require(['static/components', 'moment'], function() {
     });
 });
 
-function fetch_submissions(submissions) {
-    if (submissions) {
-        submissions.removeAll();
-    } else {
-        submissions = ko.observableArray([]);
-    }
-
-    var moment = require('moment');
-    jQuery.getJSON('fetch_submissions', function(data) {
-        data.forEach(function(submission) {
-            local_date = moment(submission['created_at']).format('YYYY-MM-DD');
-            submission['created_at'] = local_date;
-        });
-
-        if ('randomize_market_data' in config && config['randomize_market_data']) {
-            shuffle_array(data);
-        }
-        ko.utils.arrayPushAll(submissions, data);
-    });
-
-    return submissions;
-}
-
 /**
  * Shuffles array in place.
  * @param {Array} a items An array containing the items.

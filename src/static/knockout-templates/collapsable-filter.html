@@ -1,0 +1,14 @@
+<div class="controls" data-bind="click: toggle">
+    <div class="indicator">
+        <!-- ko if: !is_expanded() -->
+        +
+        <!-- /ko -->
+        <!-- ko if: is_expanded() -->
+        -
+        <!-- /ko -->
+    </div><div class="label" data-bind="text: label"></div>
+</div>
+<div class="content" data-bind="visible: is_expanded">
+    <!-- ko template: { nodes: $componentTemplateNodes } -->
+    <!-- /ko -->
+</div>

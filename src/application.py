@@ -47,9 +47,34 @@ def fetch_fields():
     })
 
 
-@app.route('/fetch_submissions')
+@app.route('/fetch_submissions', methods=['POST'])
 def fetch_submissions():
-    submissions = Submission.query.filter(Submission.confirmed).order_by(Submission.created_at.desc()).all()
+    try:
+        payload = json.loads(request.form['payload'])
+        request_data = FetchSubmissionsRequestSchema().load(payload)
+    except ValidationError as err:
+        return jsonify({
+            'status': 'error',
+            'errors': err.messages
+        })
+
+    submissions = Submission.query.filter(Submission.confirmed).order_by(Submission.created_at.desc())
+
+    if 'min_experience' in request_data:
+        submissions = submissions.filter(Submission.years_experience >= request_data['min_experience'])
+    if 'max_experience' in request_data:
+        submissions = submissions.filter(Submission.years_experience <= request_data['max_experience'])
+    if 'locations' in request_data and request_data['locations']:
+        submissions = submissions\
+            .join(SubmissionToLocation, Submission.id == SubmissionToLocation.submission_id)\
+            .join(Location, Location.id == SubmissionToLocation.location_id)\
+            .filter(Location.id.in_(request_data['locations']))
+    if 'roles' in request_data and request_data['roles']:
+        submissions = submissions\
+            .join(SubmissionToRole, Submission.id == SubmissionToRole.submission_id)\
+            .join(Role, Role.id == SubmissionToRole.role_id)\
+            .filter(Role.id.in_(request_data['roles']))
+
     schema = SubmissionSchema(only={
         'salary',
         'employment_type',
@@ -64,6 +89,7 @@ def fetch_submissions():
         'verified',
         'created_at'
     })
+
     result = [schema.dump(submission) for submission in submissions]
     return jsonify(result)
 

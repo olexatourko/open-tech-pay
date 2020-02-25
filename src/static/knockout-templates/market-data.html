@@ -1,14 +1,44 @@
 <div class="market-data">
-    <div class="row">
-        <label>
-            Detailed View
-            <input type="checkbox" data-bind="checked: show_detailed_view" />
-        </label>
+    <form class="filters" class="row" data-bind="visible: show_filters">
+        <collapsable-filter params="label: 'Experience'">
+            <div class="row">
+                <label>
+                    <input type="text" name="experience_min" data-bind="value: $parents[0].min_experience" placeholder="Minimum (Years)" data-parsley-type="digits" min="0">
+                </label>
+                <label>
+                    <input type="text" name="experience_max" data-bind="value: $parents[0].max_experience" placeholder="Maximum (Years)" data-parsley-type="digits" min="0">
+                </label>
+            </div>
+        </collapsable-filter>
+        <collapsable-filter params="label: 'Locations'">
+            <tag-selector
+                    params="
+                    items: $parents[0].locations,
+                    selected_items: $parents[0].selected_locations
+                    "
+            ></tag-selector>
+        </collapsable-filter>
+        <collapsable-filter params="label: 'Roles'">
+            <tag-selector
+                    params="
+                    items: $parents[0].roles,
+                    selected_items: $parents[0].selected_roles
+                    "
+            ></tag-selector>
+        </collapsable-filter>
+    </form>
+    <div class="row controls" style="display: flex;">
         <!-- ko if: show_all() -->
         <button class="button-secondary" data-bind="text: view_button_text, click: toggle_shown"></button>
         <!-- /ko -->
-        <p><i>Green submissions are those which have been verified through known employer emails.</i></p>
+        <button class="button-secondary" data-bind="text: filters_button_text, click: toggle_filters">></button>
+        <button class="button-secondary" data-bind="visible: show_filters() && !is_fetching(), click: apply_filters">Apply Filters</button>
+        <select data-bind="selectedOptions: show_detailed_view" style="margin-left: auto;">
+            <option value="0">Hide Additional Details</option>
+            <option value="1">Show Additional Details</option>
+        </select>
     </div>
+    <p><i>Green submissions are those which have had their employment verified.</i></p>
     <table>
         <thead>
         <tr>
@@ -20,7 +50,7 @@
             <th class="perks">Perks</th>
             <th class="years-experience">Years Exp.</th>
             <th class="education">Education</th>
-            <!-- ko if: $component.show_detailed_view() -->
+            <!-- ko if: $component.show_detailed_view() == "1" -->
             <th class="years-with-current-employer">Years w. Current Employer</th>
             <th class="lifetime-employers">Lifetime Employers</th>
             <th class="data-submitted">Date Submitted</th>
@@ -42,7 +72,7 @@
                 </td>
                 <td class="years-experience" data-bind="text: item.years_experience"></td>
                 <td class="education" data-bind="text: item.education.name"></td>
-                <!-- ko if: $component.show_detailed_view() -->
+                <!-- ko if: $component.show_detailed_view() == "1" -->
                 <td class="years-with-current-employer" data-bind="text: item.years_with_current_employer"></td>
                 <td class="lifetime-employers" data-bind="text: item.number_of_employers"></td>
                 <td class="date-submitted" data-bind="text: item.created_at"></td>

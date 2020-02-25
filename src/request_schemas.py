@@ -83,3 +83,10 @@ class ConfirmRequestSchema(Schema):
 
 class CheckEmailRequestSchema(Schema):
     email = fields.Email(required=True)
+
+
+class FetchSubmissionsRequestSchema(Schema):
+    min_experience = fields.Integer(validate=Range(min=0))
+    max_experience = fields.Integer()
+    locations = fields.List(fields.Integer())
+    roles = fields.List(fields.Integer())

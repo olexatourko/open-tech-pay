@@ -148,8 +148,6 @@ th, td {
 .market-data {
     font-size: 10pt;
 
-    label { float: right; }
-
     table { width: 100%; }
     th.roles { min-width: 180px; }
 
@@ -192,6 +190,30 @@ th, td {
             &.date-submitted:before { content: 'Date Submitted:' }
         }
     }
+
+    .controls {
+        button {
+            margin-right: 0.5rem;
+            &:last-of-type { margin-right: 0rem; }
+        }
+    }
+
+    > .filters {
+        margin-bottom: 1rem;
+
+        collapsable-filter {
+            > .controls .indicator {
+                min-width: 2rem;
+            }
+
+            > .content {
+                margin: 1rem 0rem 1rem 2rem;
+            }
+
+            &:last-of-type > .content { margin-bottom: 2rem; }
+            label { vertical-align: top; }
+        }
+   }
  }
 
 /* Submissions */
@@ -324,5 +346,35 @@ footer {
 
     @media (min-width: 750px) {
         column-count: 3;
+    }
+}
+
+/* Section: Various Components */
+
+/* Subsection: Selectors */
+tag-selector {
+    > .selected-items {
+        tag .tag { background: $success-green; }
+    }
+}
+
+/* Subsection: Filters */
+collapsable-filter {
+    display: block;
+
+    > .controls {
+        display: inline-block;
+        font-family: 'Courier', monospace;
+        &:hover { cursor: pointer; }
+
+        > .indicator, > .label {
+            display: inline-block;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+    }
+
+    tag-selector {
+        > hr { display: none; }
     }
 }

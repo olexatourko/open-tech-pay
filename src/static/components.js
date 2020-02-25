@@ -41,8 +41,7 @@ ko.components.register('market-data', {
     viewModel: function(params) {
         var self = this;
         self.message_bus = params.message_bus;
-        self.submissions = params.submissions;
-        self.show_all = ko.observable(false);
+        self.inner_message_bus = new ko.subscribable();
         self.min_display_number = params.min_display_number;
         self.table_submissions = ko.pureComputed(function() {
             if (self.show_all()) {
@@ -53,6 +52,76 @@ ko.components.register('market-data', {
 
         }, this);
 
+        / * Fetching Submissions */
+        self.submissions = ko.observableArray();
+        self.is_fetching = ko.observable(false);
+        self.fetch_submissions = function() {
+            self.submissions.removeAll();
+            var moment = require('moment');
+
+            /* Grabs the ID of every item */
+            var mapper_function = function(item) {
+                return item.id;
+            };
+
+            /* Perform frontend validation on filters */
+            var filters_el = jQuery('.filters').get(0);
+            if (!jQuery(filters_el).parsley().validate()) {
+                return;
+            }
+
+            self.is_fetching(true);
+            var data = {
+                'min_experience': self.min_experience() ? self.min_experience() : undefined,
+                'max_experience': self.max_experience() ? self.max_experience() : undefined,
+                'locations': self.selected_locations().map(mapper_function),
+                'roles': self.selected_roles().map(mapper_function)
+            }
+            var form_data = new FormData();
+            form_data.append('payload', JSON.stringify(data));
+
+            jQuery.ajax({
+                url: '/fetch_submissions',
+                type: 'POST',
+                data: form_data,
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                cache: false,
+                success: function(data) {
+                    data.forEach(function(submission) {
+                        local_date = moment(submission['created_at']).format('YYYY-MM-DD');
+                        submission['created_at'] = local_date;
+                    });
+
+                    if ('randomize_market_data' in config && config['randomize_market_data']) {
+                        shuffle_array(data);
+                    }
+                    ko.utils.arrayPushAll(self.submissions, data);
+                    self.is_fetching(false);
+                }
+            });
+        }
+
+        /* Filtering */
+        self.min_experience = ko.observable();
+        self.max_experience = ko.observable();
+        self.locations = ko.observableArray();
+        self.roles = ko.observableArray();
+        self.selected_locations = ko.observableArray();
+        self.selected_roles = ko.observableArray();
+        self.fetch_fields = function() {
+            self.locations.removeAll();
+            jQuery.getJSON('fetch_fields', function(data) {
+                ko.utils.arrayPushAll(self.locations, data['locations']);
+                ko.utils.arrayPushAll(self.roles, data['roles']);
+            });
+        }
+        self.apply_filters = function() {
+            self.fetch_submissions();
+        }
+
+        self.show_all = ko.observable(false);
         self.toggle_shown = function() {
             self.show_all(!self.show_all());
         }
@@ -62,6 +131,18 @@ ko.components.register('market-data', {
                 return 'Show All (' + self.submissions().length + ')';
             } else {
                 return 'Show Less';
+            }
+        }, this);
+
+        self.show_filters = ko.observable(false);
+        self.toggle_filters = function() {
+            self.show_filters(!self.show_filters());
+        }
+        self.filters_button_text = ko.computed(function() {
+            if (!self.show_filters()) {
+                return 'Show Filters';
+            } else {
+                return 'Hide Filters';
             }
         }, this);
 
@@ -77,6 +158,9 @@ ko.components.register('market-data', {
 
             return text;
         }
+
+        self.fetch_submissions();
+        self.fetch_fields()
     },
     template: { require: 'text!static/knockout-templates/market-data.html' }
 });
@@ -401,7 +485,48 @@ custom_tag_view_model = function(params) {
         return true;
     };
 };
+tag_selector_view_model = function(params) {
+    var self = this;
+    self.message_bus = params.message_bus;
+    self.inner_message_bus = ko.observable();
+    self.label = params.label;
+    self.items = params.items;
+    if (params.selected_items) {
+        self.selected_items = params.selected_items
+    } else {
+        self.selected_items = ko.observableArray()
+    }
+    self.unselected_items = ko.computed(function() {
+        arr = ko.observableArray();
+        self.items().forEach(function(value) {
+            if (self.selected_items().indexOf(value) == -1) {
+                arr.push(value);
+            }
+        });
+        return arr();
+    }, this);
 
+    self.inner_message_bus.subscribe(function(item) {
+        var in_selected = _in_array(self.selected_items(), item.name);
+        if (in_selected) { return; }
+        self.selected_items.push(item);
+    }, {}, 'item_selected')
+
+    self.inner_message_bus.subscribe(function(item) {
+        self.selected_items.remove(item);
+    }, {}, 'item_unselected')
+
+
+    /* Check if the array has an object by case-insensitive name */
+    var _in_array = function(arr, name) {
+        for (i = 0; i < arr.length; i++) {
+            if(arr[i].name.toLowerCase() == name.toLowerCase()) {
+                return true;
+            }
+        };
+        return false;
+    };
+}
 /* Tag subclasses */
 value_tag_view_model = function(params) {
     tag_view_model.call(this, params);
@@ -457,6 +582,10 @@ ko.components.register('custom-tag', {
     viewModel: custom_tag_view_model,
     template: { require: 'text!static/knockout-templates/tags/custom-tag.html' }
 });
+ko.components.register('tag-selector', {
+    viewModel: tag_selector_view_model,
+    template: { require: 'text!static/knockout-templates/tag-selector.html' }
+});
 ko.components.register('value-tag', {
     viewModel: value_tag_view_model,
     template: { require: 'text!static/knockout-templates/tags/value-tag.html' }
@@ -464,6 +593,19 @@ ko.components.register('value-tag', {
 ko.components.register('value-custom-tag', {
     viewModel: value_custom_tag_view_model,
     template: { require: 'text!static/knockout-templates/tags/value-custom-tag.html' }
+});
+
+/* Filter */
+ko.components.register('collapsable-filter', {
+    viewModel: function(params) {
+        var self = this;
+        self.label = params.label;
+        self.is_expanded = ko.observable(false);
+        self.toggle = function() {
+            self.is_expanded(!self.is_expanded());
+        }
+    },
+    template: { require: 'text!static/knockout-templates/collapsable-filter.html' }
 });
 
 /* Utilities */
