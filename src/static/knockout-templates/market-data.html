@@ -81,5 +81,8 @@
         </tbody>
         </thead>
     </table>
+    <!-- ko if: is_fetching() -->
+    <p><strong>Fetching submissions...</strong></p>
+    <!-- /ko -->
     <button class="button-secondary" data-bind="text: view_button_text, click: toggle_shown"></button>
 </div>
