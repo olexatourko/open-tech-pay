@@ -5,29 +5,29 @@
 <!-- ko if: selected_items().length > 0 -->
 <hr>
 <div class="u-cf selected-items" data-bind="foreach: { data: selected_items, as: 'item' }">
-    <tag params="
+    <value-tag params="
     message_bus: $component.inner_message_bus,
     item: item,
     button_text: 'x',
     event_name: 'item_unselected'
-    "></tag>
+    "></value-tag>
 </div>
 <!-- /ko  -->
 <hr>
 <div class="u-cf">
     <!-- ko foreach: { data: unselected_items, as: 'item' } -->
-    <tag params="
+    <value-tag params="
     message_bus: $component.inner_message_bus,
     item: item,
     button_text: '+',
     event_name: 'item_selected'
-    "></tag>
+    "></value-tag>
     <!-- /ko -->
     <!-- ko if: allow_custom_item -->
-    <custom-tag params="
+    <value-custom-tag params="
     message_bus: $component.inner_message_bus,
     button_text: '+',
     event_name: 'custom_item_selected'
-    "></custom-tag>
+    "></value-custom-tag>
     <!-- /ko -->
 </div>

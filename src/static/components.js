@@ -228,34 +228,6 @@ ko.components.register('create-submission', {
            }
         });
 
-        self.unselected_perks = ko.computed(function() {
-            arr = ko.observableArray();
-            self.perks().forEach(function(value) {
-                if (self.selected_perks().indexOf(value) == -1) {
-                    arr.push(value);
-                }
-            });
-            return arr();
-        }, this);
-        self.unselected_roles = ko.computed(function() {
-            arr = ko.observableArray();
-            self.roles().forEach(function(value) {
-                if (self.selected_roles().indexOf(value) == -1) {
-                    arr.push(value);
-                }
-            });
-            return arr();
-        }, this);
-        self.unselected_techs = ko.computed(function() {
-            arr = ko.observableArray();
-            self.techs().forEach(function(value) {
-                if (self.selected_techs().indexOf(value) == -1) {
-                    arr.push(value);
-                }
-            });
-            return arr();
-        }, this);
-
         /* Verification form */
         self.display_verification_form = ko.observable(true);
         self.last_email_status.subscribe(function(newValue) {
@@ -357,72 +329,6 @@ ko.components.register('create-submission', {
             return false;
         };
 
-        / *Listen to internal events */
-        /* Perks --------------------*/
-        self.inner_message_bus.subscribe(function(perk) {
-            var in_selected = _in_array(self.selected_perks(), perk.name);
-            if(in_selected) { return; }
-            self.selected_perks.push(perk);
-        }, {}, 'perk_selected')
-
-        self.inner_message_bus.subscribe(function(item) {
-            var in_listed = _in_array(self.perks(), item.text);
-            var in_selected = _in_array(self.selected_perks(), item.text);
-            if(in_listed || in_selected) { return; }
-            self.selected_perks.push({
-                name: item.text,
-                value: item.value
-            });
-        }, {}, 'custom_perk_selected')
-
-        self.inner_message_bus.subscribe(function(perk) {
-            perk.value = null;
-            self.selected_perks.remove(perk);
-        }, {}, 'perk_unselected')
-
-
-        /* Roles --------------------*/
-        self.inner_message_bus.subscribe(function(role) {
-            var in_selected = _in_array(self.selected_roles(), role.name);
-            if(in_selected) { return; }
-            self.selected_roles.push(role);
-        }, {}, 'role_selected')
-
-        self.inner_message_bus.subscribe(function(text) {
-            var in_listed = _in_array(self.roles(), text);
-            var in_selected = _in_array(self.selected_roles(), text);
-            if(in_listed || in_selected) { return; }
-            self.selected_roles.push({
-                name: text
-            });
-
-        }, {}, 'custom_role_selected')
-        self.inner_message_bus.subscribe(function(role) {
-            self.selected_roles.remove(role);
-        }, {}, 'role_unselected')
-
-
-        /* Techs --------------------*/
-        self.inner_message_bus.subscribe(function(tech) {
-            var in_selected = _in_array(self.selected_techs(), tech.name);
-            if(in_selected) { return; }
-            self.selected_techs.push(tech);
-        }, {}, 'tech_selected')
-
-        self.inner_message_bus.subscribe(function(text) {
-            var in_listed = _in_array(self.techs(), text);
-            var in_selected = _in_array(self.selected_techs(), text);
-            if(in_listed || in_selected) { return; }
-            self.selected_techs.push({
-                name: text
-            });
-        }, {}, 'custom_tech_selected')
-
-        self.inner_message_bus.subscribe(function(tech) {
-            self.selected_techs.remove(tech);
-        }, {}, 'tech_unselected')
-
-
         /* Error Labels --------------------*/
         self.get_error_text = function(error) {
             var labels = {
@@ -469,15 +375,19 @@ custom_tag_view_model = function(params) {
 
     self.on_click = function(item, event) {
         self = this;
-        if(self.text().length > 0) {
-            self.message_bus.notifySubscribers(self.text(), self.event_name);
-            self.text('');
+        if (self.text().length > 0) {
+            self.message_bus.notifySubscribers({
+                text: self.text()
+            }, self.event_name);
         }
+        self.text('');
     };
     self.on_keydown = function(item, event) {
         self = this;
         if (event.keyCode == 13 && self.text().length > 0) {
-            self.message_bus.notifySubscribers(self.text(), self.event_name);
+            self.message_bus.notifySubscribers({
+                text: self.text()
+            }, self.event_name);
             self.text('');
             event.stopPropagation();
         }
@@ -485,48 +395,7 @@ custom_tag_view_model = function(params) {
         return true;
     };
 };
-tag_selector_view_model = function(params) {
-    var self = this;
-    self.message_bus = params.message_bus;
-    self.inner_message_bus = ko.observable();
-    self.label = params.label;
-    self.items = params.items;
-    if (params.selected_items) {
-        self.selected_items = params.selected_items
-    } else {
-        self.selected_items = ko.observableArray()
-    }
-    self.unselected_items = ko.computed(function() {
-        arr = ko.observableArray();
-        self.items().forEach(function(value) {
-            if (self.selected_items().indexOf(value) == -1) {
-                arr.push(value);
-            }
-        });
-        return arr();
-    }, this);
 
-    self.inner_message_bus.subscribe(function(item) {
-        var in_selected = _in_array(self.selected_items(), item.name);
-        if (in_selected) { return; }
-        self.selected_items.push(item);
-    }, {}, 'item_selected')
-
-    self.inner_message_bus.subscribe(function(item) {
-        self.selected_items.remove(item);
-    }, {}, 'item_unselected')
-
-
-    /* Check if the array has an object by case-insensitive name */
-    var _in_array = function(arr, name) {
-        for (i = 0; i < arr.length; i++) {
-            if(arr[i].name.toLowerCase() == name.toLowerCase()) {
-                return true;
-            }
-        };
-        return false;
-    };
-}
 /* Tag subclasses */
 value_tag_view_model = function(params) {
     tag_view_model.call(this, params);
@@ -563,7 +432,7 @@ value_custom_tag_view_model = function(params) {
                 text: self.text(),
                 value: self.value() ? self.value() : null
             }, self.event_name);
-            self.name('');
+            self.text('');
             self.value('');
             event.stopPropagation();
         }
@@ -574,6 +443,62 @@ value_custom_tag_view_model = function(params) {
 value_custom_tag_view_model.prototype = Object.create(custom_tag_view_model.prototype);
 value_custom_tag_view_model.prototype.constructor = value_custom_tag_view_model;
 
+/* Tag Selector */
+tag_selector_view_model = function(params) {
+    var self = this;
+    self.message_bus = params.message_bus;
+    self.inner_message_bus = ko.observable();
+    self.label = params.label;
+    self.items = params.items;
+    self.allow_custom_item = params.allow_custom_item ? ko.observable(true) : ko.observable(false);
+
+    if (params.selected_items) {
+        self.selected_items = params.selected_items
+    } else {
+        self.selected_items = ko.observableArray()
+    }
+    self.unselected_items = ko.computed(function() {
+        arr = ko.observableArray();
+        self.items().forEach(function(value) {
+            if (self.selected_items().indexOf(value) == -1) {
+                arr.push(value);
+            }
+        });
+        return arr();
+    }, this);
+
+    self.inner_message_bus.subscribe(function(item) {
+        var in_selected = _in_array(self.selected_items(), item.name);
+        if (in_selected) { return; }
+        self.selected_items.push(item);
+    }, {}, 'item_selected')
+
+    self.inner_message_bus.subscribe(function(item) {
+        self.selected_items.remove(item);
+    }, {}, 'item_unselected')
+
+    self.inner_message_bus.subscribe(function(item) {
+        var in_listed = _in_array(self.items(), item.text);
+        var in_selected = _in_array(self.selected_items(), item.text);
+        if (in_listed || in_selected) { return; }
+        if ('text' in item) {
+            // Because I called it "name" in regular tags and "text" in custom tags and don't want to change it everywhere.
+            item.name = item.text
+        }
+        self.selected_items.push(item);
+    }, {}, 'custom_item_selected')
+
+    /* Check if the array has an object by case-insensitive name */
+    var _in_array = function(arr, name) {
+        for (i = 0; i < arr.length; i++) {
+            if(arr[i].name.toLowerCase() == name.toLowerCase()) {
+                return true;
+            }
+        };
+        return false;
+    };
+}
+
 ko.components.register('tag', {
     viewModel: tag_view_model,
     template: { require: 'text!static/knockout-templates/tags/tag.html' }
@@ -582,10 +507,6 @@ ko.components.register('custom-tag', {
     viewModel: custom_tag_view_model,
     template: { require: 'text!static/knockout-templates/tags/custom-tag.html' }
 });
-ko.components.register('tag-selector', {
-    viewModel: tag_selector_view_model,
-    template: { require: 'text!static/knockout-templates/tag-selector.html' }
-});
 ko.components.register('value-tag', {
     viewModel: value_tag_view_model,
     template: { require: 'text!static/knockout-templates/tags/value-tag.html' }
@@ -593,6 +514,14 @@ ko.components.register('value-tag', {
 ko.components.register('value-custom-tag', {
     viewModel: value_custom_tag_view_model,
     template: { require: 'text!static/knockout-templates/tags/value-custom-tag.html' }
+});
+ko.components.register('tag-selector', {
+    viewModel: tag_selector_view_model,
+    template: { require: 'text!static/knockout-templates/tag-selector.html' }
+});
+ko.components.register('value-tag-selector', {
+    viewModel: tag_selector_view_model,
+    template: { require: 'text!static/knockout-templates/value-tag-selector.html' }
 });
 
 /* Filter */

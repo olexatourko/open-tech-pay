@@ -23,99 +23,34 @@
         </label>
     </div>
     <div class="row">
-        <div class="role-select six columns">
-            <h6>Roles (Current job)</h6>
-            <!-- ko if: selected_roles().length > 0 -->
-            <hr>
-            <div class="u-cf selected-roles" data-bind="foreach: { data: selected_roles, as: 'role' }">
-                <tag params="
-                message_bus: $component.inner_message_bus,
-                item: role,
-                button_text: 'x',
-                event_name: 'role_unselected'
-                "></tag>
-            </div>
-            <!-- /ko  -->
-            <hr>
-            <div class="u-cf">
-                <!-- ko foreach: { data: unselected_roles, as: 'role' } -->
-                <tag params="
-                message_bus: $component.inner_message_bus,
-                item: role,
-                button_text: '+',
-                event_name: 'role_selected'
-                "></tag>
-                <!-- /ko -->
-                <custom-tag params="
-                message_bus: $component.inner_message_bus,
-                button_text: '+',
-                event_name: 'custom_role_selected'
-                "></custom-tag>
-            </div>
+        <div class="six columns">
+            <tag-selector
+                params="
+                label: 'Roles (Current job)',
+                items: roles,
+                selected_items: selected_roles
+                "
+            ></tag-selector>
         </div>
-        <div class="tech-select six columns">
-            <h6>Technologies (Current job)</h6>
-            <!-- ko if: selected_techs().length > 0 -->
-            <hr>
-            <div class="u-cf selected-techs" data-bind="foreach: { data: selected_techs, as: 'tech' }">
-                <tag params="
-                message_bus: $component.inner_message_bus,
-                item: tech,
-                button_text: 'x',
-                event_name: 'tech_unselected'
-                "></tag>
-            </div>
-            <!-- /ko  -->
-            <hr>
-            <div class="u-cf">
-                <!-- ko foreach: { data: unselected_techs, as: 'tech' } -->
-                <tag params="
-                message_bus: $component.inner_message_bus,
-                item: tech,
-                button_text: '+',
-                event_name: 'tech_selected'
-                "></tag>
-                <!-- /ko -->
-                <custom-tag params="
-                message_bus: $component.inner_message_bus,
-                button_text: '+',
-                event_name: 'custom_tech_selected'
-                "></custom-tag>
-            </div>
+        <div class="six columns">
+            <tag-selector
+                params="
+                label: 'Technologies (Current job)',
+                items: techs,
+                selected_items: selected_techs
+                "
+            ></tag-selector>
         </div>
     </div>
-    <br>
-    <div class="row tags-section">
-        <div class="perks-select twelve columns">
-            <h6>Other Compensation &amp; Perks</h6>
-            <!-- ko if: selected_perks().length > 0 -->
-            <hr>
-            <div class="u-cf selected-perks" data-bind="foreach: { data: selected_perks, as: 'perk' }">
-                <value-tag params="
-                message_bus: $component.inner_message_bus,
-                item: perk,
-                button_text: 'x',
-                event_name: 'perk_unselected'
-                "></value-tag>
-            </div>
-            <!-- /ko  -->
-            <hr>
-            <div class="u-cf">
-                <!-- ko foreach: { data: unselected_perks, as: 'perk' } -->
-                <value-tag params="
-                message_bus: $component.inner_message_bus,
-                item: perk,
-                button_text: '+',
-                event_name: 'perk_selected'
-                "></value-tag>
-                <!-- /ko -->
-                <value-custom-tag params="
-                message_bus: $component.inner_message_bus,
-                button_text: '+',
-                event_name: 'custom_perk_selected'
-                "></value-custom-tag>
-            </div>
-        </div>
+    <div class="row">
+        <value-tag-selector
+            params="
+            label: 'Other Compensation &amp; Perks',
+            items: perks,
+            selected_items: selected_perks,
+            allow_custom_item: true
+            "
+        ></value-tag-selector>
     </div>
     <div class="row input-container">
         <h5>Experience</h5>
