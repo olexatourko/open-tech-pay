@@ -178,7 +178,7 @@ def submit_post():
             perk = Perk.query.filter(Perk.name == perk_dict['name']).first()
             if not perk:
                 try:
-                    perk_schema = PerkSchema(only=['name']).load(perk_dict)
+                    perk_schema = PerkSchema(only=['name'], unknown=EXCLUDE).load(perk_dict)
                 except ValidationError as err:
                     return jsonify({
                         'status': 'error',

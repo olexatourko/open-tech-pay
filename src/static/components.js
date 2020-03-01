@@ -492,6 +492,8 @@ tag_selector_view_model = function(params) {
         if ('text' in item) {
             // Because I called it "name" in regular tags and "text" in custom tags and don't want to change it everywhere.
             item.name = item.text
+            delete item.text;
+
         }
         self.selected_items.push(item);
     }, {}, 'custom_item_selected')
