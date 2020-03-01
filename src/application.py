@@ -74,6 +74,11 @@ def fetch_submissions():
             .join(SubmissionToRole, Submission.id == SubmissionToRole.submission_id)\
             .join(Role, Role.id == SubmissionToRole.role_id)\
             .filter(Role.id.in_(request_data['roles']))
+    if 'techs' in request_data and request_data['techs']:
+        submissions = submissions\
+            .join(SubmissionToTech, Submission.id == SubmissionToTech.submission_id)\
+            .join(Tech, Tech.id == SubmissionToTech.tech_id)\
+            .filter(Tech.id.in_(request_data['techs']))
 
     schema = SubmissionSchema(only={
         'salary',

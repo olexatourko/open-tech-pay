@@ -26,6 +26,14 @@
                     "
             ></tag-selector>
         </collapsable-filter>
+        <collapsable-filter params="label: 'Technologies'">
+            <tag-selector
+                    params="
+                    items: $parents[0].techs,
+                    selected_items: $parents[0].selected_techs
+                    "
+            ></tag-selector>
+        </collapsable-filter>
     </form>
     <div class="row controls" style="display: flex;">
         <!-- ko if: show_all() -->

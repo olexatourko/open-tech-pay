@@ -90,3 +90,4 @@ class FetchSubmissionsRequestSchema(Schema):
     max_experience = fields.Integer()
     locations = fields.List(fields.Integer())
     roles = fields.List(fields.Integer())
+    techs = fields.List(fields.Integer())

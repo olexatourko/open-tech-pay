@@ -75,7 +75,8 @@ ko.components.register('market-data', {
                 'min_experience': self.min_experience() ? self.min_experience() : undefined,
                 'max_experience': self.max_experience() ? self.max_experience() : undefined,
                 'locations': self.selected_locations().map(mapper_function),
-                'roles': self.selected_roles().map(mapper_function)
+                'roles': self.selected_roles().map(mapper_function),
+                'techs': self.selected_techs().map(mapper_function)
             }
             var form_data = new FormData();
             form_data.append('payload', JSON.stringify(data));
@@ -108,13 +109,16 @@ ko.components.register('market-data', {
         self.max_experience = ko.observable();
         self.locations = ko.observableArray();
         self.roles = ko.observableArray();
+        self.techs = ko.observableArray();
         self.selected_locations = ko.observableArray();
         self.selected_roles = ko.observableArray();
+        self.selected_techs = ko.observableArray();
         self.fetch_fields = function() {
             self.locations.removeAll();
             jQuery.getJSON('fetch_fields', function(data) {
                 ko.utils.arrayPushAll(self.locations, data['locations']);
                 ko.utils.arrayPushAll(self.roles, data['roles']);
+                ko.utils.arrayPushAll(self.techs, data['techs']);
             });
         }
         self.apply_filters = function() {
