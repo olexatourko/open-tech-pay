@@ -69,6 +69,11 @@ def fetch_submissions():
             .join(SubmissionToLocation, Submission.id == SubmissionToLocation.submission_id)\
             .join(Location, Location.id == SubmissionToLocation.location_id)\
             .filter(Location.id.in_(request_data['locations']))
+    if 'employment_types' in request_data and request_data['employment_types']:
+        submissions = submissions \
+            .join(SubmissionToEmploymentType, Submission.id == SubmissionToEmploymentType.submission_id) \
+            .join(EmploymentType, EmploymentType.id == SubmissionToEmploymentType.employment_type_id) \
+            .filter(EmploymentType.id.in_(request_data['employment_types']))
     if 'roles' in request_data and request_data['roles']:
         submissions = submissions\
             .join(SubmissionToRole, Submission.id == SubmissionToRole.submission_id)\

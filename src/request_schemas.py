@@ -89,5 +89,6 @@ class FetchSubmissionsRequestSchema(Schema):
     min_experience = fields.Integer(validate=Range(min=0))
     max_experience = fields.Integer()
     locations = fields.List(fields.Integer())
+    employment_types = fields.List(fields.Integer())
     roles = fields.List(fields.Integer())
     techs = fields.List(fields.Integer())

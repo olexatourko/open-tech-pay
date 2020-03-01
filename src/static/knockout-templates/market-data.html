@@ -18,6 +18,14 @@
                     "
             ></tag-selector>
         </collapsable-filter>
+        <collapsable-filter params="label: 'Employment Type'">
+            <tag-selector
+                    params="
+                    items: $parents[0].employment_types,
+                    selected_items: $parents[0].selected_employment_types
+                    "
+            ></tag-selector>
+        </collapsable-filter>
         <collapsable-filter params="label: 'Roles'">
             <tag-selector
                     params="

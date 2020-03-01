@@ -75,6 +75,7 @@ ko.components.register('market-data', {
                 'min_experience': self.min_experience() ? self.min_experience() : undefined,
                 'max_experience': self.max_experience() ? self.max_experience() : undefined,
                 'locations': self.selected_locations().map(mapper_function),
+                'employment_types': self.selected_employment_types().map(mapper_function),
                 'roles': self.selected_roles().map(mapper_function),
                 'techs': self.selected_techs().map(mapper_function)
             }
@@ -108,15 +109,18 @@ ko.components.register('market-data', {
         self.min_experience = ko.observable();
         self.max_experience = ko.observable();
         self.locations = ko.observableArray();
+        self.employment_types = ko.observableArray();
         self.roles = ko.observableArray();
         self.techs = ko.observableArray();
         self.selected_locations = ko.observableArray();
+        self.selected_employment_types = ko.observableArray();
         self.selected_roles = ko.observableArray();
         self.selected_techs = ko.observableArray();
         self.fetch_fields = function() {
             self.locations.removeAll();
             jQuery.getJSON('fetch_fields', function(data) {
                 ko.utils.arrayPushAll(self.locations, data['locations']);
+                ko.utils.arrayPushAll(self.employment_types, data['employment_types']);
                 ko.utils.arrayPushAll(self.roles, data['roles']);
                 ko.utils.arrayPushAll(self.techs, data['techs']);
             });
